@@ -1,0 +1,61 @@
+# MetaChess Pieces language version 1 documentation 
+
+Types:
+######
+	S	Special	
+	W	Walk
+	A	Attack
+	B	Both Attack and Walk
+	J	Jump
+	P	Pawnline
+
+A Pawnline action is a "Walk" action.
+A Jump action is a "Both Attack and Walk" action.
+
+Special Types:
+##############
+	J	Joker
+	R	Rook
+	K	King
+	P	Pawn
+
+
+Directions:
+###########
+
+* Basic direction :
+
+     6   8
+  
+  7  6 7 8  5
+     3 X 5
+  3  0 1 2  1
+
+     0   2
+
+The directions are reversed for black pieces.
+The second set of directions is reserved for Jump Type (used for Knights Pieces).
+
+* Or a combo-direction :
+
+A	All		{ 0, 1, 2, 3, 5, 6, 7, 8 }
+
+R	Rook-style	{ 1, 3, 5, 7 }
+V	Vertically	{ 1, 7 }
+H	Horizontally	{ 3, 5 }
+
+D	Diagonally	{ 0, 2, 6, 8 }
+S	Slash		{ 0, 8 }
+B	BackSlash	{ 2, 6 }
+
+Movements:
+##########
+
+	1-8	Explicit Range
+	N	Max-Range
+	G	Grasshopper-style
+
+
+
+
+
