@@ -3,10 +3,13 @@ package metachess.boards;
 import metachess.game.Piece;
 import metachess.library.Colour;
 
-
+/** Class of an Abstract Square
+ * @author Jan (7DD)
+ * @version 0.7.5
+ */
 public class AbstractSquare {
 
-	private final int i;
+    private final int i;
     private final int j;
     private final String name;
     private final Colour color;
@@ -30,7 +33,7 @@ public class AbstractSquare {
 		color = s.getColor();
 	}
 
-	public void removePiece() { piece = null; }
+    public void removePiece() { piece = null; }
 
     public void setGreen(boolean green) { isGreen = green; } 
     
