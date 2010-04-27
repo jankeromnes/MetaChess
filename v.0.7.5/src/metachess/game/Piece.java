@@ -8,6 +8,10 @@ import metachess.boards.AbstractBoard;
 import metachess.boards.AbstractSquare;
 import metachess.library.PiecesImages;
 
+/** Class of an Abstract Piece
+ * @author Agbeladem and Jan (7DD)
+ * @version 0.8.0
+ */
 public class Piece {
 
     enum BrowseType {
@@ -30,8 +34,7 @@ public class Piece {
     private float price;
     private boolean priceCalculated;
 
-
-
+    /** Create a new empty piece */
     public Piece() {
 
 	moves = new ArrayList<MoveType>();
@@ -45,6 +48,9 @@ public class Piece {
 
     }
 
+    /** Create a clone of another piece
+     * @param p the other piece
+     */
     public Piece(Piece p) {
 
 		moves = p.getMoveTypes();
@@ -56,6 +62,9 @@ public class Piece {
 
     }
     
+    /** Calculate the price of the piece from its available moves and conditions
+     * @return the price
+     */
     public float getPrice() {
     	if(!priceCalculated) {
     		price = 0;
@@ -68,7 +77,9 @@ public class Piece {
     	return price;
     }
 
-
+    /** Add an available move type for this piece
+     * @param m the move type
+     */
     public void addMoveType(MoveType m) {
 
 	char type = m.getType();
@@ -97,6 +108,9 @@ public class Piece {
 	
     }
 
+    /** Reset the available move types with a given list
+     * @param m the list
+     */
     public void setMoves(ArrayList<MoveType> m) {
 	moves.clear();
 	for(MoveType mt : m)

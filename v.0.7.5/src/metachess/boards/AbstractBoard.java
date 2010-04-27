@@ -6,13 +6,17 @@ import metachess.game.Piece;
 import metachess.library.Loader;
 import metachess.logger.Move;
 
+/** Class of an Abstract Board
+ * @author Agbeladem [0.7.3] + Jan (7DD) [0.7.5]
+ * @version 0.7.3
+ */
 public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     protected int width;
     protected int height;
     private AbstractSquareIterator browser = new AbstractSquareIterator();
 
-	protected GraphicBoard gb;
+    protected GraphicBoard gb;
     protected AbstractSquare[][] squares;
     protected int activeSquareX;
     protected int activeSquareY;
@@ -28,16 +32,21 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	super();
     }
     
+    /** Associate the graphic board representation of this abstract board
+     * @param gboard the board
+     */
     public void setGraphicBoard(GraphicBoard gboard) {
     	gb = gboard;
     }
     
+    /** Update the graphic board's appearance */
     public void update() {
     	if(gb != null) gb.update();
     }
 
     // ITERATOR
     
+    /** Iterator of the abstract squares in the board that contain a piece */
     private class AbstractSquareIterator implements Iterator<AbstractSquare> {
     	private int i, j, blank;
     	public AbstractSquareIterator() {
@@ -81,10 +90,18 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     // INITIATION
 
+    /** Initiate a given abstract square of the board
+     * @param i the square's column (X Coord)
+     * @param j the square's row (Y Coord)
+     */
     protected void initSquare(int i, int j) {
     	squares[i][j] = new AbstractSquare(i, j, this);
     }
 
+    /** Launch a given setup
+     * @param setup the setup's name
+     * @param isAtomic whether the game shall be played with atomic rules or not
+     */
     public void init(String setup, boolean isAtomic) {
     	atomic = isAtomic;
 	
@@ -96,32 +113,53 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	Loader.loadSetup(this, setup);
     }
 
+
+    /** Automatically launched after the setup's been loaded with init method */
     public void endInit() {
 
     	squares = new AbstractSquare[width][height];
     	for(int j = height-1 ; j >= 0 ; j--)
     		for(int i = 0 ; i < width ; i++)
     			initSquare(i, j);
-    	
 
     	jokerPiece = null;
     }
 
+    /** Play a given move
+     * @param m the move
+     * @param keep whether 
+     */
     public void playMove(Move m, boolean keep) {
     	playSquare(m.getOldX(), m.getOldY(),keep);
     	playSquare(m.getNewX(), m.getNewY(),keep);
     }
 
+    /** Play a given square and keep the move in the logger
+     * @param i the square's column (X Coord)
+     * @param j the square's row (Y Coord)
+     */
     public void playSquare(int i, int j) {
     	playSquare(i,j,true);
     }
 
+    /** Play a given square ; must be overwritten to have any effects
+     * @param i the square's column (X Coord)
+     * @param j the square's row (Y Coord)
+     * @param keep whether the played move should be kept in the logger or not
+     */
     public void playSquare(int i, int j, boolean keep) {};
 
+
+    /** Tells whether given coordinates match a valid square of the board or not
+     * @param x the square's column (X Coord)
+     * @param y the square's row (Y Coord)
+     * @return true if it is valid
+     */
     private boolean isSquareValid(int x, int y) {
 	return (x >= 0 && x < width &&
 		y >= 0 && y < height); 	
     }
+
 
     public boolean isSquareActive(){
 	return isSquareValid(activeSquareX, activeSquareY);
@@ -131,6 +169,11 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return getSquare(activeSquareX, activeSquareY);
     }
 
+    /** Get the abstract square with the given 
+     * @param x the square's column (X Coord)
+     * @param y the square's row (Y Coord)
+     * @return the square
+     */
     public AbstractSquare getSquare(int i, int j){
 	AbstractSquare square = null;
 	if (isSquareValid(i,j)) square = squares[i][j];
@@ -165,11 +208,16 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	activeSquareX=-1;
     	activeSquareY=-1;
     }
-    
+
+    /** Changes the player who is expected to play next */
     public void togglePlayer() {
     	whitePlaying = !whitePlaying;
     }
 	
+    /** Set explosion to given coordinates
+     * @param i the exploding square's column (X Coord)
+     * @param j the exploding square's row (Y Coord)
+     */
     public void explode(int i, int j){
     	squares[i][j].removePiece();
     	if(i+1<getCols()){
