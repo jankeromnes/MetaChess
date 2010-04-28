@@ -46,11 +46,11 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	this(ab);
     	move = m;
     	boolean old = whitePlaying;
-    	String test = this.toString();
     	playMove(m, false);
     	if(old == whitePlaying){
     		System.out.println("\nERROR : "+(whitePlaying ? "WHITE" : "BLACK")+" DIDN'T PLAY !!!");
-    		System.out.println(this+">>> ILLEGAL MOVE : "+move);
+    		System.out.println(this+">>> ILLEGAL MOVE : "+move+"\n");
+    		gameOver = true;
     	}
     	ignoreBreadthLimit = false;
     }
@@ -253,17 +253,17 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 	}
     
     public String toString() {
-    	StringBuilder letters = new StringBuilder("   ");
+    	StringBuilder letters = new StringBuilder("    ");
     	for(int i = 0 ; i < getCols() ; i++) letters.append(" "+((char)('A'+i)));
     	letters.append("\n");
-    	StringBuilder separator = new StringBuilder("    -");
+    	StringBuilder separator = new StringBuilder("     -");
     	for(int i = 0 ; i < getCols()-1 ; i++) separator.append("--");
     	separator.append("\n");
     	StringBuilder sb = new StringBuilder(letters);
     	sb.append(separator);
 		for(int j = getRows() - 1 ; j >= 0 ; j--){
 			if(j+1<10)sb.append(" ");
-			sb.append((j+1)+" |");
+			sb.append((j+1)+" | ");
 			for(int i = 0 ; i < getCols() ; i++){
     			Piece p = squares[i][j].getPiece();
     			if(p!=null){
