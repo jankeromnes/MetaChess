@@ -125,14 +125,14 @@ public class Piece {
 
     private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
 
-    	AIBoard aib = new AIBoard(new Move(ab.getActiveSquare().getColumn(),ab.getActiveSquare().getRow(),c.getColumn(),c.getRow(),ab), ab);
-    	// @TO DO : test king is in check 
+    	// TODO test king is in check
+    	// AIBoard aib = new AIBoard(new Move(ab.getActiveSquare().getColumn(),ab.getActiveSquare().getRow(),c.getColumn(),c.getRow(),ab), ab); 
     	boolean kingInCheck = false;
     	c.setGreen(!kingInCheck);
     	return !kingInCheck;
     }
 
-    private boolean checkKing(AbstractSquare c) {
+	private boolean checkKing(AbstractSquare c) {
 	return c.getPiece() != null && c.getPiece().isKing();
     }
 
