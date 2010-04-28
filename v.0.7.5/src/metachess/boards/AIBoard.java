@@ -164,7 +164,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     			else {
 					theSquare.removePiece();
     				// Promotion
-    				if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==7)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
+    				if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==(getRows()-1))||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
     					// Classic Promotion to Queen
     					if(lastPiece.getName().equals("pawn"))
     						theSquare.setPiece(Pieces.getPiece("queen", lastPiece.isWhite()));
@@ -175,11 +175,11 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     				else {
     					theSquare.setPiece(lastPiece);
     					// Castle
-    					if(lastPiece.isKing() && getCols() == 8){
+    					if(lastPiece.isKing()){
     						int diff = theSquare.getColumn() - getActiveSquare().getColumn();
     						if(diff==2||diff==-2){
-    							squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[7*((diff+2)/4)][theSquare.getRow()].getPiece());
-    							squares[7*((diff+2)/4)][theSquare.getRow()].setPiece(null);
+    							squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
+    							squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].setPiece(null);
     						}
     					}
     				}

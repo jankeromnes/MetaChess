@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 
+import metachess.boards.AIBoard;
 import metachess.boards.AbstractBoard;
 import metachess.boards.AbstractSquare;
 import metachess.library.PiecesImages;
+import metachess.logger.Move;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)
@@ -121,8 +123,10 @@ public class Piece {
  
     // BOARD BROWSING COMMANDS
 
-    private boolean setGreen(AbstractSquare c, AbstractBoard abstractBoard) {
+    private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
 
+    	AIBoard aib = new AIBoard(new Move(ab.getActiveSquare().getColumn(),ab.getActiveSquare().getRow(),c.getColumn(),c.getRow(),ab), ab);
+    	// @TO DO : test king is in check 
     	boolean kingInCheck = false;
     	c.setGreen(!kingInCheck);
     	return !kingInCheck;
@@ -149,30 +153,30 @@ public class Piece {
 	return ret;
     }
 
-    private boolean browseBoard(int i, int j, AbstractBoard abstractBoard, BrowseType f) {
+    private boolean browseBoard(int i, int j, AbstractBoard ab, BrowseType f) {
 
 	boolean movable = false;
 
-	if(king && abstractBoard.getCols() == 8 && !moved) 
-	    // ROOK
+	if(king && !moved) 
+	    // Castle
 	    for(int dir = -1 ; dir < 2 ; dir += 2) {
-		Piece p = abstractBoard.getSquare(7*((dir+1)/2), j).getPiece();
+		Piece p = ab.getSquare((ab.getCols()-1)*((dir+1)/2), j).getPiece();
 		if(p != null && p.isRook() && !p.hasMoved()) {
 		    boolean possible = true;
-		    for(int xx = i+dir ; xx > 0 && xx < 7 ; xx += dir)
-			possible &= !(abstractBoard.getSquare(xx, j).hasPiece());
+		    for(int xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
+			possible &= !(ab.getSquare(xx, j).hasPiece());
 		    if(possible && f == BrowseType.GREEN_SQUARES)
-			movable |= setGreen(abstractBoard.getSquare(i+(2*dir), j), abstractBoard);
+			movable |= setGreen(ab.getSquare(i+(2*dir), j), ab);
 		}
 	    }
 	    
 	// JOKER
 	if(joker) {
-	    Piece jokerPiece = abstractBoard.getJokerPiece();
+	    Piece jokerPiece = ab.getJokerPiece();
 	    if(jokerPiece != null) {
 		boolean wasWhite = jokerPiece.isWhite();
 		jokerPiece.setWhite(white);
-		movable |= jokerPiece.browseBoard(i, j, abstractBoard, f);
+		movable |= jokerPiece.browseBoard(i, j, ab, f);
 		jokerPiece.setWhite(wasWhite);
 	    }
 	}
@@ -187,17 +191,17 @@ public class Piece {
 		y=-y;
 	    }
 
-	    AbstractSquare c = abstractBoard.getSquare(i+s*x,j+s*y);
+	    AbstractSquare c = ab.getSquare(i+s*x,j+s*y);
 
 
-	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == abstractBoard.getRows() && !white) ) {
+	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == ab.getRows() && !white) ) {
 
 		// WALKS
 		while(c != null && m.isWalkType() && c.getPiece() == null && m.isInRange(s)) {
 		    if(f == BrowseType.GREEN_SQUARES && ! m.isHopperType())
-			movable |= setGreen(c, abstractBoard);
+			movable |= setGreen(c, ab);
 		    s++;
-		    c = abstractBoard.getSquare(i+s*x,j+s*y);
+		    c = ab.getSquare(i+s*x,j+s*y);
 		}
 	    
 		// ATTACKS
@@ -205,15 +209,15 @@ public class Piece {
 
 		    if(m.isHopperType()) {
 			s++;
-			c = abstractBoard.getSquare(i+s*x, j+s*y);
+			c = ab.getSquare(i+s*x, j+s*y);
 
 			if(c != null && ((c.getPiece() != null && m.isAttackType()
 					  && c.getPiece().isWhite() != white)
 					 || c.getPiece() == null && m.isWalkType()) )
-			    movable |= checkSquare(c, abstractBoard, f);
+			    movable |= checkSquare(c, ab, f);
 
 		    } else if(m.isAttackType() && c.getPiece().isWhite() != white)
-			movable |= checkSquare(c, abstractBoard, f);
+			movable |= checkSquare(c, ab, f);
 		}
 	    }
 	    
@@ -229,8 +233,8 @@ public class Piece {
 	return browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
     }
 
-    public boolean checkKingInRange(int i, int j, AbstractBoard abstractBoard) {
-	return browseBoard(i, j, abstractBoard, BrowseType.CHECK_KING);
+    public boolean checkKingInRange(int i, int j, AbstractBoard ab) {
+	return browseBoard(i, j, ab, BrowseType.CHECK_KING);
     }
 
 
