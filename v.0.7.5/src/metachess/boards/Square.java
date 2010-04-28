@@ -34,8 +34,7 @@ public class Square extends JButton {
     	if(as.isGreen()) setBackground(Colour.GREEN.getColor());
     	else setBackground(as.getColor().getColor());
 
-    	// setText(hasPiece()? null : "("+i+','+j+')');
-    	setText(as.hasPiece()? null : as.getName());
+    	// setText(as.hasPiece()? null : as.getName());
     }
 
 

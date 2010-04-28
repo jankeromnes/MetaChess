@@ -18,8 +18,8 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 	private Vector<AIBoard> children;
 	private Move move;
 	private float score;
-	boolean scoreCalculated;
-	boolean avoidBadScore;
+	private boolean scoreCalculated;
+	private boolean ignoreBreadthLimit;
 
     private boolean deathMatch;
     private boolean gameOver;
@@ -31,7 +31,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	children = new Vector<AIBoard>(0);
     	move = null;
     	scoreCalculated = false;
-    	avoidBadScore = true;
+    	ignoreBreadthLimit = true; // first board will ignore breadth limit
         activeSquareX=-1;
         activeSquareY=-1;
     }
@@ -49,10 +49,10 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	String test = this.toString();
     	playMove(m, false);
     	if(old == whitePlaying){
-    		System.out.println("PLAYER DID'NT CHANGE !!!");
-    		System.out.println(test+"\t\t(MOVE : "+move+" )");
-    		System.out.println(this);
+    		System.out.println("\nERROR : "+(whitePlaying ? "WHITE" : "BLACK")+" DIDN'T PLAY !!!");
+    		System.out.println(this+">>> ILLEGAL MOVE : "+move);
     	}
+    	ignoreBreadthLimit = false;
     }
     
     public Move getMove() { return move; }
@@ -100,26 +100,25 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 					}
 				}
 	    	if(!childCreated)depth=0;
-			Collections.sort(children);
-			if(move!=null)keepBestChildren(breadth); // do not limit children for first board
-	    	for(AIBoard child : children){
-	    		child.generateProgeny(depth-1, breadth);
+			if(!ignoreBreadthLimit)keepBestChildren(breadth);
+			freeMemory();
+			if(move==null)for(AIBoard child : children)child.ignoreBreadth(true); // children of first board will ignore breadth limit
+			int nextBreadth = (breadth>1 ? breadth : breadth-1);
+			int nextDepth = depth-1;
+			for(AIBoard child : children){
+	    		child.generateProgeny(nextDepth, nextBreadth);
 	    	}
 			Collections.sort(children);
-			/*if(avoidBadScore && children.size()>0 && (children.get(0).getScore(!whitePlaying)-getScore(!whitePlaying))<-2){
-				avoidBadScore = false;
-				generateProgeny(2, 0);
-			}*/
     	}
     }
     
     private void keepBestChildren(int nb) {
+		Collections.sort(children);
     	if(nb > 0 && nb < children.size()){
     		Vector<AIBoard> newVector = new Vector<AIBoard>(0);
     		for(int i = 0 ; i < nb ; i++) newVector.add(children.get(i));
     		children = newVector;
     	}
-		freeMemory();
     }
     
     public float getScore(boolean white) {
@@ -147,9 +146,10 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     }
     
     public Move getBestMove() {
-    	System.out.print("Best move is ");
-    	//for(AIBoard child : children.get(0).getChildren()) System.out.println(child.getMove()+" : "+child.getBestScore(!whitePlaying));
+    	/*System.out.print("My best move is ");
     	for(AIBoard child : children) System.out.println(child.getMove()+" : "+child.getBestScore(whitePlaying));
+    	System.out.print("Your best move is ");
+    	for(AIBoard child : children.get(0).getChildren()) System.out.println(child.getMove()+" : "+child.getBestScore(!whitePlaying));*/
     	return children.get(0).getMove();
     }
 
@@ -212,25 +212,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     		}
     }
     
-    public String toString() {
-    	StringBuilder sb = new StringBuilder();
-    	for(int i = 0 ; i < getCols() ; i++){
-    		for(int j = 0 ; j < getRows() ; j++){
-    			Piece p = squares[i][j].getPiece();
-    			if(p!=null) sb.append(p.getName().substring(0,1).toUpperCase()+" ");
-    			else sb.append("_ ");
-    		}
-    		sb.append("\n");
-    	}
-    	if(isSquareActive())sb.append("active square : "+getActiveSquare().getName()+"\n");
-    	return sb.toString();
-    }
-	
-	public String getBestSequence() {
-		String s = "";
-		if(children.size() > 0)s=children.get(0).getBestSequence();
-		return "("+(whitePlaying?"black":"white")+") "+move+" ; "+s;
-	}
+    public void ignoreBreadth(boolean set) {ignoreBreadthLimit = true;}
 
 	public int compareTo(AIBoard board) {
 		int ret=0;
@@ -249,10 +231,54 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 			r.gc();
 			int freedPercentage = Math.round(((float)(r.freeMemory()-freeMemory))/((float)totalMemory)*100);
 			System.out.println("Freed "+freedPercentage+"% of memory!");
-			if(freedPercentage < 3)children = new Vector<AIBoard>(0);
-			if(freedPercentage < 10)keepBestChildren(3);
+			if(freedPercentage < 2){
+				children = new Vector<AIBoard>(0);
+				freeMemory();
+			}
+			if(freedPercentage < 5){
+				keepBestChildren(1);
+				freeMemory();
+			}
+			if(freedPercentage < 10){
+				keepBestChildren(3);
+				freeMemory();
+			}
 		}
 	}
+	
+	public String getBestSequence() {
+		String s = "";
+		if(children.size() > 0)s=children.get(0).getBestSequence();
+		return "("+(whitePlaying?"black":"white")+") "+move+" ; "+s;
+	}
+    
+    public String toString() {
+    	StringBuilder letters = new StringBuilder("   ");
+    	for(int i = 0 ; i < getCols() ; i++) letters.append(" "+((char)('A'+i)));
+    	letters.append("\n");
+    	StringBuilder separator = new StringBuilder("    -");
+    	for(int i = 0 ; i < getCols()-1 ; i++) separator.append("--");
+    	separator.append("\n");
+    	StringBuilder sb = new StringBuilder(letters);
+    	sb.append(separator);
+		for(int j = getRows() - 1 ; j >= 0 ; j--){
+			if(j+1<10)sb.append(" ");
+			sb.append((j+1)+" |");
+			for(int i = 0 ; i < getCols() ; i++){
+    			Piece p = squares[i][j].getPiece();
+    			if(p!=null){
+    				String icon = p.getName().substring(0,1)+" "; 
+    				sb.append((p.isWhite() ? icon.toUpperCase() : icon.toLowerCase()));
+    			}
+    			else sb.append("_ ");
+    		}
+    		sb.append("| "+(j+1)+"\n");
+    	}
+    	sb.append(separator);
+    	sb.append(letters);
+    	if(isSquareActive())sb.append("active square : "+getActiveSquare().getName()+"\n");
+    	return sb.toString();
+    }
     
 }
 
