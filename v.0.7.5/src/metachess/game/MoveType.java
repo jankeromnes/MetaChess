@@ -1,5 +1,10 @@
 package metachess.game;
 
+/** Class of a specific move available for a piece
+ * Do not confuse with Move which refers to a played move
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
 public class MoveType {
 
     char type;
@@ -20,6 +25,10 @@ public class MoveType {
     private static boolean[] connectS = { true, false, false, false, false, false, false, true };
     private static boolean[] connectB = { false, false, true, false, false, true, false, false };
 
+    /** Given a combo direction character, returns the boolean matrix of all the available directions of this combo ; essentially used by the PieceBuilder to create new custom moves
+     * @param c the combo direction character
+     * @return the matrix
+     */
     public static boolean[] getDirectionConnectivityFromComboDirection(char c) {
 	boolean[] connect = {false, false, false, false, false, false, false, false};
 	if(c == 'A') connect = connectA;
@@ -35,7 +44,11 @@ public class MoveType {
 
     }
 
-
+    /** Create a new sort of move
+     * @param type the type of the move (Attack, Walk, Both, Jump, Pawnline)
+     * @param dir the direction (usually a non-combo direction from '0' to '8')
+     * @param range the range of the move
+     */
     public MoveType(char type, char dir, char range) {
 
 	this.type = type;
@@ -52,7 +65,7 @@ public class MoveType {
     
 
     /** The value of the MoveType
-     * @return its value as an integer
+     * @return its value as a float
      */
     public float getPrice() {
 		assert(!isComboDirection()): "Not a valid combo direction";
@@ -83,13 +96,25 @@ public class MoveType {
 		return price;
     }
 
+    /** Get the move's type character
+     * @return the move's type character
+     */
     public char getType() { return type; }
+    /** Get the move's range character
+     * @return the move's range character
+     */
     public char getRange() { return range; }
 
+    /** Tells whether the move is a combo of several simple moves
+     * @return true if it is
+     */
     public boolean isComboDirection() {
 	return dirchar < '0' || dirchar > '8';
     }
 
+    /** Get the format used for the piece file (MCP format)
+     * @return the format as a string
+     */
     public String getMCPFormat() {
 	return String.valueOf(type)+dirchar+range;
 
@@ -101,18 +126,33 @@ public class MoveType {
 
     // FOR COMBO DIRECTIONS
 
+    /** Tells whether the combo direction includes / moves
+     * @return true if it does
+     */
     public boolean isSlash() {
 	assert(isComboDirection()): "Not a valid combo direction";
 	return dirchar == 'S' || dirchar == 'D' || dirchar == 'A'; 
     }
+
+    /** Tells whether the combo direction includes \ moves
+     * @return true if it does
+     */
     public boolean isBackSlash() {
 	assert(isComboDirection()): "Not a valid combo direction";
 	return dirchar == 'B' || dirchar == 'D' || dirchar == 'A';
     }
+
+    /** Tells whether the combo direction includes horizontal moves
+     * @return true if it does
+     */
     public boolean isHorizontally() {
 	assert(isComboDirection()): "Not a valid combo direction";
 	return dirchar == 'H' || dirchar == 'R' || dirchar == 'A';
     }
+
+    /** Tells whether the combo direction includes vertical moves
+     * @return true if it does
+     */
     public boolean isVertically() {
 	assert(isComboDirection()): "Not a valid combo direction";
 	return dirchar == 'V' || dirchar == 'R' || dirchar == 'A';
@@ -121,31 +161,49 @@ public class MoveType {
 
     // FOR BASIC DIRECTIONS
 
+    /** For a given range, tells whether it is in range for the move
+     * @return true if it is
+     */
     public boolean isInRange(int r) {
 	assert(!isComboDirection()): "Not a valid MoveType";
 	return range == 'H' || range == 'N' || (r <= range - '0');
     }
     
+    /** Tells whether the move allows the piece to walk
+     * @return true if it does
+     */
     public boolean isWalkType() {
 	assert(!isComboDirection()): "Not a valid MoveType";
 	return type == 'B' || type == 'W' || type == 'J' || type == 'P';
     }
 
+    /** Tells whether the move allows the piece to attack
+     * @return true if it does
+     */
     public boolean isAttackType() {
 	assert(!isComboDirection()): "Not a valid MoveType";
 	return type == 'B' || type == 'A' || type == 'J';
     }
 
+    /** Tells whether the move is a hopper-leaps kind of move
+     * @return true if it is
+     */
     public boolean isHopperType() {
 	assert(!isComboDirection()): "Not a valid MoveType";
 	return range == 'H';
     }
 
+    /** Tells whether the move is a walk-type move from the pawnline
+     * @return true if it is
+     */
     public boolean isPawnType() {
 	assert(!isComboDirection()): "Not a valid MoveType";
 	return type == 'P';
     }
 
+    /** Tells whether the move is in diagonal
+     * @return true if it is
+     */
     public boolean isDiagonalType() {
 	if(isComboDirection())
 	    return isBackSlash() || isSlash();
@@ -156,6 +214,9 @@ public class MoveType {
 
     // FOR MOVEMENT ON THE BOARD
 
+    /** Get the X coordinate of the vector associated with this move
+     * @return the X Coord as an integer
+     */
     public int getXDiff() {
 
 	assert(!isComboDirection()): "Not a valid MoveType";
@@ -192,6 +253,9 @@ public class MoveType {
 
     }
 
+    /** Get the Y coordinate of the vector associated with this move
+     * @return the Y Coord as an integer
+     */
     public int getYDiff() {
 
 	assert(!isComboDirection()): "Not a valid MoveType";
@@ -226,7 +290,10 @@ public class MoveType {
 
     }
 
-
+    /** Compare the move with another move to know if they're the same
+     * @param o the move to compare
+     * @return true if they have the same properties
+     */
     public boolean equals(Object o) {
 	MoveType m = (MoveType)o;
 	return type == m.type && range == m.range && dirchar == m.dirchar;

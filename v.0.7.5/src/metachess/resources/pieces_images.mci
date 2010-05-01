@@ -27,3 +27,5 @@ metamorph:Wking.png:Bking.png
 archbishop:Wbishop.png:Bbishop.png
 
 
+# Generated from builder
+new_piece:Wking.png:Bking.png

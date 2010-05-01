@@ -81,7 +81,11 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public Iterator<AbstractSquare> iterator() { return browser ; }
     
     public void resetIterator() { browser.reset(); }
-    
+
+    /** Get the number of squares that were ignored to find a piece.
+     * It is used by the SetupBuilder to create a MCS file
+     * @return the number of squares
+     */
     public int getIteratorLastBlank() { return lastBlank; }
 
 
