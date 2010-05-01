@@ -44,7 +44,7 @@ public class ChessBoard extends AbstractBoard {
     	blackKingDead = false;
     }
 
-    /** Literally play a given square
+    /** Literally pla a given square
      * @param i the square's column (X Coord)
      * @param j the square's row (Y Coord)
      * @param keep whether the played move should be kept in the logger or not

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 /** Enum of Resources
- * @author Agbeladem (7D²)
+ * @author Agbeladem (7DD)
  * @version 0.7.3
  */
 public enum Resource {

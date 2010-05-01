@@ -9,8 +9,8 @@ public class Move implements Serializable {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private int oldx;
+    private static final long serialVersionUID = 1L;
+    private int oldx;
     private int oldy;
     private int newx;
     private int newy;
