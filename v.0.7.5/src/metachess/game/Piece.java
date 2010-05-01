@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 
-import metachess.boards.AIBoard;
 import metachess.boards.AbstractBoard;
 import metachess.boards.AbstractSquare;
 import metachess.library.PiecesImages;
-import metachess.logger.Move;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)
