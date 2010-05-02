@@ -79,7 +79,7 @@ public class DirectionGrid extends JPanel {
 	Color desactivated = (able?Colour.BLUE.getColor()
 			      :Colour.WHITE.getColor());
 
-	boolean[] connect = MoveType.getDirectionConnectivityFromComboDirection(c);
+	boolean[] connect = MoveType.getDirectionConnectivityMatrixFromComboDirection(c);
 	JButton[] right = walking ? walks : jumps;
 
 	for(int i = 0 ; i < 8 ; i++)

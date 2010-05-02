@@ -95,7 +95,7 @@ public class MovesPanel extends JPanel {
     }
 
     public void addMove(char type, char dir, char range) {
-	model.add(new MoveType(type, dir, range));
+	model.add(new MoveType(type, dir, range, 1, 0));
 	update();
     }
 

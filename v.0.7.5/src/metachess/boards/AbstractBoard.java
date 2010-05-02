@@ -7,7 +7,7 @@ import metachess.library.Loader;
 import metachess.logger.Move;
 
 /** Class of an Abstract Board
- * @author Agbeladem [0.7.3] + Jan (7DD) [0.7.5]
+ * @author Agbeladem (7DD) [0.7.3] + Jan (7DD) [0.7.5]
  * @version 0.7.3
  */
 public abstract class AbstractBoard implements Iterable<AbstractSquare> {

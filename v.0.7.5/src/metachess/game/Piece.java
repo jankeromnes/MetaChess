@@ -84,23 +84,25 @@ public class Piece {
 
 	char type = m.getType();
 	char range = m.getRange();
+	int step = m.getStep();
+	int offset = m.getOffset();
 
 	if(m.isComboDirection()) {
 	    if(m.isSlash()) {
-		moves.add(new MoveType(type, '0', range));
-		moves.add(new MoveType(type, '8', range));
+		moves.add(new MoveType(type, '0', range, step, offset));
+		moves.add(new MoveType(type, '8', range, step, offset));
 	    }
 	    if(m.isBackSlash()) {
-		moves.add(new MoveType(type, '2', range));
-		moves.add(new MoveType(type, '6', range));
+		moves.add(new MoveType(type, '2', range, step, offset));
+		moves.add(new MoveType(type, '6', range, step, offset));
 	    }
 	    if(m.isVertically()) {
-		moves.add(new MoveType(type, '1', range));
-		moves.add(new MoveType(type, '7', range));
+		moves.add(new MoveType(type, '1', range, step, offset));
+		moves.add(new MoveType(type, '7', range, step, offset));
 	    }
 	    if(m.isHorizontally()) {
-		moves.add(new MoveType(type, '3', range));
-		moves.add(new MoveType(type, '5', range));
+		moves.add(new MoveType(type, '3', range, step, offset));
+		moves.add(new MoveType(type, '5', range, step, offset));
 	    }
 	} else 
 	    moves.add(m);
@@ -181,7 +183,8 @@ public class Piece {
 
 	for(MoveType m : moves) {
 
-	    int s = 1;
+	    int s = m.getOffset();
+	    int k = m.getStep();
 	    int x = m.getXDiff();
 	    int y = m.getYDiff();
 	    if(! white) {
@@ -192,31 +195,49 @@ public class Piece {
 	    AbstractSquare c = ab.getSquare(i+s*x,j+s*y);
 
 
+	    if(s == 0) {
+		movable |= checkSquare(ab.getSquare(i,j), ab, f);
+		s++;
+	    }
+	    
 	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == ab.getRows() && !white) ) {
 
-		// WALKS
-		while(c != null && m.isWalkType() && c.getPiece() == null && m.isInRange(s)) {
-		    if(f == BrowseType.GREEN_SQUARES && ! m.isHopperType())
-			movable |= setGreen(c, ab);
-		    s++;
-		    c = ab.getSquare(i+s*x,j+s*y);
-		}
-	    
-		// ATTACKS
-		if(m.isInRange(s) && c != null && c.getPiece() != null) {
-
-		    if(m.isHopperType()) {
-			s++;
-			c = ab.getSquare(i+s*x, j+s*y);
-
-			if(c != null && ((c.getPiece() != null && m.isAttackType()
-					  && c.getPiece().isWhite() != white)
-					 || c.getPiece() == null && m.isWalkType()) )
+		if(m.isSquare()) {
+		    s--;
+		    while(m.isInRange(++s))
+			for(int kk = 0 ; kk < s*2 ; kk ++) {
+			    movable |= checkSquare(ab.getSquare(i-s, j-s+kk), ab, f);
+			    movable |= checkSquare(ab.getSquare(i-s+kk+1, j-s), ab, f);
+			    movable |= checkSquare(ab.getSquare(i+s, j-s+kk+1), ab, f);
+			    movable |= checkSquare(ab.getSquare(i-s+kk, j+s), ab, f);
+			}
+		    
+		} else {
+		    // WALKS
+		    while(c != null && m.isWalkType() && c.getPiece() == null && m.isInRange(s)) {
+			if(f == BrowseType.GREEN_SQUARES && ! m.isHopperType())
 			    movable |= checkSquare(c, ab, f);
-
-		    } else if(m.isAttackType() && c.getPiece().isWhite() != white)
-			movable |= checkSquare(c, ab, f);
+			s += k;
+			c = ab.getSquare(i+s*x,j+s*y);
+		    }
+		    
+		// ATTACKS
+		    if(m.isInRange(s) && c != null && c.getPiece() != null) {
+			
+			if(m.isHopperType()) {
+			    s += k;
+			    c = ab.getSquare(i+s*x, j+s*y);
+			    
+			    if(c != null && ((c.getPiece() != null && m.isAttackType()
+					      && c.getPiece().isWhite() != white)
+					     || c.getPiece() == null && m.isWalkType()) )
+				movable |= checkSquare(c, ab, f);
+			    
+			} else if(m.isAttackType() && c.getPiece().isWhite() != white)
+			    movable |= checkSquare(c, ab, f);
+		    }
 		}
+
 	    }
 	    
 

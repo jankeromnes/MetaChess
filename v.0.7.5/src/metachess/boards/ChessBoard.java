@@ -44,7 +44,7 @@ public class ChessBoard extends AbstractBoard {
     	blackKingDead = false;
     }
 
-    /** Literally pla a given square
+    /** Literally play a given square
      * @param i the square's column (X Coord)
      * @param j the square's row (Y Coord)
      * @param keep whether the played move should be kept in the logger or not
@@ -52,40 +52,43 @@ public class ChessBoard extends AbstractBoard {
     public void playSquare(int i, int j, boolean keep){
     	AbstractSquare theSquare = squares[i][j];
     	if(isSquareActive()) {
-    		if(theSquare.isGreen()) {
-    			Piece lastPiece = getActiveSquare().getPiece();
-    			lastPiece.setMoved(true);
-    			if (!lastPiece.isJoker()) jokerPiece = lastPiece;
-    			if(atomic && theSquare.getPiece()!=null) explode(i, j);
-    			else {
-					theSquare.removePiece();
-    				// Promotion
-    				if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==7)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
-    					// Classic Promotion to Queen
-    					if(lastPiece.getName().equals("pawn"))
-    						theSquare.setPiece(Pieces.getPiece("queen", lastPiece.isWhite()));
-    					// Promotion to Amazon
-    					else
-    						theSquare.setPiece(Pieces.getPiece("amazon", lastPiece.isWhite()));
-    				}
-    				else {
-    					theSquare.setPiece(lastPiece);
-    					// Castle
-    					if(lastPiece.isKing() && getCols() == 8){
-    						int diff = theSquare.getColumn() - getActiveSquare().getColumn();
-    						if(diff==2||diff==-2){
-    							squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[7*((diff+2)/4)][theSquare.getRow()].getPiece());
-    							squares[7*((diff+2)/4)][theSquare.getRow()].setPiece(null);
-    						}
-    					}
-    				}
-    			}
-    			if(keep) game.addMove(new Move(activeSquareX, activeSquareY , i,j,this));
-    			getActiveSquare().setPiece(null);
-        		deactivateSquare();
-    			nextPlayer(keep);
-    		}
-    		else deactivateSquare();
+	    if(theSquare.isGreen()) {
+		Piece lastPiece = getActiveSquare().getPiece();
+		lastPiece.setMoved(true);
+		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
+
+		if(theSquare == getActiveSquare()) ;
+		else if(atomic && theSquare.getPiece()!=null) explode(i,j);
+		else {
+		    theSquare.removePiece();
+		    // Promotion
+		    if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==getRows()-1)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
+			// Classic Promotion to Queen
+			if(lastPiece.getName().equals("pawn"))
+			    theSquare.setPiece(Pieces.getPiece("queen", lastPiece.isWhite()));
+			// Promotion to Amazon
+			else
+			    theSquare.setPiece(Pieces.getPiece("amazon", lastPiece.isWhite()));
+		    }
+		    else {
+			theSquare.setPiece(lastPiece);
+			// Castle
+			if(lastPiece.isKing() && getCols() == 8){
+			    int diff = theSquare.getColumn() - getActiveSquare().getColumn();
+			    if(diff==2||diff==-2){
+				squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[7*((diff+2)/4)][theSquare.getRow()].getPiece());
+				squares[7*((diff+2)/4)][theSquare.getRow()].setPiece(null);
+			    }
+			}
+		    }
+		    getActiveSquare().setPiece(null);
+		}
+		if(keep) game.addMove(new Move(activeSquareX, activeSquareY , i,j,this));
+
+		deactivateSquare();
+		nextPlayer(keep);
+	    }
+	    else deactivateSquare();
     	}
     	else activateSquare(i, j);
     	update();
@@ -122,8 +125,10 @@ public class ChessBoard extends AbstractBoard {
     }
 	
     public void nextPlayer(boolean keep) {
+
     	//for(AbstractSquare s : this)
-	    //System.out.println(s.getPiece().getName()+" costs "+s.getPiece().getPrice());
+        //System.out.println(s.getPiece().getName()+" costs "+s.getPiece().getPrice());
+
     	checkKingsAreOK();
     	deathMatch = atomic && blackKingDead && whiteKingDead;
     	gameOver = !deathMatch && (blackKingDead || whiteKingDead);
