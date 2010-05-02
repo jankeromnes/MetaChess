@@ -7,13 +7,19 @@ import metachess.library.Loader;
 import metachess.logger.Move;
 
 /** Class of an Abstract Board
- * @author Agbeladem (7DD) [0.7.3] + Jan (7DD) [0.7.5]
+ * @author Agbeladem and Jan (7DD)
  * @version 0.7.3
  */
 public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
+    /* v.0.7.3 : Agbeladem
+       v.0.7.5 : Jan
+       v.0.8.0 : Agbeladem */
+
+
     protected int width;
     protected int height;
+    private int maxDistance;
     private AbstractSquareIterator browser = new AbstractSquareIterator();
 
     protected GraphicBoard gb;
@@ -28,9 +34,20 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     private int lastBlank;
 
-    public AbstractBoard() {
-    	super();
+    private class EmptySquare extends AbstractSquare {
+
+	public EmptySquare(int i, int j) {
+	    super(i, j);
+	    piece = new Piece();
+	}
+	public boolean isNull() { return true; }
+	public boolean hasPiece() { return true; }
+
     }
+
+
+    /** Create an empty abstract board */
+    public AbstractBoard() {}
     
     /** Associate the graphic board representation of this abstract board
      * @param gboard the board
@@ -40,13 +57,14 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
     
     /** Update the graphic board's appearance */
+    
     public void update() {
     	if(gb != null) gb.update();
     }
-
+    
     // ITERATOR
     
-    /** Iterator of the abstract squares in the board that contain a piece */
+    /** Iterator of the pieces in the board */
     private class AbstractSquareIterator implements Iterator<AbstractSquare> {
     	private int i, j, blank;
     	public AbstractSquareIterator() {
@@ -66,20 +84,20 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     		return ret;
     	}
     	public AbstractSquare next() {
-    		AbstractSquare sq = null;
+	    AbstractSquare sq = null;
     		if(hasNext()) {
     			lastBlank = blank; 
     			blank = 0;
-    			sq = squares[i][j];
-    			if(++i == width) { i = 0 ; ++j; };
+			sq = squares[i][j];
+    			if(++i == width) { i = 0 ; ++j; }
     		}
-	    return sq;
+		return sq;
     	}
     	public void remove() {}
     }
 
     public Iterator<AbstractSquare> iterator() { return browser ; }
-    
+
     public void resetIterator() { browser.reset(); }
 
     /** Get the number of squares that were ignored to find a piece.
@@ -89,9 +107,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public int getIteratorLastBlank() { return lastBlank; }
 
 
-
-
-
     // INITIATION
 
     /** Initiate a given abstract square of the board
@@ -99,7 +114,11 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param j the square's row (Y Coord)
      */
     protected void initSquare(int i, int j) {
-    	squares[i][j] = new AbstractSquare(i, j, this);
+    	squares[i][j] = new AbstractSquare(i, j);
+    }
+
+    public void removeSquare(int i, int j) {
+	squares[i][j] = new EmptySquare(i, j);
     }
 
     /** Launch a given setup
@@ -113,19 +132,18 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	activeSquareY = -1;
 	
     	whitePlaying = true;
-	
     	Loader.loadSetup(this, setup);
+
     }
 
 
     /** Automatically launched after the setup's been loaded with init method */
     public void endInit() {
-
+	maxDistance = (int)Math.max(width, height);
     	squares = new AbstractSquare[width][height];
     	for(int j = height-1 ; j >= 0 ; j--)
     		for(int i = 0 ; i < width ; i++)
     			initSquare(i, j);
-
     	jokerPiece = null;
     }
 
@@ -143,7 +161,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param j the square's row (Y Coord)
      */
     public void playSquare(int i, int j) {
-    	playSquare(i,j,true);
+    	playSquare(i, j, true);
     }
 
     /** Play a given square ; must be overwritten to have any effects
@@ -153,22 +171,30 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      */
     public void playSquare(int i, int j, boolean keep) {};
 
-
     /** Tells whether given coordinates match a valid square of the board or not
      * @param x the square's column (X Coord)
      * @param y the square's row (Y Coord)
      * @return true if it is valid
      */
-    private boolean isSquareValid(int x, int y) {
-	return (x >= 0 && x < width &&
-		y >= 0 && y < height); 	
+    public boolean isSquareValid(int x, int y) {
+	return squareExists(x, y) && !squares[x][y].isNull() ; 	
     }
 
+    public boolean squareExists(int x, int y) {
+	return x >= 0 && x < width
+	    && y >= 0 && y < height;
+    }
 
+    /** Tells whether the player has activated a piece
+     * @return true if he has
+     */
     public boolean isSquareActive(){
 	return isSquareValid(activeSquareX, activeSquareY);
     }
 
+    /** Get the abstract square that has been activated by the player
+     * @return the abstract square
+     */
     public AbstractSquare getActiveSquare(){
 	return getSquare(activeSquareX, activeSquareY);
     }
@@ -178,14 +204,30 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param y the square's row (Y Coord)
      * @return the square
      */
-    public AbstractSquare getSquare(int i, int j){
-	AbstractSquare square = null;
-	if (isSquareValid(i,j)) square = squares[i][j];
-	return square;
+    public AbstractSquare getSquare(int i, int j) {
+	assert squareExists(i, j);
+	return squares[i][j];
     }
 
+
+    /** Tells whether a square at the given coordinates possess a piece
+     * @param i the square's column (X Coord)
+     * @param j the square's row (Y Coord)
+     * @return true if it does
+     */
     public boolean hasPiece(int i, int j) {
-    	return isSquareValid(i, j) && squares[i][j].getPiece() != null;
+	assert isSquareValid(i, j);
+    	return squares[i][j].hasPiece();
+    }
+
+    /** Get the piece at the given coordinates
+     * @param i the piece's square's column (X Coord)
+     * @param j the piece's square's row (Y Coord)
+     * @return the piece
+     */
+    public Piece getPiece(int i, int j) {
+	assert hasPiece(i, j);
+	return squares[i][j].getPiece();
     }
 
     public void setPiece(int i, int j, Piece p) {
@@ -197,11 +239,12 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
     
     public void activateSquare(AbstractSquare s){
-    	if(s.getPiece()!=null && s.getPiece().isWhite()==whitePlaying){
-    		activeSquareX=s.getColumn();
-    		activeSquareY=s.getRow();
-    		if(!s.getPiece().setGreenSquares(activeSquareX,activeSquareY,this))
-    			deactivateSquare();
+
+    	if(s.hasPiece() && s.getPiece().isWhite() == whitePlaying) {
+	    activeSquareX=s.getColumn();
+	    activeSquareY=s.getRow();
+	    if(!s.getPiece().setGreenSquares(activeSquareX,activeSquareY,this))
+		deactivateSquare();
     	}
     }
 
@@ -248,15 +291,29 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	}
     }
     
-    public Piece getJokerPiece(){ return jokerPiece; }
+    /** Get the last piece played for a joker-type piece
+     * @return the piece
+     */
+    public Piece getJokerPiece() { return jokerPiece; }
 
     public void setCols(int x) { width = x; }
 
     public void setRows(int y) { height = y; }
 
+    /** Get the number of columns of the board
+     * @return the number of columns
+     */
     public int getCols() { return width; }
 
+    /** Get the number of rows of the board
+     * @return the number of rows
+     */
     public int getRows() { return height; }
+
+    /** Get the maximum distance a rook could hypothetically reach
+     * @return the distance
+     */
+    public int getMaxDistance() { return maxDistance; }
 
 }
 

@@ -4,17 +4,20 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-
+/** Class of graphical boards
+ * @author Jan (7DD)
+ * @version 0.7.5
+ */
 public class GraphicBoard extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private AbstractBoard ab;
+    private static final long serialVersionUID = 1L;
+    private AbstractBoard ab;
     protected Square[][] squares;
     
     public GraphicBoard(AbstractBoard a) {
     	super();
     	ab = a;
-    	init();
+ 	init();
     }
     
     public void init() {
@@ -32,9 +35,8 @@ public class GraphicBoard extends JPanel {
 
     public void update() {
     	for(int j = ab.getRows()-1 ; j >= 0 ; j--)
-    	    for(int i = 0 ; i < ab.getCols() ; i++) {
+    	    for(int i = 0 ; i < ab.getCols() ; i++)
     	    	squares[i][j].update();
-    	    }
     }
 
 }

@@ -14,9 +14,9 @@ import metachess.library.Resource;
 
 public class PieceBuilderBox extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private final SampleBoard bs;
-	private final GraphicBoard gb;
+    private static final long serialVersionUID = 1L;
+    private final SampleBoard bs;
+    private final GraphicBoard gb;
     private final IconSelectPanel isp;
     private final MovesPanel mp;
     
@@ -47,9 +47,9 @@ public class PieceBuilderBox extends JPanel {
     }
 
     public void changeIcon(String fileName) {
-	Piece p;
 	image = fileName;
 	fileName = Resource.PIECES_IMAGES.getPath(false)+image;
+	Piece p;
 	for(AbstractSquare s : bs) {
 	    p = s.getPiece();
 	    if(p.getName().equals("metamorph"))  {
@@ -61,9 +61,9 @@ public class PieceBuilderBox extends JPanel {
     }
 
     public void update(ArrayList<MoveType> m) {
-	Piece p;
 	moves = m;
 	bs.deactivateSquare();
+	Piece p;
 	for(AbstractSquare s: bs) {
 	    p = s.getPiece();
 	    if(p.getName().equals("metamorph")) {
