@@ -42,7 +42,7 @@ public class Game extends JFrame {
 
     	atomic = false;
     	whiteAI = false;
-    	blackAI = true;
+    	blackAI = false;
     	setup = "test";
 
     	builder = new BuilderBox();

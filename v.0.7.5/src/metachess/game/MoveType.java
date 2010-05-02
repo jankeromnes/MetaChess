@@ -7,15 +7,17 @@ package metachess.game;
  */
 public class MoveType {
 
-    char type;
-    char range;
+    private char type;
+    private char range;
 
-    char dirchar;
-    int dir;
+    private char dirchar;
+    private int dir;
+
+    private int step;
+    private int offset;
     
-    float price;
-    boolean priceCalculated;
-
+    private float price;
+    private boolean priceCalculated;
 	
     private static boolean[] connectA = {true, true, true, true, true, true, true, true};
     private static boolean[] connectR = { false, true, false, true, true, false, true, false};
@@ -29,7 +31,7 @@ public class MoveType {
      * @param c the combo direction character
      * @return the matrix
      */
-    public static boolean[] getDirectionConnectivityFromComboDirection(char c) {
+    public static boolean[] getDirectionConnectivityMatrixFromComboDirection(char c) {
 	boolean[] connect = {false, false, false, false, false, false, false, false};
 	if(c == 'A') connect = connectA;
 	else if(c == 'R') connect = connectR;
@@ -49,11 +51,13 @@ public class MoveType {
      * @param dir the direction (usually a non-combo direction from '0' to '8')
      * @param range the range of the move
      */
-    public MoveType(char type, char dir, char range) {
+    public MoveType(char type, char dir, char range, int step, int offset) {
 
 	this.type = type;
-	this.dir = (int)(dir - '0');
+	this.dir = dir - '0';
 	this.range = range;
+	this.step = step;
+	this.offset = offset;
 
 	dirchar = dir;
 	priceCalculated = false;
@@ -68,7 +72,7 @@ public class MoveType {
      * @return its value as a float
      */
     public float getPrice() {
-		assert(!isComboDirection()): "Not a valid combo direction";
+	assert(!isComboDirection()): "Not a valid combo direction";
     	if(!priceCalculated){
 			double rangeModifier = 0;
 			double typeModifier = 0;
@@ -100,11 +104,22 @@ public class MoveType {
      * @return the move's type character
      */
     public char getType() { return type; }
+
     /** Get the move's range character
      * @return the move's range character
      */
     public char getRange() { return range; }
 
+    /** Get the move's step value
+     * @return the move's step value
+     */
+    public int getStep() { return step; }
+  
+    /** Get the move's offset value
+     * @return the move's offset value
+     */
+    public int getOffset() { return offset; }
+    
     /** Tells whether the move is a combo of several simple moves
      * @return true if it is
      */
@@ -160,6 +175,13 @@ public class MoveType {
 
 
     // FOR BASIC DIRECTIONS
+
+    /** Tells whether the move is a move in square
+     * @return true if it is
+     */
+    public boolean isSquare() {
+	return dir == 4;
+    }
 
     /** For a given range, tells whether it is in range for the move
      * @return true if it is

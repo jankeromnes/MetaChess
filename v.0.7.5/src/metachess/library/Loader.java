@@ -9,10 +9,17 @@ import metachess.boards.AbstractBoard;
 import metachess.game.MoveType;
 import metachess.game.Piece;
 
+/** Class of the Resource Loader (exclusively by static methods)
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
 public class Loader {
 
     private static Loader instance = new Loader();
 
+    /** Load a specified piece
+     * @param pieceName the name of the piece
+     */
     public static void loadPiece(String pieceName) {
 
 	try {
@@ -41,16 +48,19 @@ public class Loader {
 			case 'R':
 			    piece.setRook(true);
 			    break;
+			default:
+			    System.out.println("Bad Special MoveType Format :"+word);
 			}
 			
 		    } else {
 
-			if(word.length() == 3) {
-
+			if(word.length() == 5) {
 			    char type = word.charAt(0);
 			    char dir = word.charAt(1);
 			    char range = word.charAt(2);
-			    piece.addMoveType(new MoveType(type, dir, range));
+			    int step = word.charAt(3)-'0';
+			    int offset = word.charAt(4)-'0';
+			    piece.addMoveType(new MoveType(type, dir, range, step, offset));
 
 			} else
 			    System.out.println("Bad MoveType Format : "+word);
@@ -69,7 +79,10 @@ public class Loader {
 
     }
 
-
+    /** Load a specified setup in a given board
+     * @param abstractBoard the board
+     * @param file the name of the setup's file
+     */
     public static void loadSetup(AbstractBoard abstractBoard, String file) {
 
 	PiecesImages.load();
