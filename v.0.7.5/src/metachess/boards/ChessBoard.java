@@ -8,33 +8,28 @@ import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.logger.Move;
 
+
+/** Class of the real Chess Board
+ * @author Jan (7DD)
+ * @version 0.8.0
+ */
 public class ChessBoard extends AbstractBoard {
-	
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	private Game game;
-	private GraphicBoard gb;
+    private static final long serialVersionUID = 1L;
 
+    private Game game;
     private boolean deathMatch;
     private boolean gameOver;
     private boolean whiteKingDead;
     private boolean blackKingDead;
 
+    /** Create a new Chess Board
+     * @param g the game window in which its graphical board will be created
+     */
     public ChessBoard(Game g) {
     	super();
     	game = g;
     	gameOver = false;
-    }
-    
-    public void setGraphicBoard(GraphicBoard gboard) {
-    	gb = gboard;
-    }
-    
-    public void update() {
-    	if(gb != null) gb.update();
     }
 
     public void init(String s, boolean isAtomic){
@@ -101,11 +96,12 @@ public class ChessBoard extends AbstractBoard {
     public boolean isKingInCheck(boolean isWhite) {
     	boolean ret = false;
     	Piece p;
-
     	for(int i = 0 ; i < getCols() ; i++)
     		for(int j = 0 ; j < getRows() ; j++){
-    			p = squares[i][j].getPiece();
-    			ret |= (p != null && (p.isWhite() != isWhite) && p.checkKingInRange(i, j, this));
+		    if(squares[i][j].hasPiece()) {
+			p = squares[i][j].getPiece();
+    			ret |= p != null && (p.isWhite() != isWhite) && p.checkKingInRange(i, j, this);
+		    }
     		}
 
     	return ret;
@@ -114,14 +110,16 @@ public class ChessBoard extends AbstractBoard {
     public void checkKingsAreOK() {
     	blackKingDead = true;
     	whiteKingDead = true;
+	Piece p;
     	for(int i = 0 ; i < getCols() ; i++)
-    		for(int j = 0 ; j < getRows() ; j++){
-    			Piece p = squares[i][j].getPiece();
-    			if(p!=null && p.isKing()){
+    		for(int j = 0 ; j < getRows() ; j++)
+		    if(squares[i][j].hasPiece()) {
+			p = squares[i][j].getPiece();
+    			if(p.isKing()) {
     				whiteKingDead &= !p.isWhite();
     				blackKingDead &= p.isWhite();
-    			}
-    		}
+			}
+		    }
     }
 	
     public void nextPlayer(boolean keep) {

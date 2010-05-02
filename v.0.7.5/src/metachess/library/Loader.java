@@ -132,17 +132,23 @@ public class Loader {
 			 int w = abstractBoard.getCols();
 		       //int h = b.getRows();
 			 if(start == 'R') {
-			     int n = Integer.parseInt(word.substring(1,len));
+			     int n = Integer.parseInt(word.substring(1, len));
 			     for(int i = 0 ; i < n ; i ++)
 				 abstractBoard.setPiece(pos%w, pos++/w, p);
+			 } else if(start == 'D') {
+			     int n = Integer.parseInt(word.substring(1, len));
+			     for(int i = 0; i < n ; i ++)
+				 abstractBoard.removeSquare(pos%w, pos++/w);
 			 } else {
 			     String name = word.substring(1,word.length()).toLowerCase();
 			     if(!Pieces.hasPiece(name))
 				 loadPiece(name);
 			     p = Pieces.getPiece(name, start == 'W');
 			     abstractBoard.setPiece(pos%w, pos++/w, p);
-			}
+			 }
 		     
+		     } else {
+			 // exception...
 		     }
 		 }
 		next = st.nextToken();

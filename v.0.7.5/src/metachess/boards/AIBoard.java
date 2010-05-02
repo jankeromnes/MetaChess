@@ -8,18 +8,15 @@ import metachess.library.Pieces;
 import metachess.logger.Move;
 
 public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
-	
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	private AbstractBoard parent;
-	private Vector<AIBoard> children;
-	private Move move;
-	private float score;
-	private boolean scoreCalculated;
-	private boolean ignoreBreadthLimit;
+    private static final long serialVersionUID = 1L;
+
+    private AbstractBoard parent;
+    private Vector<AIBoard> children;
+    private Move move;
+    private float score;
+    private boolean scoreCalculated;
+    private boolean ignoreBreadthLimit;
 
     private boolean deathMatch;
     private boolean gameOver;
@@ -125,11 +122,12 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	if(!scoreCalculated){
     		scoreCalculated = true;
     		score = 0;
-			for(AbstractSquare s : this){
-				Piece p = s.getPiece();
-				if (p.isWhite()) score+=p.getPrice();
-				else score-=p.getPrice();
-			}
+		Piece p;
+		for(AbstractSquare sq : this) {
+		    p = sq.getPiece();
+		    if (p.isWhite()) score+=p.getPrice();
+		    else score-=p.getPrice();
+		}
         	if(!deathMatch){
     			if(whiteKingDead) score=-10000;
     			if(blackKingDead) score=10000;

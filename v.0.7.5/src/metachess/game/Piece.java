@@ -69,7 +69,7 @@ public class Piece {
     	if(!priceCalculated) {
     		price = 0;
     		for(MoveType m : moves)
-    		price+=m.getPrice();
+		    price+=m.getPrice();
     		if(pawn) price += 20;
     		price/=83.4;
     		priceCalculated = true;
@@ -132,11 +132,13 @@ public class Piece {
     	return !kingInCheck;
     }
 
-	private boolean checkKing(AbstractSquare c) {
+    private boolean checkKing(AbstractSquare c) {
 	return c.getPiece() != null && c.getPiece().isKing();
     }
 
-    private boolean checkSquare(AbstractSquare c, AbstractBoard b, BrowseType f) {
+
+
+    private boolean browseSquare(AbstractSquare c, AbstractBoard b, BrowseType f) {
 	boolean ret;
 
 	switch(f) {
@@ -153,23 +155,38 @@ public class Piece {
 	return ret;
     }
 
+    private boolean checkSquare(int i, int j, AbstractBoard ab, BrowseType f, MoveType m) {
+
+	boolean b = ab.isSquareValid(i,j) && ((m.isAttackType() 
+					       && ab.hasPiece(i, j)
+					       && ab.getPiece(i, j).isWhite() != white)
+					      || (m.isWalkType()
+						  && ! ab.hasPiece(i, j)));
+
+	return b && browseSquare(ab.getSquare(i, j), ab, f);
+    }
+
+
     private boolean browseBoard(int i, int j, AbstractBoard ab, BrowseType f) {
+
 
 	boolean movable = false;
 
 	if(king && !moved) 
-	    // Castle
+	    // CASTLE
 	    for(int dir = -1 ; dir < 2 ; dir += 2) {
-		Piece p = ab.getSquare((ab.getCols()-1)*((dir+1)/2), j).getPiece();
-		if(p != null && p.isRook() && !p.hasMoved()) {
-		    boolean possible = true;
-		    for(int xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
-			possible &= !(ab.getSquare(xx, j).hasPiece());
-		    if(possible && f == BrowseType.GREEN_SQUARES)
-			movable |= setGreen(ab.getSquare(i+(2*dir), j), ab);
+		int xx = (ab.getCols()-1)*((dir+1)/2);
+		if(ab.squareExists(xx, j) && ab.hasPiece(xx, j)) {
+		    Piece p = ab.getSquare(xx, j).getPiece();
+		    if(p.isRook() && !p.hasMoved()) {
+			boolean possible = true;
+			for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
+			    possible &= !(ab.getSquare(xx, j).hasPiece());
+			if(possible && f == BrowseType.GREEN_SQUARES)
+			    movable |= setGreen(ab.getSquare(i+(2*dir), j), ab);
+		    }
 		}
 	    }
-	    
 	// JOKER
 	if(joker) {
 	    Piece jokerPiece = ab.getJokerPiece();
@@ -192,66 +209,94 @@ public class Piece {
 		y=-y;
 	    }
 
-	    AbstractSquare c = ab.getSquare(i+s*x,j+s*y);
 
 
-	    if(s == 0) {
-		movable |= checkSquare(ab.getSquare(i,j), ab, f);
-		s++;
+
+	    if(s == 0 && m.isWalkType()) {
+		movable |= browseSquare(ab.getSquare(i,j), ab, f);
+		s+=k;
 	    }
 	    
 	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == ab.getRows() && !white) ) {
 
+		// MIDDLE DIRECTION
 		if(m.isSquare()) {
-		    s--;
-		    while(m.isInRange(++s))
+		    int max = ab.getMaxDistance();
+		    for(;m.isInRange(s) && s < max;s+=k)
 			for(int kk = 0 ; kk < s*2 ; kk ++) {
-			    movable |= checkSquare(ab.getSquare(i-s, j-s+kk), ab, f);
-			    movable |= checkSquare(ab.getSquare(i-s+kk+1, j-s), ab, f);
-			    movable |= checkSquare(ab.getSquare(i+s, j-s+kk+1), ab, f);
-			    movable |= checkSquare(ab.getSquare(i-s+kk, j+s), ab, f);
+			    movable |= checkSquare(i-s, j-s+kk, ab, f, m);
+			    movable |= checkSquare(i-s+kk+1, j-s, ab, f, m);
+			    movable |= checkSquare(i+s, j-s+kk+1, ab, f, m);
+			    movable |= checkSquare(i-s+kk, j+s, ab, f, m);
 			}
 		    
 		} else {
-		    // WALKS
-		    while(c != null && m.isWalkType() && c.getPiece() == null && m.isInRange(s)) {
-			if(f == BrowseType.GREEN_SQUARES && ! m.isHopperType())
-			    movable |= checkSquare(c, ab, f);
-			s += k;
-			c = ab.getSquare(i+s*x,j+s*y);
-		    }
+
+		    AbstractSquare c = null;
+		    boolean b = ab.squareExists(i+s*x, j+s*y);
+		    if(b) {
+			c = ab.getSquare(i+s*x, j+s*y);
+			if(m.isWalkType())
+			    // WALKS
+			    while(b && !c.hasPiece() && m.isInRange(s)) {
+				if(f == BrowseType.GREEN_SQUARES && ! m.isHopperType())
+				    movable |= browseSquare(c, ab, f);
+				s += k;
+				b = ab.squareExists(i+s*x, j+s*y);
+				if(b)
+				    c = ab.getSquare(i+s*x, j+s*y);
+			    }
+			else while(b && !c.hasPiece() && m.isInRange(s)) {
+				s+=k;
+				b = ab.squareExists(i+s*x, j+s*y);
+				if(b)
+				    c = ab.getSquare(i+s*x, j+s*y);
+			    }
+			    
 		    
-		// ATTACKS
-		    if(m.isInRange(s) && c != null && c.getPiece() != null) {
-			
-			if(m.isHopperType()) {
-			    s += k;
-			    c = ab.getSquare(i+s*x, j+s*y);
-			    
-			    if(c != null && ((c.getPiece() != null && m.isAttackType()
-					      && c.getPiece().isWhite() != white)
-					     || c.getPiece() == null && m.isWalkType()) )
-				movable |= checkSquare(c, ab, f);
-			    
-			} else if(m.isAttackType() && c.getPiece().isWhite() != white)
-			    movable |= checkSquare(c, ab, f);
+			// ATTACKS
+			if(m.isInRange(s) && c.hasPiece()) {
+			    if(m.isHopperType()) {
+				s += k;
+				if(ab.squareExists(i+s*x, j+s*y)) {
+				    c = ab.getSquare(i+s*x, j+s*y);
+				    if(((c.hasPiece() && m.isAttackType()
+					 && c.getPiece().isWhite() != white)
+					|| !c.hasPiece() && m.isWalkType()) )
+					movable |= browseSquare(c, ab, f);
+				}
+			    } else if(m.isAttackType() && c.getPiece().isWhite() != white) {
+
+				movable |= browseSquare(c, ab, f);
+			    }
+			}
 		    }
 		}
-
 	    }
+	}
 	    
 
-	}
 
 	return movable;
 
     }
 
-    
+    /** Set all the squares reachable by the piece green
+     * @param i the piece's square's column (X Coord)
+     * @param j the piece's square's row (Y Coord)
+     * @param board the abstract board of the piece
+     * @return true if the piece is movable
+     */
     public boolean setGreenSquares(int i, int j, AbstractBoard board) {
 	return browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
     }
 
+    /** Check whether the piece has a king in range
+     * @param i the piece's square's column (X Coord)
+     * @param j the piece's square's row (Y Coord)
+     * @param board the abstract board of the piece
+     * @return true if it has
+     */
     public boolean checkKingInRange(int i, int j, AbstractBoard ab) {
 	return browseBoard(i, j, ab, BrowseType.CHECK_KING);
     }
@@ -288,6 +333,7 @@ public class Piece {
 	icons = new HashMap<Integer, ImageIcon>();
 	icons.put(new Integer(image.getIconWidth()), image);
     }
+
 
     public void setName(String s) { name = s; }
     public void setWhite(boolean b) { white = b ; }

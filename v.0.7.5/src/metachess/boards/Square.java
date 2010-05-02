@@ -8,11 +8,8 @@ import metachess.game.Piece;
 import metachess.library.Colour;
 
 public class Square extends JButton {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+   
+    private static final long serialVersionUID = 1L;
     private final AbstractBoard board;
     private AbstractSquare as;
     private int dim; // Piece-Image dimensions (square side's length)
@@ -26,25 +23,30 @@ public class Square extends JButton {
     }
 
     public void update() {
-    	Piece piece = as.getPiece();
-    	if(piece != null && piece.getImage() != null)
-    	    setIcon(piece.getImage(dim));
-    	else setIcon(null);
 
-    	if(as.isGreen()) setBackground(Colour.GREEN.getColor());
-    	else setBackground(as.getColor().getColor());
-
+	if(as.isNull())
+	    setBackground(Colour.WHITE.getColor());
+	else {
+	    if(as.hasPiece()) // && as.getPiece().getImage() != null)
+		setIcon(as.getPiece().getImage(dim));
+	    else setIcon(null);
+	    setBackground((as.isGreen()? Colour.GREEN : as.getColor()).getColor());
+	}
     	// setText(as.hasPiece()? null : as.getName());
     }
 
 
     private class SquareListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
-    		board.playSquare(as.getColumn(), as.getRow());
+	    board.playSquare(as.getColumn(), as.getRow());
     	}
     }
     
     public void setDim(int i) { dim = i; }
 
+
+    public String toString() {
+	return "square of "+as;
+    }
 
 }

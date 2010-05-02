@@ -6,7 +6,6 @@ import metachess.builder.SavePanel;
 import metachess.game.Piece;
 import metachess.library.Resource;
 
-
 public class SetupSavePanel extends SavePanel {
 
     /**
@@ -28,11 +27,12 @@ public class SetupSavePanel extends SavePanel {
 	println("height\t= "+parent.getRows());
 	println("\n\t{BEGIN}\n");
 	EditableBoard board = parent.getBoard();
+	Piece p;
 	for(AbstractSquare sq : board) {
+	    p = sq.getPiece();
 	    int n = board.getIteratorLastBlank();
 	    if(n > 0)
 		print("\t"+n);
-	    Piece p = sq.getPiece();
 	    StringBuilder s = new StringBuilder("\t");
 	    s.append(p.isWhite()?'W':'B');
 	    s.append(p.getName());
