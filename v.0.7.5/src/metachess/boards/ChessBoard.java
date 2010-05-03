@@ -53,8 +53,10 @@ public class ChessBoard extends AbstractBoard {
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
 
 		if(theSquare == getActiveSquare()) ;
-		else if(atomic && theSquare.getPiece()!=null) explode(i,j);
-		else {
+		else if(atomic && theSquare.hasPiece()) {
+		    explode(i,j);
+		    getActiveSquare().removePiece();
+		} else {
 		    theSquare.removePiece();
 		    // Promotion
 		    if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==getRows()-1)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
@@ -79,7 +81,6 @@ public class ChessBoard extends AbstractBoard {
 		    getActiveSquare().setPiece(null);
 		}
 		if(keep) game.addMove(new Move(activeSquareX, activeSquareY , i,j,this));
-
 		deactivateSquare();
 		nextPlayer(keep);
 	    }

@@ -71,8 +71,9 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
         jokerPiece = parent.getJokerPiece();
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
-        	for(int j = 0 ; j < height ; j++)
-        		squares[i][j] = new AbstractSquare(parent.getSquare(i, j));
+	    for(int j = 0 ; j < height ; j++)
+		squares[i][j] = new AbstractSquare(parent.getSquare(i, j));
+
     }
     
     public void generateProgeny(int depth, int breadth) {
@@ -83,7 +84,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 				for(int y = 0 ; y < width ; y++){
 					deactivateSquare();
 					s = parent.getSquare(x, y);
-					if (s.getPiece() != null && (s.getPiece().isWhite() == whitePlaying)){
+					if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)){
 		    			activateSquare(s);
 		    			if(isSquareActive()){
 		    				for(int i = 0 ; i < width ; i++)
@@ -158,7 +159,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     			Piece lastPiece = getActiveSquare().getPiece();
     			lastPiece.setMoved(true);
     			if (!lastPiece.isJoker()) jokerPiece = lastPiece;
-    			if(atomic && theSquare.getPiece()!=null) explode(i, j);
+    			if(atomic && theSquare.hasPiece()) explode(i, j);
     			else {
 					theSquare.removePiece();
     				// Promotion
@@ -201,9 +202,10 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	blackKingDead = true;
     	whiteKingDead = true;
     	for(int i = 0 ; i < getCols() ; i++)
-    		for(int j = 0 ; j < getRows() ; j++){
+    		for(int j = 0 ; j < getRows() ; j++)
+		    if(isSquareValid(i,j) && hasPiece(i,j)) {
     			Piece p = squares[i][j].getPiece();
-    			if(p!=null && p.isKing()){
+    			if(p.isKing()) {
     				whiteKingDead &= !p.isWhite();
     				blackKingDead &= p.isWhite();
     			}
@@ -263,10 +265,10 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 			if(j+1<10)sb.append(" ");
 			sb.append((j+1)+" | ");
 			for(int i = 0 ; i < getCols() ; i++){
-    			Piece p = squares[i][j].getPiece();
-    			if(p!=null){
-    				String icon = p.getName().substring(0,1)+" "; 
-    				sb.append((p.isWhite() ? icon.toUpperCase() : icon.toLowerCase()));
+    			if(hasPiece(i,j)){
+			    Piece p = getPiece(i,j);
+			    String icon = p.getName().substring(0,1)+" "; 
+			    sb.append((p.isWhite() ? icon.toUpperCase() : icon.toLowerCase()));
     			}
     			else sb.append("_ ");
     		}
