@@ -36,7 +36,7 @@ public class AbstractSquare {
 	i = s.getColumn();
 	j = s.getRow();
 	isGreen = s.isGreen();
-	piece = s.getPiece();
+	piece = s.hasPiece()? s.getPiece(): null;
 	name = s.getName();
 	color = s.getColor();
     }
