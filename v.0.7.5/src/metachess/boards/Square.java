@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
-import metachess.game.Piece;
 import metachess.library.Colour;
 
 public class Square extends JButton {
