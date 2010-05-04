@@ -11,7 +11,7 @@ public class AIThread extends Thread {
 	}
 	public void run() {
 		AIBoard aib = new AIBoard(ab);
-		aib.generateProgeny(3, 5); // parameters are depth and breadth
+		aib.generateProgeny(5, 7); // parameters are depth and breadth
 		Move m = aib.getBestMove();
 		System.out.println("Sequence : "+aib.getChild(0).getBestSequence());
 		ab.playMove(m, true);
