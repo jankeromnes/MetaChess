@@ -28,7 +28,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	children = new Vector<AIBoard>(0);
     	move = null;
     	scoreCalculated = false;
-    	ignoreBreadthLimit = true; // first board will ignore breadth limit
+    	ignoreBreadthLimit = false; //true;  first board will ignore breadth limit
         activeSquareX=-1;
         activeSquareY=-1;
     }
@@ -100,7 +100,7 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 	    	if(!childCreated)depth=0;
 			if(!ignoreBreadthLimit)keepBestChildren(breadth);
 			freeMemory();
-			if(move==null)for(AIBoard child : children)child.ignoreBreadth(true); // children of first board will ignore breadth limit
+			//if(move==null)for(AIBoard child : children)child.ignoreBreadth(true); // children of first board will ignore breadth limit
 			int nextBreadth = (breadth>1 ? breadth : breadth-1);
 			int nextDepth = depth-1;
 			for(AIBoard child : children){
@@ -231,15 +231,15 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
 			r.gc();
 			int freedPercentage = Math.round(((float)(r.freeMemory()-freeMemory))/((float)totalMemory)*100);
 			System.out.println("Freed "+freedPercentage+"% of memory!");
-			if(freedPercentage < 2){
+			if(freedPercentage < 1){
 				children = new Vector<AIBoard>(0);
 				freeMemory();
 			}
-			if(freedPercentage < 5){
+			if(freedPercentage < 3){
 				keepBestChildren(1);
 				freeMemory();
 			}
-			if(freedPercentage < 10){
+			if(freedPercentage < 7){
 				keepBestChildren(3);
 				freeMemory();
 			}
