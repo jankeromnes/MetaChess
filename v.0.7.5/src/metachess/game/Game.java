@@ -49,7 +49,7 @@ public class Game extends JFrame {
 
     	atomic = false;
     	whiteAI = false;
-    	blackAI = false;
+    	blackAI = true;
 
     	builder = new BuilderBox();
     	gmBox = new GameModeBox(this);
@@ -61,6 +61,7 @@ public class Game extends JFrame {
     	board = new ChessBoard(this);
     	board.init(setup, atomic);
     	gb = new GraphicBoard(board);
+	gb.init();
     	add(gb, BorderLayout.CENTER);
 
     	histo = new LogPanel(this);

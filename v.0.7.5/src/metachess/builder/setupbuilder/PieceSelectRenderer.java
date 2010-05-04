@@ -8,11 +8,18 @@ import javax.swing.ListCellRenderer;
 
 import metachess.library.PiecesImages;
 
+/** Class of the piece selection Jlist's cell renderer
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
 public class PieceSelectRenderer implements ListCellRenderer {
 
-    PieceSelectPanel parent;
+    private ToolSelectPanel parent;
 
-    public PieceSelectRenderer(PieceSelectPanel arg) {
+    /** Create a piece selection cell renderer
+     * @param arg the tool selection panel
+     */
+    public PieceSelectRenderer(ToolSelectPanel arg) {
 	parent = arg;
     }
 

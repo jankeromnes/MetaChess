@@ -34,7 +34,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     private int lastBlank;
 
-    private class EmptySquare extends AbstractSquare {
+    protected class EmptySquare extends AbstractSquare {
 
 	public EmptySquare(int i, int j) {
 	    super(i, j);
@@ -118,6 +118,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
 
     public void removeSquare(int i, int j) {
+	assert squareExists(i, j);
 	squares[i][j] = new EmptySquare(i, j);
     }
 
@@ -216,7 +217,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @return true if it does
      */
     public boolean hasPiece(int i, int j) {
-	assert isSquareValid(i, j);
+	assert squareExists(i, j);
     	return squares[i][j].hasPiece();
     }
 
@@ -230,8 +231,22 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return squares[i][j].getPiece();
     }
 
+    /** Set the piece at the given coordinates
+     * @param i the piece's square's column (X Coord)
+     * @param j the piece's square's row (Y Coord)
+     */
     public void setPiece(int i, int j, Piece p) {
+	assert isSquareValid(i,j);
     	squares[i][j].setPiece(p);
+    }
+
+    /** Remove the piece at the given coordinates
+     * @param i the piece's square's column (X Coord)
+     * @param j the piece's square's row (Y Coord)
+     */
+    public void removePiece(int i, int j) {
+	assert isSquareValid(i,j);
+	squares[i][j].setPiece(null);
     }
 
     public void activateSquare(int i, int j){
@@ -266,27 +281,27 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param j the exploding square's row (Y Coord)
      */
     public void explode(int i, int j){
-    	squares[i][j].removePiece();
-    	if(i+1<getCols()){
-    		squares[i+1][j].removePiece();
+    	removePiece(i, j);
+    	if(i+1 < getCols()){
+	    removePiece(i+1, j);
     		if(j+1<getRows()){
-    			squares[i][j+1].removePiece();
-    			squares[i+1][j+1].removePiece();
+		    removePiece(i, j+1);
+		    removePiece(i+1, j+1);
     		}
-    		if(j-1>=0){
-    			squares[i][j-1].removePiece();
-    			squares[i+1][j-1].removePiece();
+    		if(j-1 >= 0){
+		    removePiece(i, j-1);
+		    removePiece(i+1, j-1);
     		}
     	}
-    	if(i-1>=0){
-    		squares[i-1][j].removePiece();
+    	if(i-1 >= 0){
+	    removePiece(i-1, j);
     		if(j+1<getRows()){
-    			squares[i][j+1].removePiece();
-    			squares[i-1][j+1].removePiece();
+		    removePiece(i, j+1);
+		    removePiece(i-1, j+1);
     		}
-    		if(j-1>=0){
-    			squares[i][j-1].removePiece();
-    			squares[i-1][j-1].removePiece();
+    		if(j-1 >= 0){
+		    removePiece(i, j-1);
+		    removePiece(i-1, j-1);
     		}
     	}
     }
@@ -303,12 +318,16 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     /** Get the number of columns of the board
      * @return the number of columns
      */
-    public int getCols() { return width; }
+    public int getCols() {
+	return width;
+    }
 
     /** Get the number of rows of the board
      * @return the number of rows
      */
-    public int getRows() { return height; }
+    public int getRows() {
+	return height;
+    }
 
     /** Get the maximum distance a rook could hypothetically reach
      * @return the distance

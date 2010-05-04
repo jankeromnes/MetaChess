@@ -22,8 +22,8 @@ import metachess.library.Resource;
 
 public abstract class SavePanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private PrintWriter pw;
+    private static final long serialVersionUID = 1L;
+    private PrintWriter pw;
     protected final JTextField field;
     protected final Resource res;
     private final JButton button;
@@ -80,11 +80,20 @@ public abstract class SavePanel extends JPanel {
 	pw.print(s);
     }
 
+    protected void print(StringBuilder s) {
+	pw.print(s.toString());
+    }
+
     protected void println(String s) {
 	pw.println(s);
+    }
+
+    protected void println(StringBuilder s) {
+	pw.println(s.toString());
     }
 
     public abstract void write();
 
 
 }
+

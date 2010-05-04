@@ -20,24 +20,29 @@ import metachess.library.Colour;
 import metachess.library.Pieces;
 import metachess.library.Resource;
 
-public class PieceSelectPanel extends JPanel {
+/** Class of the tool selection panel
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
+public class ToolSelectPanel extends JPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final SetupBuilderBox parent;
+    private static final long serialVersionUID = 1L;
+    private final SetupBuilderBox parent;
     private final ListSelectionListener listEv;
 
     private final JList images;
-    private final JRadioButton eraser;
+    private final JRadioButton squareToggler;
+    private final JRadioButton pieceEraser;
     private final JRadioButton piece;
     private final JButton whiteButton;
     private final JButton blackButton;
 
     private boolean white = true;
 
-    public PieceSelectPanel(SetupBuilderBox arg) {
+    /** Create a new tool selection panel
+     * @param arg the Setup Builderbox
+     */
+    public ToolSelectPanel(SetupBuilderBox arg) {
 	super();
 	parent = arg;
 
@@ -45,24 +50,29 @@ public class PieceSelectPanel extends JPanel {
 	// RADIO BUTTONS
 
 	ButtonGroup bg = new ButtonGroup();
-	eraser = new JRadioButton("Eraser");
+	squareToggler = new JRadioButton("Square toggler");
+	pieceEraser = new JRadioButton("Piece eraser");
 	piece = new JRadioButton("Add new Piece");
 	ActionListener ev = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    Object o = e.getSource();
 		    boolean b = o == piece;
 		    images.setEnabled(b);
-		    changeTool(b);
+		    setTool(b? Tool.ADDING_PIECE : (o == pieceEraser ? Tool.ERASING_PIECE : Tool.TOGGLING_SQUARE) );
 		}
 
 	    };
-	eraser.addActionListener(ev);
+
+	squareToggler.addActionListener(ev);
+	pieceEraser.addActionListener(ev);
 	piece.addActionListener(ev);
 
-	eraser.setAlignmentX(CENTER_ALIGNMENT);
+	squareToggler.setAlignmentX(CENTER_ALIGNMENT);
+	pieceEraser.setAlignmentX(CENTER_ALIGNMENT);
 	piece.setAlignmentX(CENTER_ALIGNMENT);
 
-	bg.add(eraser);
+	bg.add(squareToggler);
+	bg.add(pieceEraser);
 	bg.add(piece);
 
 
@@ -76,7 +86,7 @@ public class PieceSelectPanel extends JPanel {
 	listEv = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 		    if(! e.getValueIsAdjusting() && images.isEnabled())
-			changeTool(true);
+			setTool(Tool.ADDING_PIECE);
 		}
 	    };
 	images.addListSelectionListener(listEv);
@@ -108,7 +118,8 @@ public class PieceSelectPanel extends JPanel {
 			white = b;
 			images.repaint();
 		    }
-		    changeTool(images.isEnabled());
+		    if(images.isEnabled())
+			setTool(Tool.ADDING_PIECE);
 		}
 	    };
 	whiteButton.addActionListener(colorEv);
@@ -128,7 +139,8 @@ public class PieceSelectPanel extends JPanel {
 	init();
 
 	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	add(eraser);
+	add(squareToggler);
+	add(pieceEraser);
 	add(piece);
 	add(scroller);
 	add(buttons);
@@ -142,7 +154,7 @@ public class PieceSelectPanel extends JPanel {
 	images.setListData(Resource.PIECES.getFiles());
 	images.setSelectedIndex(0); // If NullPointerException occurs here, check metachess.library.Resources:getFiles()
 	images.setEnabled(true);
-	changeTool(true);
+	setTool(Tool.ADDING_PIECE);
 	images.addListSelectionListener(listEv);
 	white = true;
     }
@@ -151,13 +163,13 @@ public class PieceSelectPanel extends JPanel {
 	return white;
     }
 
-    private void changeTool(boolean b) {
-	if(b) {
+    private void setTool(Tool t) {
+	if(t == Tool.ADDING_PIECE) {
 	    String pieceName = images.getSelectedValue().toString();
 	    pieceName = pieceName.substring(0, pieceName.lastIndexOf('.'));
-	    parent.changeTool(Pieces.getPiece(pieceName, white));
-	} else
-	    parent.changeTool(null);
+	    parent.setPiece(Pieces.getPiece(pieceName, white));
+	}
+	parent.setTool(t);
     }
 
 

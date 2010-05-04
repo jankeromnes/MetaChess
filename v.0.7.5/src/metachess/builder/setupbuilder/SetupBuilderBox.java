@@ -7,19 +7,22 @@ import metachess.boards.EditableBoard;
 import metachess.boards.GraphicBoard;
 import metachess.game.Piece;
 
+/** Class of the Setup tab in the Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
 public class SetupBuilderBox extends JPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final EditableBoard board;
-	private final GraphicBoard gb;
-    private final PieceSelectPanel psp;
-    private Piece tool = null;
+    private static final long serialVersionUID = 1L;
+    private final EditableBoard board;
+    private final GraphicBoard gb;
+    private final ToolSelectPanel tsp;
+    private Tool tool;
+    private Piece piece;
     private int rows = 8;
     private int cols = 8;
 
+    /** Create a new Setup Builderbox */
     public SetupBuilderBox() {
 	super();
 	setLayout(new BorderLayout());
@@ -27,38 +30,91 @@ public class SetupBuilderBox extends JPanel {
 	board = new EditableBoard(this);
 	board.init(cols, rows);
 	gb = new GraphicBoard(board);
-	psp = new PieceSelectPanel(this);
+	gb.setDim(30);
+	gb.init();
+	tsp = new ToolSelectPanel(this);
 
 	add(new SetupSavePanel(this), BorderLayout.NORTH);
 	add(gb, BorderLayout.CENTER);
 	add(new SetupSettingsPanel(this), BorderLayout.EAST);
-	add(psp, BorderLayout.SOUTH);
+	add(tsp, BorderLayout.SOUTH);
 
     }
 
+    /** (Re)initialize this Setup Builderbox */
+    public void init() {
+	tsp.init();
+    }
+
+    // GETTERS / SETTERS
+
+    /** Set the dimensions of the editable board
+     * @param i the board's number of columns
+     * @param j the board's number of rows
+     */
     public void setBoardDimensions(int i, int j) {
-	board.init(i, j);
-	gb.init();
 	cols = i;
 	rows = j;
+	board.init(i, j);
+	gb.init();
 	validate();
     }
 
-    public void init() {
-	psp.init();
+    /** Set the tool selected by the user
+     * @param t the tool
+     */
+    public void setTool(Tool t) {
+	tool = t;
     }
 
-    public void changeTool(Piece p) {
-	tool = p;
-    }
-
-    public Piece getTool() {
+    /** Get the tool selected by the user
+     * @return the tool
+     */
+    public Tool getTool() {
 	return tool;
     }
 
-    public int getCols() { return cols; }
-    public int getRows() { return rows; }
-    public EditableBoard getBoard() { return board; }
+    /** Set the piece selected by the user
+     * @param p the piece
+     */
+    public void setPiece(Piece p) {
+	piece = p;
+    }
+
+    /** Get the piece selected by the user 
+     * @return the piece
+     */
+    public Piece getPiece() {
+	return piece;
+    }
+
+    /** Get the editable board's number of columns
+     * @return the number of columns
+     */
+    public int getCols() {
+	return cols;
+    }
+
+    /** Get the editable board's number of rows
+     * @return the number of rows
+     */
+    public int getRows() {
+	return rows;
+    }
+
+    /** Get the editable board of this setup builder
+     * @return the board
+     */
+    public EditableBoard getBoard() {
+	return board;
+    }
+
+    /** Get the graphical board of this setup builder
+     * @return the graphical board
+     */
+    public GraphicBoard getGraphicalBoard() {
+	return gb;
+    }
 
 }
 

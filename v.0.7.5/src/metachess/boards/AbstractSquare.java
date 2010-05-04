@@ -69,6 +69,7 @@ public class AbstractSquare {
 	    s.append(")");
 	}
 	s.append(")");
+	if(isNull()) s.append(" NULL ");
 	return s.toString();
 
     }

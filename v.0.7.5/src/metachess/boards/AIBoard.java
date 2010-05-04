@@ -71,9 +71,10 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
         jokerPiece = parent.getJokerPiece();
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
-	    for(int j = 0 ; j < height ; j++)
-		squares[i][j] = new AbstractSquare(parent.getSquare(i, j));
-
+	    for(int j = 0 ; j < height ; j++) {
+		squares[i][j] = parent.getSquare(i,j).isNull()
+		    ? new EmptySquare(i,j) : new AbstractSquare(parent.getSquare(i, j));
+	    }
     }
     
     public void generateProgeny(int depth, int breadth) {
@@ -262,16 +263,15 @@ public class AIBoard extends AbstractBoard implements Comparable<AIBoard> {
     	StringBuilder sb = new StringBuilder(letters);
     	sb.append(separator);
 		for(int j = getRows() - 1 ; j >= 0 ; j--){
-			if(j+1<10)sb.append(" ");
+			if(j+1<10) sb.append(" ");
 			sb.append((j+1)+" | ");
-			for(int i = 0 ; i < getCols() ; i++){
-    			if(hasPiece(i,j)){
+			for(int i = 0 ; i < getCols() ; i++)
+			    if(! getSquare(i,j).isNull() && hasPiece(i,j)){
 			    Piece p = getPiece(i,j);
 			    String icon = p.getName().substring(0,1)+" "; 
 			    sb.append((p.isWhite() ? icon.toUpperCase() : icon.toLowerCase()));
     			}
     			else sb.append("_ ");
-    		}
     		sb.append("| "+(j+1)+"\n");
     	}
     	sb.append(separator);

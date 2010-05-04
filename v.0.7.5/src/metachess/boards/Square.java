@@ -17,15 +17,19 @@ public class Square extends JButton {
     	super();
     	as = a;
     	board = b;
-    	dim = 60;
     	addActionListener(new SquareListener());
+    }
+
+    public void setAbstractSquare(AbstractSquare s) {
+	as = s;
     }
 
     public void update() {
 
-	if(as.isNull())
+	if(as.isNull()) {
 	    setBackground(Colour.WHITE.getColor());
-	else {
+	    setIcon(null);
+	} else {
 	    if(as.hasPiece()) // && as.getPiece().getImage() != null)
 		setIcon(as.getPiece().getImage(dim));
 	    else setIcon(null);
