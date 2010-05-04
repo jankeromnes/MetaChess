@@ -1,0 +1,9 @@
+# Metachess=v.0.8.0/MCS=v.3
+# Generated from builder
+
+width	= 9
+height	= 9
+
+	{BEGIN}
+
+D4	Wking	D7	Walfil	Walibaba	Walfil	D5	Wmetapawn	R1	Wdragon	Wmetapawn	R1	D3	7	D1	Bdabbaba	7	Wdabbaba	D1	7	D3	Bmetapawn	R1	Bdragon	Bmetapawn	R1	D5	Balfil	Balibaba	Balfil	D7	Bking	D4

@@ -53,12 +53,12 @@ public class Piece {
      */
     public Piece(Piece p) {
 
-		moves = p.getMoveTypes();
-		pawn = p.isPawn();
-		joker = p.isJoker();
-		king = p.isKing();
-		rook = p.isRook();
-		name = p.getName();
+	moves = p.getMoveTypes();
+	pawn = p.isPawn();
+	joker = p.isJoker();
+	king = p.isKing();
+	rook = p.isRook();
+	name = p.getName();
 
     }
     
@@ -344,6 +344,13 @@ public class Piece {
     public void setRook(boolean b)  { rook = b ;  }
     public void setJoker(boolean b) { joker = b ; }
 
+    public String getMCSFormat() {
+	StringBuilder s = new StringBuilder();
+	s.append(white?'W':'B');
+	s.append(name);
+	s.append("\t");
+	return s.toString();
+    }
 
     public String toString() {
 	StringBuilder s = new StringBuilder();

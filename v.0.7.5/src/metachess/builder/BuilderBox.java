@@ -1,6 +1,6 @@
 package metachess.builder;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -9,14 +9,21 @@ import metachess.builder.piecebuilder.PieceBuilderBox;
 import metachess.builder.setupbuilder.SetupBuilderBox;
 import metachess.library.PiecesImages;
 
-public class BuilderBox extends JFrame {
+/** Class of the Builderbox (dialog window)
+ * @author Agbeladem (7DD)
+ * @version 0.7.3
+ */
+public class BuilderBox extends JDialog {
 
-	private static final long serialVersionUID = 1L;
-	private final SetupBuilderBox setup;
+    private static final long serialVersionUID = 1L;
+    private final SetupBuilderBox setup;
     private final PieceBuilderBox piece;
 
+    /** Create a new Builderbox (only called once) */
     public BuilderBox() {
-	super("Metachess - Builder");
+	super();
+
+	setTitle("Metachess - Builder");
 
 	
 	JTabbedPane tabs = new JTabbedPane();
@@ -43,11 +50,13 @@ public class BuilderBox extends JFrame {
 
     }
 
+    /** Show the Builderbox */
     public void launch() {
 	setVisible(true);
 	init();
     }
 
+    /** (Re)initialize the Builderbox */
     public void init() {
 	setup.init();
        	piece.init();
@@ -57,7 +66,7 @@ public class BuilderBox extends JFrame {
     public static void main(String[] a) {
 	BuilderBox b = new BuilderBox();
 	b.setVisible(true);
-    	b.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	b.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
 }

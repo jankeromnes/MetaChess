@@ -12,11 +12,9 @@ import metachess.builder.PanelTitle;
 
 public class SetupSettingsPanel extends JPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final SetupBuilderBox parent;
+  
+    private static final long serialVersionUID = 1L;
+    private final SetupBuilderBox parent;
     private final JButton apply;
     private final JSlider widthSlider;
     private final JSlider heightSlider;
