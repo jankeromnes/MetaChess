@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import metachess.boards.AbstractSquare;
-import metachess.boards.GraphicBoard;
+import metachess.boards.GraphicalBoard;
 import metachess.boards.SampleBoard;
 import metachess.builder.BuilderBox;
 import metachess.game.MoveType;
@@ -16,7 +16,7 @@ public class PieceBuilderBox extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private final SampleBoard bs;
-    private final GraphicBoard gb;
+    private final GraphicalBoard gb;
     private final IconSelectPanel isp;
     private final MovesPanel mp;
     
@@ -29,7 +29,7 @@ public class PieceBuilderBox extends JPanel {
 	setLayout(new BorderLayout());
 
 	bs = new SampleBoard();
-	gb = new GraphicBoard(bs);
+	gb = new GraphicalBoard(bs);
 	isp = new IconSelectPanel(this);
 	mp = new MovesPanel(frame, this);
 

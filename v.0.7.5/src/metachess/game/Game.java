@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import metachess.boards.ChessBoard;
-import metachess.boards.GraphicBoard;
+import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
 import metachess.logger.LogPanel;
 import metachess.logger.Move;
@@ -32,7 +32,7 @@ public class Game extends JFrame {
     private String setup;
     private final Menu menu;
     private final ChessBoard board;
-    private final GraphicBoard gb;
+    private final GraphicalBoard gb;
     private final LogPanel histo;
     private final GameModeBox gmBox;
     private final FileBox fileBox;
@@ -60,7 +60,7 @@ public class Game extends JFrame {
 	
     	board = new ChessBoard(this);
     	board.init(setup, atomic);
-    	gb = new GraphicBoard(board);
+    	gb = new GraphicalBoard(board);
 	gb.init();
     	add(gb, BorderLayout.CENTER);
 

@@ -22,7 +22,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     private int maxDistance;
     private AbstractSquareIterator browser = new AbstractSquareIterator();
 
-    protected GraphicBoard gb;
+    protected GraphicalBoard gb;
     protected AbstractSquare[][] squares;
     protected int activeSquareX;
     protected int activeSquareY;
@@ -52,7 +52,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     /** Associate the graphic board representation of this abstract board
      * @param gboard the board
      */
-    public void setGraphicBoard(GraphicBoard gboard) {
+    public void setGraphicBoard(GraphicalBoard gboard) {
     	gb = gboard;
     }
     
