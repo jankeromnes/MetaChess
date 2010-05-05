@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  * @author Jan (7DD) [0.7.5], Agbeladem (7DD) [0.8.0]
  * @version 0.8.0
  */
-public class GraphicBoard extends JPanel {
+public class GraphicalBoard extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private AbstractBoard ab;
@@ -21,7 +21,7 @@ public class GraphicBoard extends JPanel {
     /** Create a Graphical Board
      * @param a the abstract board on which this board is based
      */
-    public GraphicBoard(AbstractBoard a) {
+    public GraphicalBoard(AbstractBoard a) {
     	super();
     	ab = a;
  	init();

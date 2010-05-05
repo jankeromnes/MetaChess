@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 import metachess.boards.EditableBoard;
-import metachess.boards.GraphicBoard;
+import metachess.boards.GraphicalBoard;
 import metachess.game.Piece;
 
 /** Class of the Setup tab in the Builderbox
@@ -15,7 +15,7 @@ public class SetupBuilderBox extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private final EditableBoard board;
-    private final GraphicBoard gb;
+    private final GraphicalBoard gb;
     private final ToolSelectPanel tsp;
     private Tool tool;
     private Piece piece;
@@ -29,7 +29,7 @@ public class SetupBuilderBox extends JPanel {
 
 	board = new EditableBoard(this);
 	board.init(cols, rows);
-	gb = new GraphicBoard(board);
+	gb = new GraphicalBoard(board);
 	gb.setDim(30);
 	gb.init();
 	tsp = new ToolSelectPanel(this);
@@ -112,7 +112,7 @@ public class SetupBuilderBox extends JPanel {
     /** Get the graphical board of this setup builder
      * @return the graphical board
      */
-    public GraphicBoard getGraphicalBoard() {
+    public GraphicalBoard getGraphicalBoard() {
 	return gb;
     }
 
