@@ -136,7 +136,7 @@ public class ChessBoard extends AbstractBoard {
     	    gameOver = false;
     	    game.endGame();
     	}
-    	if(keep && game.isAI(whitePlaying)){
+    	if(keep && game.getAILevel(whitePlaying)!=0){
     		update();
     		AIThread ait = new AIThread(this);
     		ait.start();

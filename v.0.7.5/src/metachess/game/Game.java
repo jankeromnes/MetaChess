@@ -27,8 +27,9 @@ public class Game extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private boolean atomic;
-    private boolean whiteAI;
-    private boolean blackAI;
+    private int whiteAILevel;
+    private int blackAILevel;
+    private final int maxAILevel;
     private String setup;
     private final Menu menu;
     private final ChessBoard board;
@@ -45,11 +46,12 @@ public class Game extends JFrame {
     	super("MetaChess");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	this.setup = setup;
+    	this.setup = setup;
 
     	atomic = false;
-    	whiteAI = false;
-    	blackAI = true;
+    	whiteAILevel = 0;
+    	blackAILevel = 1;
+    	maxAILevel = 1;
 
     	builder = new BuilderBox();
     	gmBox = new GameModeBox(this);
@@ -61,7 +63,7 @@ public class Game extends JFrame {
     	board = new ChessBoard(this);
     	board.init(setup, atomic);
     	gb = new GraphicalBoard(board);
-	gb.init();
+    	gb.init();
     	add(gb, BorderLayout.CENTER);
 
     	histo = new LogPanel(this);
@@ -152,7 +154,7 @@ public class Game extends JFrame {
     }
     
     public SavedGame getSavedGame() {
-    	return new SavedGame(setup, atomic, whiteAI, blackAI, histo.getMoves());
+    	return new SavedGame(setup, atomic, whiteAILevel, blackAILevel, histo.getMoves());
     }
 
     public void loadGame() {
@@ -172,8 +174,8 @@ public class Game extends JFrame {
     public void loadGame(SavedGame sg){
 	    setup = sg.getSetup();
 	    atomic = sg.isAtomic();
-	    whiteAI = sg.isAI(true);
-	    blackAI = sg.isAI(false);
+	    whiteAILevel = sg.getAILevel(true);
+	    blackAILevel = sg.getAILevel(false);
 	    histo.loadGame(sg.getMoves());
     }
 
@@ -184,11 +186,12 @@ public class Game extends JFrame {
 
     public boolean isAtomic() { return atomic; }
     
-    public boolean isAI(boolean white) { return (white ? whiteAI : blackAI); }
+    public int getAILevel(boolean white) { return (white ? whiteAILevel : blackAILevel); }
+    public int getMaxAILevel() { return maxAILevel; }
 
     public void setSetup(String s) { setup = s; }
-    public void setWhiteAI(boolean wAI) { whiteAI = wAI; }
-    public void setBlackAI(boolean bAI) { blackAI = bAI; }
+    public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
+    public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
     public void setAtomic(boolean a) { atomic = a; }
     
 
