@@ -1,7 +1,6 @@
 package metachess.boards;
 
 import metachess.builder.setupbuilder.SetupBuilderBox;
-import metachess.builder.setupbuilder.Tool;
 
 /** Class of the editable board in the Setup Builderbox
  * @author Agbeladem (7DD)

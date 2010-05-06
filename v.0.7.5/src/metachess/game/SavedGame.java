@@ -10,21 +10,21 @@ public class SavedGame implements Serializable {
 
 	String setup;
 	boolean atomic;
-	boolean whiteAI;
-	boolean blackAI;
+	int whiteAILevel;
+	int blackAILevel;
 	ArrayList<Move> moves;
 	
-	public SavedGame(String setup, boolean atomic, boolean whiteAI, boolean blackAI, ArrayList<Move> moves) {
+	public SavedGame(String setup, boolean atomic, int whiteAILevel2, int blackAILevel2, ArrayList<Move> moves) {
 		this.setup = setup;
 		this.atomic = atomic;
-		this.whiteAI = whiteAI;
-		this.blackAI = blackAI;
+		this.whiteAILevel = whiteAILevel2;
+		this.blackAILevel = blackAILevel2;
 		this.moves = moves;
 	}
 	
 	public String getSetup() { return setup; }
 	public boolean isAtomic() { return atomic; }
-	public boolean isAI(boolean white) { return (white ? whiteAI : blackAI ); }
+	public int getAILevel(boolean white) { return (white ? whiteAILevel : blackAILevel); }
 	public ArrayList<Move> getMoves() { return moves; }
 
 }
