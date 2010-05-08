@@ -5,20 +5,17 @@ import java.awt.event.ActionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import java.awt.Dimension;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 
 import metachess.library.Colour;
 import metachess.library.Pieces;
-import metachess.library.Resource;
+import metachess.library.PiecesList;
 
 /** Class of the tool selection panel
  * @author Agbeladem (7DD)
@@ -30,7 +27,7 @@ public class ToolSelectPanel extends JPanel {
     private final SetupBuilderBox parent;
     private final ListSelectionListener listEv;
 
-    private final JList images;
+    private final PiecesList images;
     private final JRadioButton squareToggler;
     private final JRadioButton pieceEraser;
     private final JRadioButton piece;
@@ -78,11 +75,8 @@ public class ToolSelectPanel extends JPanel {
 
 	// PIECES LIST
 
-	images = new JList();
-	images.setOpaque(false);
-	images.setLayoutOrientation(JList.VERTICAL_WRAP);
-	images.setVisibleRowCount(-1);
-	images.setCellRenderer(new PieceSelectRenderer(this));
+	images = new PiecesList();
+
 	listEv = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 		    if(! e.getValueIsAdjusting() && images.isEnabled())
@@ -91,9 +85,6 @@ public class ToolSelectPanel extends JPanel {
 	    };
 	images.addListSelectionListener(listEv);
 
-	JScrollPane scroller = new JScrollPane(images);
-	scroller.setOpaque(false);
-	scroller.setPreferredSize(new Dimension(200,120));
 
 
 
@@ -116,7 +107,7 @@ public class ToolSelectPanel extends JPanel {
 		    boolean b = o == whiteButton;
 		    if(white ^ b) {
 			white = b;
-			images.repaint();
+			images.setWhite(white);
 		    }
 		    if(images.isEnabled())
 			setTool(Tool.ADDING_PIECE);
@@ -142,18 +133,16 @@ public class ToolSelectPanel extends JPanel {
 	add(squareToggler);
 	add(pieceEraser);
 	add(piece);
-	add(scroller);
+	add(images.getComponent());
 	add(buttons);
 
     }
 
-
+    /** Initialize the tool selection panel */
     public void init() {
 	piece.setSelected(true);
 	images.removeListSelectionListener(listEv);
-	images.setListData(Resource.PIECES.getFiles());
-	images.setSelectedIndex(0); // If NullPointerException occurs here, check metachess.library.Resources:getFiles()
-	images.setEnabled(true);
+	images.init();
 	setTool(Tool.ADDING_PIECE);
 	images.addListSelectionListener(listEv);
 	white = true;
@@ -164,15 +153,12 @@ public class ToolSelectPanel extends JPanel {
     }
 
     private void setTool(Tool t) {
-	if(t == Tool.ADDING_PIECE) {
-	    String pieceName = images.getSelectedValue().toString();
-	    pieceName = pieceName.substring(0, pieceName.lastIndexOf('.'));
-	    parent.setPiece(Pieces.getPiece(pieceName, white));
-	}
+	if(t == Tool.ADDING_PIECE)
+	    parent.setPiece(Pieces.getPiece(images.getName(), white));
 	parent.setTool(t);
     }
 
 
-
 }
+
 

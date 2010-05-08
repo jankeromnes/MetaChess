@@ -19,8 +19,8 @@ import metachess.game.MoveType;
 
 public class MovesPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private final JCheckBox s_joker;
+    private static final long serialVersionUID = 1L;
+    private final JCheckBox s_joker;
     private final JCheckBox s_rook;
     private final JCheckBox s_king;
     private final JCheckBox s_pawn;
@@ -104,6 +104,12 @@ public class MovesPanel extends JPanel {
 	parent.update(a);
     }
 
+    public void setMoves(ArrayList<MoveType> moves) {
+	model.setMoves(moves);
+	update();
+    }
+
+    
 
     public boolean isJoker() { return s_joker.isSelected(); }
     public boolean isRook() { return s_rook.isSelected(); }

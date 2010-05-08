@@ -21,6 +21,10 @@ public class Pieces {
 	instance.map.put(p.getName(), p);
     }
 
+    public static Piece getPiece(String pieceName) {
+	return getPiece(pieceName, true);
+    }
+
     public static Piece getPiece(String pieceName, boolean isWhite) {
 	if(!hasPiece(pieceName))
 	    Loader.loadPiece(pieceName);

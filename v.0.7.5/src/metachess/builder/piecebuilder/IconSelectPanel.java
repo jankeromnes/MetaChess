@@ -7,12 +7,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import metachess.builder.PanelTitle;
+import metachess.library.PiecesImages;
+import metachess.library.PiecesImagesList;
 import metachess.library.Resource;
 
 public class IconSelectPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private final JList images;
+    private static final long serialVersionUID = 1L;
+    private final PiecesImagesList images;
     private final PieceBuilderBox pbb;
     private final ListSelectionListener listEv;
 
@@ -20,14 +22,12 @@ public class IconSelectPanel extends JPanel {
 	super();
 	pbb = arg;
 	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	images = new JList();
-	images.setOpaque(false);
-	images.setCellRenderer(new IconSelectRenderer());
+	images = new PiecesImagesList();
 
 	listEv = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 		    if(! e.getValueIsAdjusting())
-			pbb.changeIcon(images.getSelectedValue().toString());
+			pbb.changeIcon(Resource.PIECES_IMAGES.getPath(false)+images.getName());
 		}
 	    };
 	images.addListSelectionListener(listEv);
@@ -39,9 +39,8 @@ public class IconSelectPanel extends JPanel {
 
     public void init() {
 	images.removeListSelectionListener(listEv);
-	images.setListData(Resource.PIECES_IMAGES.getFiles());
+	images.init();
 	images.addListSelectionListener(listEv);
-	images.setSelectedIndex(0);
     }
 
 

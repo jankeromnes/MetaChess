@@ -10,8 +10,14 @@ import metachess.boards.SampleBoard;
 import metachess.builder.BuilderBox;
 import metachess.game.MoveType;
 import metachess.game.Piece;
+import metachess.library.Pieces;
+import metachess.library.PiecesImages;
 import metachess.library.Resource;
 
+/** Class of the Piece tab in the Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
 public class PieceBuilderBox extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +29,7 @@ public class PieceBuilderBox extends JPanel {
     private ArrayList<MoveType> moves;
     private String image;
     
+    /** Create a new Piece Builderbox */
     public PieceBuilderBox(BuilderBox frame) {
 	super();
 
@@ -46,9 +53,14 @@ public class PieceBuilderBox extends JPanel {
 	isp.init();
     }
 
+    public void load(String name) {
+	Piece p = Pieces.getPiece(name);
+	mp.setMoves(p.getMoveTypes());
+	changeIcon(PiecesImages.getImage(name));
+    }
+
     public void changeIcon(String fileName) {
-	image = fileName;
-	fileName = Resource.PIECES_IMAGES.getPath(false)+image;
+
 	Piece p;
 	for(AbstractSquare s : bs) {
 	    p = s.getPiece();
@@ -59,6 +71,7 @@ public class PieceBuilderBox extends JPanel {
 	}
 	bs.resetIterator();
     }
+
 
     public void update(ArrayList<MoveType> m) {
 	moves = m;
