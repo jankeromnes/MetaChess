@@ -1,5 +1,6 @@
 package metachess.library;
 
+import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
 
@@ -10,9 +11,9 @@ import java.io.FilenameFilter;
 public enum Resource {
 
     RESOURCES("resources"),
-	PIECES_IMAGES("resources/images/pieces","^W.+", "png", "pieceImage"),
-	PIECES("resources/pieces", "^.+", "mcp", "piece"),
-	SETUPS("resources/setups", "^.+", "mcs","setup");
+	PIECES_IMAGES("resources/images/pieces","^W.+", "png", "pieceImage", null),
+	PIECES("resources/pieces", "^.+", "mcp", "piece", new PiecesList()),
+	SETUPS("resources/setups", "^.+", "mcs","setup", new SetupsList());
 
     private FilenameFilter filter = new FilenameFilter() {
 	    public boolean accept(File f, String name) {
@@ -24,6 +25,7 @@ public enum Resource {
     private String file;
     private String name;
     private String extension;
+    private ResourceList defaultList;
 
     /** Create new Resource folder
      * @param folder the folder
@@ -47,10 +49,11 @@ public enum Resource {
      * @param ext extension of the Resource files
      * @param itemName the name of the Resource folder's content
      */
-    private Resource(String folder, String regex, String ext, String itemName) {
+    private Resource(String folder, String regex, String ext, String itemName, ResourceList list) {
 	this(folder, regex+"\\."+ext+'$');
 	extension = ext;
 	name = itemName;
+	defaultList = list;
     }
 
     /** Get the Resource file's basic extension */
@@ -95,6 +98,13 @@ public enum Resource {
      */
     public String[] getFiles() {
 	return new File("metachess/"+link).list(filter);
+    }
+
+    /** Get a resource list of all the elements of this resource 
+     * @return the list component
+     */
+    public ResourceList getDefaultList() {
+	return defaultList;
     }
 
     public String toString() {

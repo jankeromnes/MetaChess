@@ -118,7 +118,7 @@ public class Piece {
 	for(MoveType mt : m)
 	    addMoveType(mt);
     }
-    private ArrayList<MoveType> getMoveTypes() { return moves; }
+    public ArrayList<MoveType> getMoveTypes() { return moves; }
 
  
     // BOARD BROWSING COMMANDS
@@ -332,6 +332,7 @@ public class Piece {
 
 	icons = new HashMap<Integer, ImageIcon>();
 	icons.put(new Integer(image.getIconWidth()), image);
+
     }
 
 

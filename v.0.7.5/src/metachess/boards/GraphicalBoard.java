@@ -83,4 +83,3 @@ public class GraphicalBoard extends JPanel {
 }
 
 
-

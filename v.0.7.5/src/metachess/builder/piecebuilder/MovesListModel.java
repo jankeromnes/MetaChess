@@ -7,8 +7,8 @@ import metachess.game.MoveType;
 
 public class MovesListModel extends AbstractListModel {
 
-	private static final long serialVersionUID = 1L;
-	private ArrayList<MoveType> moves;
+    private static final long serialVersionUID = 1L;
+    private ArrayList<MoveType> moves;
 
     public MovesListModel() {
 	moves = new ArrayList<MoveType>();
@@ -26,6 +26,11 @@ public class MovesListModel extends AbstractListModel {
 
     public ArrayList<MoveType> getMoves() {
 	return moves;
+    }
+
+    public void setMoves(ArrayList<MoveType> m) {
+	moves = m;
+	update();
     }
 
     public int getSize() {

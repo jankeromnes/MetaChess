@@ -13,8 +13,8 @@ import metachess.library.PiecesImages;
 
 public class PieceSavePanel extends SavePanel {
 
-	private static final long serialVersionUID = 1L;
-	private PieceBuilderBox parent;
+    private static final long serialVersionUID = 1L;
+    private PieceBuilderBox parent;
 
     public PieceSavePanel(PieceBuilderBox b) {
 	super(Resource.PIECES);
@@ -48,6 +48,10 @@ public class PieceSavePanel extends SavePanel {
 	}
 	println(parent.getSpecialMoves());
 
+    }
+
+    protected void load(String name) {
+	parent.load(name);
     }
     
 

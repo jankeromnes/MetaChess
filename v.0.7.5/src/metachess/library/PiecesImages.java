@@ -29,8 +29,8 @@ public class PiecesImages {
     public static String getPath() {
 	return Resource.RESOURCES.getPath(false) + "pieces_images.mci";
     }
-    private void loadImages() {
 
+    private void loadImages() {
 	try {
 
 	    BufferedReader br = new BufferedReader(new InputStreamReader(instance.getClass().getResourceAsStream(getPath() )));
@@ -61,6 +61,11 @@ public class PiecesImages {
     public static String getImage(String pieceName, boolean isWhite) {
 	return getImage(pieceName, isWhite, false);
     }
+
+    public static String getImage(String pieceName) {
+	return getImage(pieceName, true);
+    }
+
 
     public static ImageIcon getScaledImage(String pieceName, boolean isWhite, int dim) {
 	return getScaledImageFromPath(getImage(pieceName, isWhite), dim);

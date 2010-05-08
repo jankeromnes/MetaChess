@@ -15,9 +15,14 @@ public class SetupSavePanel extends SavePanel {
     private static final long serialVersionUID = 1L;
     private SetupBuilderBox parent;
 
+    /** Creation of a Setup Builderbox save panel
+     * @param b the Setup Builderbox
+     */
     public SetupSavePanel(SetupBuilderBox b) {
 	super(Resource.SETUPS);
 	parent = b;
+	
+	loader.pack();
     }
 
 
@@ -96,5 +101,10 @@ public class SetupSavePanel extends SavePanel {
 
     }
 
+    protected void load(String name) {
+	parent.load(name);
+    }
+
 }
+
 
