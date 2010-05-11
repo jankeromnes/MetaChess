@@ -1,13 +1,11 @@
 package metachess.builder.piecebuilder;
 
 import javax.swing.BoxLayout;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import metachess.builder.PanelTitle;
-import metachess.library.PiecesImages;
 import metachess.library.PiecesImagesList;
 import metachess.library.Resource;
 
