@@ -10,7 +10,9 @@ import javax.swing.JScrollPane;
  */
 public class PiecesImagesList extends JList implements ResourceList {
 
-    /** Creation of a pieces images list */
+	private static final long serialVersionUID = 1L;
+
+	/** Creation of a pieces images list */
     public PiecesImagesList() {
 	super();
 	setOpaque(false);

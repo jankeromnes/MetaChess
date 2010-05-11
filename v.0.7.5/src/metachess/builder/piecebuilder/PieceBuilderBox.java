@@ -12,7 +12,6 @@ import metachess.game.MoveType;
 import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.library.PiecesImages;
-import metachess.library.Resource;
 
 /** Class of the Piece tab in the Builderbox
  * @author Agbeladem (7DD)

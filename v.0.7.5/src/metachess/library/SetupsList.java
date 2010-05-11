@@ -15,7 +15,9 @@ import metachess.library.Resource;
  */
 public class SetupsList extends JComboBox implements ResourceList {
 
-    public SetupsList() {
+	private static final long serialVersionUID = 1L;
+
+	public SetupsList() {
 	super();
         setMaximumSize(new Dimension(200, 50));
     }
