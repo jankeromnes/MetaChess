@@ -35,6 +35,6 @@ public class AIThread extends Thread {
 		sb.append(bms.getFirstMove().getNewY());
 		System.out.println(sb.toString());*/
 		
-		cb.playMove(bms.getFirstMove(), true);
+		cb.playAIMove(bms.getFirstMove());
 	}
 }

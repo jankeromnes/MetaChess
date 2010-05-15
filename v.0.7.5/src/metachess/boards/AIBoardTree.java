@@ -4,20 +4,20 @@ import metachess.ai.BestMoveSequence;
 import metachess.game.Piece;
 import metachess.logger.Move;
 
-public class AIBoardTree extends ChessRulesBoard {
+public class AIBoardTree extends PlayableBoard {
 
     private static final long serialVersionUID = 1L;
     
     private BestMoveSequence sequence;
     private BestMoveSequence candidate;
-    private ChessRulesBoard parent;
+    private PlayableBoard parent;
     private Move move;
     private int depth;
     private long complexity;
     private float score;
     private boolean scoreSet;
     
-    public AIBoardTree(ChessRulesBoard ab, int treeDepth) {
+    public AIBoardTree(PlayableBoard ab, int treeDepth) {
     	super();
     	sequence = null;
     	candidate = null;
@@ -38,7 +38,7 @@ public class AIBoardTree extends ChessRulesBoard {
     	sequence = candidate;    	
     }
     
-    public AIBoardTree(ChessRulesBoard ab, Move m, int treeDepth) {
+    public AIBoardTree(PlayableBoard ab, Move m, int treeDepth) {
     	super();
     	sequence = null;
     	candidate = null;
