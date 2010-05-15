@@ -59,7 +59,8 @@ public class AbstractSquare {
 
     public boolean isNull() { return false; }
 
-    public String toString() {
+    @Override
+	public String toString() {
 
 	StringBuilder s = new StringBuilder("square (");
 	s.append(name);

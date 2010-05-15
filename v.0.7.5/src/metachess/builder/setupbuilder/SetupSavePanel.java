@@ -26,7 +26,8 @@ public class SetupSavePanel extends SavePanel {
     }
 
 
-    public void write() {
+    @Override
+	public void write() {
 	println("# Metachess=v.0.8.0/MCS=v.4");
 	println("# Generated from builder");
 	println("\nwidth\t= "+parent.getCols());
@@ -101,7 +102,8 @@ public class SetupSavePanel extends SavePanel {
 
     }
 
-    protected void load(String name) {
+    @Override
+	protected void load(String name) {
 	parent.load(name);
     }
 

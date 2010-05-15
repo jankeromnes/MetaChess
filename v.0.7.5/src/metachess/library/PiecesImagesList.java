@@ -1,6 +1,7 @@
 package metachess.library;
 
 import java.awt.Component;
+
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
@@ -24,7 +25,8 @@ public class PiecesImagesList extends JList implements ResourceList {
 	setSelectedIndex(0);
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
 	return getSelectedValue().toString();
     }
 

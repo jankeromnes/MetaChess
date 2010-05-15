@@ -26,13 +26,9 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     protected AbstractSquare[][] squares;
     protected int activeSquareX;
     protected int activeSquareY;
-    protected Piece jokerPiece;
-
-    public boolean whitePlaying;
-    public boolean agbker;
-    public boolean atomic;
 
     private int lastBlank;
+	protected Piece jokerPiece;
 
     protected class EmptySquare extends AbstractSquare {
 
@@ -40,14 +36,17 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	    super(i, j);
 	    piece = new Piece();
 	}
+	@Override
 	public boolean isNull() { return true; }
+	@Override
 	public boolean hasPiece() { return true; }
 
     }
 
 
     /** Create an empty abstract board */
-    public AbstractBoard() {}
+    public AbstractBoard() {
+    	jokerPiece = null;}
     
     /** Associate the graphic board representation of this abstract board
      * @param gboard the board
@@ -126,51 +125,34 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param setup the setup's name
      * @param isAtomic whether the game shall be played with atomic rules or not
      */
-    public void init(String setup, boolean isAtomic) {
-    	atomic = isAtomic;
-	
-    	activeSquareX = -1;
-    	activeSquareY = -1;
-	
-    	whitePlaying = true;
+    public void init(String setup) {
     	Loader.loadSetup(this, setup);
-
     }
 
 
     /** Automatically launched after the setup's been loaded with init method */
     public void endInit() {
-	maxDistance = (int)Math.max(width, height);
+	maxDistance = Math.max(width, height);
     	squares = new AbstractSquare[width][height];
     	for(int j = height-1 ; j >= 0 ; j--)
     		for(int i = 0 ; i < width ; i++)
     			initSquare(i, j);
-    	jokerPiece = null;
     }
 
     /** Play a given move
      * @param m the move
      * @param keep whether 
      */
-    public void playMove(Move m, boolean keep) {
-    	playSquare(m.getOldX(), m.getOldY(),keep);
-    	playSquare(m.getNewX(), m.getNewY(),keep);
+    public void playMove(Move m) {
+    	playSquare(m.getOldX(), m.getOldY());
+    	playSquare(m.getNewX(), m.getNewY());
     }
 
     /** Play a given square and keep the move in the logger
      * @param i the square's column (X Coord)
      * @param j the square's row (Y Coord)
      */
-    public void playSquare(int i, int j) {
-    	playSquare(i, j, true);
-    }
-
-    /** Play a given square ; must be overwritten to have any effects
-     * @param i the square's column (X Coord)
-     * @param j the square's row (Y Coord)
-     * @param keep whether the played move should be kept in the logger or not
-     */
-    public void playSquare(int i, int j, boolean keep) {};
+    public void playSquare(int i, int j) { };
 
     /** Tells whether given coordinates match a valid square of the board or not
      * @param x the square's column (X Coord)
@@ -178,26 +160,12 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @return true if it is valid
      */
     public boolean isSquareValid(int x, int y) {
-	return squareExists(x, y) && !squares[x][y].isNull() ; 	
+	return squareExists(x, y) && !getSquare(x,y).isNull() ; 	
     }
 
     public boolean squareExists(int x, int y) {
 	return x >= 0 && x < width
 	    && y >= 0 && y < height;
-    }
-
-    /** Tells whether the player has activated a piece
-     * @return true if he has
-     */
-    public boolean isSquareActive(){
-	return isSquareValid(activeSquareX, activeSquareY);
-    }
-
-    /** Get the abstract square that has been activated by the player
-     * @return the abstract square
-     */
-    public AbstractSquare getActiveSquare(){
-	return getSquare(activeSquareX, activeSquareY);
     }
 
     /** Get the abstract square with the given 
@@ -249,68 +217,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	squares[i][j].setPiece(null);
     }
 
-    public void activateSquare(int i, int j){
-    	activateSquare(squares[i][j]);
-    }
-    
-    public void activateSquare(AbstractSquare s){
-
-    	if(s.hasPiece() && s.getPiece().isWhite() == whitePlaying) {
-	    activeSquareX=s.getColumn();
-	    activeSquareY=s.getRow();
-	    if(!s.getPiece().setGreenSquares(activeSquareX,activeSquareY,this))
-		deactivateSquare();
-    	}
-    }
-
-    public void deactivateSquare() {
-    	for(int i = 0 ; i < width ; i++)
-    		for(int j = 0 ; j < height ; j++)
-    			squares[i][j].setGreen(false);
-    	activeSquareX=-1;
-    	activeSquareY=-1;
-    }
-
-    /** Changes the player who is expected to play next */
-    public void togglePlayer() {
-    	whitePlaying = !whitePlaying;
-    }
-	
-    /** Set explosion to given coordinates
-     * @param i the exploding square's column (X Coord)
-     * @param j the exploding square's row (Y Coord)
-     */
-    public void explode(int i, int j){
-    	removePiece(i, j);
-    	if(i+1 < getCols()){
-	    removePiece(i+1, j);
-    		if(j+1<getRows()){
-		    removePiece(i, j+1);
-		    removePiece(i+1, j+1);
-    		}
-    		if(j-1 >= 0){
-		    removePiece(i, j-1);
-		    removePiece(i+1, j-1);
-    		}
-    	}
-    	if(i-1 >= 0){
-	    removePiece(i-1, j);
-    		if(j+1<getRows()){
-		    removePiece(i, j+1);
-		    removePiece(i-1, j+1);
-    		}
-    		if(j-1 >= 0){
-		    removePiece(i, j-1);
-		    removePiece(i-1, j-1);
-    		}
-    	}
-    }
-    
-    /** Get the last piece played for a joker-type piece
-     * @return the piece
-     */
-    public Piece getJokerPiece() { return jokerPiece; }
-
     public void setCols(int x) { width = x; }
 
     public void setRows(int y) { height = y; }
@@ -333,6 +239,12 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @return the distance
      */
     public int getMaxDistance() { return maxDistance; }
+    
+
+    /** Get the last piece played for a joker-type piece
+     * @return the piece
+     */
+    public Piece getJokerPiece() { return jokerPiece; }
 
 }
 

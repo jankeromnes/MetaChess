@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 
 import metachess.game.Game;
 import metachess.library.SetupsList;
@@ -41,13 +43,16 @@ public class GameModeBox extends JDialog implements ActionListener {
 	
 	setup = new SetupsList();
 
-	whiteAILevel = new JSlider(JSlider.HORIZONTAL, 0, game.getMaxAILevel(), game.getAILevel(true));
-	blackAILevel = new JSlider(JSlider.HORIZONTAL, 0, game.getMaxAILevel(), game.getAILevel(false));
+	whiteAILevel = new JSlider(SwingConstants.HORIZONTAL, 0, game.getMaxAILevel(), game.getAILevel(true));
+	blackAILevel = new JSlider(SwingConstants.HORIZONTAL, 0, game.getMaxAILevel(), game.getAILevel(false));
 	atomic = new JCheckBox("Atomic Chess Rules");
 
 	Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
 	labelTable.put( new Integer(0), new JLabel("Human") );
-	labelTable.put( new Integer(1), new JLabel("Normal") );
+	labelTable.put( new Integer(1), new JLabel("Easy") );
+	labelTable.put( new Integer(2), new JLabel("Medium") );
+	labelTable.put( new Integer(3), new JLabel("Hard") );
+	labelTable.put( new Integer(4), new JLabel("Expert") );
 	
 	whiteAILevel.setMajorTickSpacing(1);
 	whiteAILevel.setMinorTickSpacing(1);

@@ -2,6 +2,7 @@ package metachess.library;
 
 import java.awt.Component;
 import java.awt.Dimension;
+
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
@@ -37,7 +38,8 @@ public class PiecesList extends JList implements ResourceList {
     }
 
 
-    public String getName() {
+    @Override
+	public String getName() {
 	String pieceName = getSelectedValue().toString();
 	return pieceName.substring(0, pieceName.lastIndexOf('.'));
     }

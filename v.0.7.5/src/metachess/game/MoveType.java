@@ -135,7 +135,8 @@ public class MoveType {
 
     }
 
-    public String toString() { 
+    @Override
+	public String toString() { 
 	return String.valueOf(type)+'-'+dirchar+'-'+range;
     }
 
@@ -316,7 +317,8 @@ public class MoveType {
      * @param o the move to compare
      * @return true if they have the same properties
      */
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
 	MoveType m = (MoveType)o;
 	return type == m.type && range == m.range && dirchar == m.dirchar;
     }

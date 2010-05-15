@@ -2,6 +2,7 @@ package metachess.boards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 import metachess.library.Colour;
@@ -48,7 +49,8 @@ public class Square extends JButton {
     public void setDim(int i) { dim = i; }
 
 
-    public String toString() {
+    @Override
+	public String toString() {
 	return "square of "+as;
     }
 

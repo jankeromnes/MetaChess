@@ -2,8 +2,9 @@ package metachess.builder;
 
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeListener;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import metachess.builder.piecebuilder.PieceBuilderBox;
 import metachess.builder.setupbuilder.SetupBuilderBox;
@@ -66,7 +67,7 @@ public class BuilderBox extends JDialog {
     public static void main(String[] a) {
 	BuilderBox b = new BuilderBox();
 	b.setVisible(true);
-	b.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	b.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
 }
