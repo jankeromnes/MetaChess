@@ -28,6 +28,17 @@ public class ChessBoard extends PlayableBoard {
     }
     
     @Override
+    public void init(String s, boolean isAtomic){
+    	super.init(s, isAtomic);
+    	int AILevel = game.getAILevel(whitePlaying);
+    	if(AILevel>0){
+    		waitForAI = true;
+    		AIThread ait = new AIThread(this, AILevel);
+    		ait.start();
+    	}
+    }
+    
+    @Override
     public void nextPlayer() {
     	super.nextPlayer();
     	
