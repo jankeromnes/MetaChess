@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
 import javax.swing.AbstractListModel;
 
 public class LogList extends AbstractListModel {

@@ -1,6 +1,7 @@
 package metachess.builder.setupbuilder;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 
 import metachess.boards.EditableBoard;

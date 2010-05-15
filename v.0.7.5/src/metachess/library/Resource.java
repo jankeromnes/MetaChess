@@ -106,7 +106,8 @@ public enum Resource {
 	return defaultList;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
  	return (name == null ? super.toString(): name) + " ("+link+')';
     }
 

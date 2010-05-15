@@ -2,12 +2,11 @@ package metachess.library;
 
 import java.awt.Component;
 import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-
-import metachess.library.Resource;
 
 /** Class of Setups List
  * @author Agbeladem (7DD)
@@ -29,7 +28,8 @@ public class SetupsList extends JComboBox implements ResourceList {
 	    addItem(o);
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
 	String s = getSelectedItem().toString();
 	return s.substring(0,s.lastIndexOf('.'));
     }

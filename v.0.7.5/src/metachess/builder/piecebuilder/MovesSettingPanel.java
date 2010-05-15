@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -14,6 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import metachess.builder.PanelTitle;
 
@@ -34,6 +34,7 @@ public class MovesSettingPanel extends JPanel {
 
 	private final String name;
 	private final char value;
+	@Override
 	public String toString() { return name; }
 	public char getValue() { return value; }
     }

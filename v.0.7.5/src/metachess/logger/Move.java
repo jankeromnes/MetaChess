@@ -42,7 +42,8 @@ public class Move implements Serializable {
     public int getNewX() { return newx; }
     public int getNewY() { return newy; }
    
-    public String toString() {
+    @Override
+	public String toString() {
 	return name;
     }
 

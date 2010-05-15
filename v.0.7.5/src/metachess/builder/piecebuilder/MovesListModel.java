@@ -1,6 +1,7 @@
 package metachess.builder.piecebuilder;
 
 import java.util.ArrayList;
+
 import javax.swing.AbstractListModel;
 
 import metachess.game.MoveType;

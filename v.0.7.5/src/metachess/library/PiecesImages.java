@@ -2,9 +2,10 @@ package metachess.library;
 
 import java.awt.Image;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+
 import javax.swing.ImageIcon;
 
 public class PiecesImages {

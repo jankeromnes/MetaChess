@@ -7,9 +7,8 @@ import java.io.PrintWriter;
 
 import metachess.builder.SavePanel;
 import metachess.game.MoveType;
-import metachess.library.Resource;
-
 import metachess.library.PiecesImages;
+import metachess.library.Resource;
 
 public class PieceSavePanel extends SavePanel {
 
@@ -21,7 +20,8 @@ public class PieceSavePanel extends SavePanel {
 	parent = b;
     }
 
-    protected void save() {
+    @Override
+	protected void save() {
 	super.save();
 	try {
 	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(Resource.RESOURCES.getPathFromExecFolder() + "pieces_images.mci", true)));
@@ -40,7 +40,8 @@ public class PieceSavePanel extends SavePanel {
 	}
     }
 
-    public void write() {
+    @Override
+	public void write() {
 	println("// Metachess v.0.7.3/MCP=v.2");
 	println("// Generated from builder\n");
 	for(MoveType m: parent.getMoves()) {
@@ -50,7 +51,8 @@ public class PieceSavePanel extends SavePanel {
 
     }
 
-    protected void load(String name) {
+    @Override
+	protected void load(String name) {
 	parent.load(name);
     }
     

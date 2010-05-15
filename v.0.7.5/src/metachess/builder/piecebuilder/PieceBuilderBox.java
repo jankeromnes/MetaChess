@@ -2,6 +2,7 @@ package metachess.builder.piecebuilder;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import metachess.boards.AbstractSquare;
@@ -74,7 +75,7 @@ public class PieceBuilderBox extends JPanel {
 
     public void update(ArrayList<MoveType> m) {
 	moves = m;
-	bs.deactivateSquare();
+	//bs.deactivateSquare();
 	Piece p;
 	for(AbstractSquare s: bs) {
 	    p = s.getPiece();

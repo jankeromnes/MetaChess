@@ -2,6 +2,7 @@ package metachess.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.swing.ImageIcon;
 
 import metachess.boards.AbstractBoard;
@@ -353,7 +354,8 @@ public class Piece {
 	return s.toString();
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
 	StringBuilder s = new StringBuilder();
 	s.append(name);
 	s.append("   _");

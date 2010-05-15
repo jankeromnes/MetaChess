@@ -8,10 +8,11 @@ public class SampleBoard extends AbstractBoard {
 
 	public SampleBoard() {
 		super();
-		init("sample", false);
+		init("sample");
     }
 
-    protected void initSquare(int i, int j) {
+    @Override
+	protected void initSquare(int i, int j) {
     	super.initSquare(i,j);
     }
     

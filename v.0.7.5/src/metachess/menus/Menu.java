@@ -2,7 +2,9 @@ package metachess.menus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -40,7 +42,7 @@ public class Menu extends JMenuBar {
 		}				
 	    });
 	newGame.setMnemonic('N');
-	newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
+	newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 	gameMenu.add(newGame);
 	gameMenu.addSeparator();
 
@@ -53,7 +55,7 @@ public class Menu extends JMenuBar {
 		}
 	    });
 	saveGame.setMnemonic('S');
-	saveGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
+	saveGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 	gameMenu.add(saveGame);
 
 
@@ -65,7 +67,7 @@ public class Menu extends JMenuBar {
 		}
 	    });
 	loadGame.setMnemonic('L');
-	loadGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_MASK));
+	loadGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
 	gameMenu.add(loadGame);
 	gameMenu.addSeparator();
 
@@ -81,7 +83,7 @@ public class Menu extends JMenuBar {
 		}				
 	    });
 	quitGame.setMnemonic('Q');
-	quitGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
+	quitGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 	gameMenu.add(quitGame);
 		
 	add(gameMenu);
@@ -95,7 +97,7 @@ public class Menu extends JMenuBar {
 	// Undo Move
 	undoMove = new JMenuItem("Undo Move");
 	undoMove.setMnemonic('U');
-	undoMove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK));
+	undoMove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
 	editMenu.add(undoMove);
 	undoMove.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -111,7 +113,7 @@ public class Menu extends JMenuBar {
 		}				
 	    });
 	redoMove.setMnemonic('R');
-	redoMove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK));
+	redoMove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
 	editMenu.add(redoMove);
 	editMenu.addSeparator();
 
@@ -123,7 +125,7 @@ public class Menu extends JMenuBar {
 		}
 	    });
 	builder.setMnemonic('B');
-	builder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK));
+	builder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
 	editMenu.add(builder);
 
 
