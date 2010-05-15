@@ -4,7 +4,7 @@ import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.logger.Move;
 
-public class ChessRulesBoard extends AbstractBoard {
+public class PlayableBoard extends AbstractBoard {
 	
 	protected Move lastMove;
     protected boolean whitePlaying;
@@ -15,7 +15,7 @@ public class ChessRulesBoard extends AbstractBoard {
     protected boolean whiteKingDead;
     protected boolean blackKingDead;
     
-    public ChessRulesBoard() {
+    public PlayableBoard() {
     	super();
     	lastMove = null;
     }

@@ -11,12 +11,13 @@ import metachess.logger.Move;
  * @author Jan (7DD)
  * @version 0.8.0
  */
-public class ChessBoard extends ChessRulesBoard {
+public class ChessBoard extends PlayableBoard {
 
     private static final long serialVersionUID = 1L;
 
     private Game game;
     private boolean keep;
+    private boolean waitForAI;
 
     /** Create a new Chess Board
      * @param g the game window in which its graphical board will be created
@@ -38,6 +39,7 @@ public class ChessBoard extends ChessRulesBoard {
     	}
     	int AILevel = game.getAILevel(whitePlaying); 
     	if(keep && AILevel>0){
+    		waitForAI = true;
     		update();
     		AIThread ait = new AIThread(this, AILevel);
     		ait.start();
@@ -48,9 +50,27 @@ public class ChessBoard extends ChessRulesBoard {
      * @param m the move
      * @param keep whether 
      */
-    public void playMove(Move m, boolean keep) {
-    	playSquare(m.getOldX(), m.getOldY(),keep);
-    	playSquare(m.getNewX(), m.getNewY(),keep);
+    public void playMove(Move m) {
+    	playSquare(m.getOldX(), m.getOldY(),true);
+    	playSquare(m.getNewX(), m.getNewY(),true);
+    }
+
+    /** Play a given move
+     * @param m the move
+     * @param keep whether 
+     */
+    public void replayMove(Move m) {
+    	playSquare(m.getOldX(), m.getOldY(),false);
+    	playSquare(m.getNewX(), m.getNewY(),false);
+    }
+
+    /** Play a given move
+     * @param m the move
+     * @param keep whether 
+     */
+    public void playAIMove(Move m) {
+    	waitForAI = false;
+    	playMove(m);
     }
     
     /** Literally play a given square
@@ -59,7 +79,7 @@ public class ChessBoard extends ChessRulesBoard {
      */
     public void playSquare(int i, int j, boolean keep){
     	this.keep = keep;
-    	super.playSquare(i, j);
+    	if(!waitForAI) super.playSquare(i, j);
     }
     
     public void playSquare(int i, int j) {
@@ -69,9 +89,8 @@ public class ChessBoard extends ChessRulesBoard {
     public void jump(ArrayList<Move> moves) {
 	if(moves != null) {
 	    int n = moves.size();
-	    keep = false;
 	    for(int i = 0; i < n ; i++)
-		playMove(moves.get(i));
+		replayMove(moves.get(i));
 	}
     }
  
