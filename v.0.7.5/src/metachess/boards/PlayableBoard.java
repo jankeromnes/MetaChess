@@ -59,6 +59,7 @@ public class PlayableBoard extends AbstractBoard {
     	checkKingsAreOK();
     	deathMatch = atomic && blackKingDead && whiteKingDead;
     	gameOver = !deathMatch && (blackKingDead || whiteKingDead);
+
     	togglePlayer();
     }
 
@@ -203,7 +204,7 @@ public class PlayableBoard extends AbstractBoard {
 	    }
 	    else deactivateSquare(); // else not here in v1
     	}
-    	else activateSquare(i, j);
+    	else if(!gameOver) activateSquare(i, j);
     	update(); // not here in v1
     }
 
