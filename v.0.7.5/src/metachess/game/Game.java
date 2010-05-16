@@ -108,7 +108,7 @@ public class Game extends JFrame {
 
     /** End the last game */
     public void endGame() {
-    	newGame();
+    	//newGame();
     }
 
     /** Add a move to the logger

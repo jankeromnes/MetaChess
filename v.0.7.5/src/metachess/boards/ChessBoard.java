@@ -43,11 +43,11 @@ public class ChessBoard extends PlayableBoard {
     	super.nextPlayer();
     	
     	if(keep) game.addMove(lastMove);
-
+    	
     	if(gameOver) {
-    	    gameOver = false;
     	    game.endGame();
     	}
+    	
     	int AILevel = game.getAILevel(whitePlaying); 
     	if(keep && AILevel>0){
     		waitForAI = true;
