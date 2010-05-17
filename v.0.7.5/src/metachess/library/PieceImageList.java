@@ -9,12 +9,12 @@ import javax.swing.JScrollPane;
  * @author Agbeladem (7DD)
  * @version 0.8.0
  */
-public class PiecesImagesList extends JList implements ResourceList {
+public class PieceImageList extends JList implements ResourceList {
 
 	private static final long serialVersionUID = 1L;
 
 	/** Creation of a pieces images list */
-    public PiecesImagesList() {
+    public PieceImageList() {
 	super();
 	setOpaque(false);
 	setCellRenderer(new PieceImageSelectRenderer());

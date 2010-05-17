@@ -1,12 +1,8 @@
 package metachess.library;
 
 import java.awt.Component;
-import java.awt.Dimension;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
 /** Class of Setups List
  * @author Agbeladem (7DD)

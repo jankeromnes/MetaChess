@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 import metachess.boards.AbstractBoard;
 import metachess.boards.AbstractSquare;
-import metachess.library.PiecesImages;
+import metachess.library.PieceImages;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)
@@ -311,7 +311,7 @@ public class Piece {
 	if(icons.containsKey(i) )
 	    return icons.get(i);
 	else {
-	    ImageIcon ii = PiecesImages.getScaledImage(image, dims);
+	    ImageIcon ii = PieceImages.getScaledImage(image, dims);
 	    icons.put(i,ii);
 	    return ii;
 	}

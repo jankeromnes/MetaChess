@@ -11,8 +11,8 @@ import metachess.boards.SampleBoard;
 import metachess.builder.BuilderBox;
 import metachess.game.MoveType;
 import metachess.game.Piece;
+import metachess.library.PieceImages;
 import metachess.library.Pieces;
-import metachess.library.PiecesImages;
 
 /** Class of the Piece tab in the Builderbox
  * @author Agbeladem (7DD)
@@ -56,7 +56,7 @@ public class PieceBuilderBox extends JPanel {
     public void load(String name) {
 	Piece p = Pieces.getPiece(name);
 	mp.setMoves(p.getMoveTypes());
-	changeIcon(PiecesImages.getImage(name));
+	changeIcon(PieceImages.getImage(name));
     }
 
     public void changeIcon(String fileName) {

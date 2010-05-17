@@ -85,7 +85,7 @@ public class Loader {
      */
     public static void loadSetup(AbstractBoard abstractBoard, String file) {
 
-	PiecesImages.load();
+	PieceImages.load();
 
 	try {
 
