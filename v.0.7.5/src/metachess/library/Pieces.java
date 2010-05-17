@@ -30,7 +30,7 @@ public class Pieces {
 	    Loader.loadPiece(pieceName);
 	Piece piece = new Piece(instance.map.get(pieceName));
 	piece.setWhite(isWhite);
-	piece.setImage(PiecesImages.getImage(pieceName, isWhite));
+	piece.setImage(PieceImages.getImage(pieceName, isWhite));
 	return piece;
 
     }

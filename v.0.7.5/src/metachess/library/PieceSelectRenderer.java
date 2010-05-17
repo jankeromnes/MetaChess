@@ -31,7 +31,7 @@ public class PieceSelectRenderer implements ListCellRenderer {
 	String text = value.toString();
 	text = text.substring(0,text.lastIndexOf('.'));
 
-	renderer.setIcon(PiecesImages.getScaledImage(text, isWhite, 20));
+	renderer.setIcon(PieceImages.getScaledImage(text, isWhite, 20));
 	renderer.setText(text);
 	renderer.setOpaque(isSelected);	
 

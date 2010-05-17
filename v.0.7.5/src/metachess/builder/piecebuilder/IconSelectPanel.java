@@ -6,13 +6,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import metachess.builder.PanelTitle;
-import metachess.library.PiecesImagesList;
+import metachess.library.PieceImageList;
 import metachess.library.Resource;
 
 public class IconSelectPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private final PiecesImagesList images;
+    private final PieceImageList images;
     private final PieceBuilderBox pbb;
     private final ListSelectionListener listEv;
 
@@ -20,7 +20,7 @@ public class IconSelectPanel extends JPanel {
 	super();
 	pbb = arg;
 	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	images = new PiecesImagesList();
+	images = new PieceImageList();
 
 	listEv = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {

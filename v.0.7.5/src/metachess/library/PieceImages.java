@@ -8,13 +8,13 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-public class PiecesImages {
+public class PieceImages {
 
-    private static PiecesImages instance = new PiecesImages();
+    private static PieceImages instance = new PieceImages();
     private HashMap<String, String> images;
     private boolean loaded = false;
 
-    private PiecesImages() {
+    private PieceImages() {
 	images = new HashMap<String, String>();
     }
 
