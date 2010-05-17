@@ -29,7 +29,7 @@ public class Game extends JFrame {
     private boolean atomic;
     private int whiteAILevel;
     private int blackAILevel;
-    private final int maxAILevel;
+    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master"};
     private String setup;
     private final Menu menu;
     private final ChessBoard board;
@@ -51,7 +51,6 @@ public class Game extends JFrame {
     	atomic = false;
     	whiteAILevel = 0;
     	blackAILevel = 3;
-    	maxAILevel = 4;
 
     	builder = new BuilderBox();
     	gmBox = new GameModeBox(this);
@@ -187,8 +186,9 @@ public class Game extends JFrame {
     public boolean isAtomic() { return atomic; }
     
     public int getAILevel(boolean white) { return (white ? whiteAILevel : blackAILevel); }
-    public int getMaxAILevel() { return maxAILevel; }
-
+    public int getMaxAILevel() { return AILevels.length; }
+    public String[] getAILevels() { return AILevels; }
+    public String getSetup() { return setup; }
     public void setSetup(String s) { setup = s; }
     public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
     public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
