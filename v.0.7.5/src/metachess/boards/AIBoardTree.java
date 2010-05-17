@@ -53,25 +53,15 @@ public class AIBoardTree extends PlayableBoard {
         activeSquareY=-1;
         
     	copyFromParent();
-    		
-        // debug
-    	boolean old = whitePlaying;
 
 		playMove(m);
-	
-    	// debug
-    	if(old == whitePlaying){
-    		System.out.println("\nERROR : "+(whitePlaying ? "WHITE" : "BLACK")+" DIDN'T PLAY !!!");
-    		System.out.println(this+">>> ILLEGAL MOVE : "+move+"\n");
-    		gameOver = true;
-    	}
     	
     	computeBestCandidate();
     	
     	if(candidate != null) sequence = new BestMoveSequence(move, candidate);
     	else sequence = new BestMoveSequence(move, getScore());
     	
-    	System.out.println(this);
+    	//System.out.println(this);
     	
     }
     

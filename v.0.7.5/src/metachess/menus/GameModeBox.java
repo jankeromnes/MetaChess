@@ -1,6 +1,7 @@
 package metachess.menus;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -9,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,7 +18,7 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
 import metachess.game.Game;
-import metachess.library.SetupsList;
+import metachess.library.SetupList;
 
 public class GameModeBox extends JDialog implements ActionListener {
 
@@ -24,9 +26,9 @@ public class GameModeBox extends JDialog implements ActionListener {
 
     private Game game;
 
-    private SetupsList setup;
-    private JSlider whiteAILevel;
-    private JSlider blackAILevel;
+    private SetupList setup;
+    private JComboBox whiteAILevel;
+    private JComboBox blackAILevel;
     private JCheckBox atomic;
     private JButton launch;
     private JButton cancel;
@@ -36,67 +38,50 @@ public class GameModeBox extends JDialog implements ActionListener {
 	super(g, "New Game", true);
 	game = g;
 
-	setSize(300,300);
+	setMinimumSize(new Dimension(290,250));
 	setLocationRelativeTo(g);
 	Container content = getContentPane();
 	content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 	
-	setup = new SetupsList();
-
-	whiteAILevel = new JSlider(SwingConstants.HORIZONTAL, 0, game.getMaxAILevel(), game.getAILevel(true));
-	blackAILevel = new JSlider(SwingConstants.HORIZONTAL, 0, game.getMaxAILevel(), game.getAILevel(false));
+	JPanel setups = new JPanel();
+	setup = new SetupList();
+	setups.add(setup);
 	atomic = new JCheckBox("Atomic Chess Rules");
+	setups.add(atomic);
 
-	Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
-	labelTable.put( new Integer(0), new JLabel("Human") );
-	labelTable.put( new Integer(1), new JLabel("Easy") );
-	labelTable.put( new Integer(2), new JLabel("Medium") );
-	labelTable.put( new Integer(3), new JLabel("Hard") );
-	labelTable.put( new Integer(4), new JLabel("Expert") );
+	whiteAILevel = new JComboBox(game.getAILevels());
+	blackAILevel = new JComboBox(game.getAILevels());
 	
-	whiteAILevel.setMajorTickSpacing(1);
-	whiteAILevel.setMinorTickSpacing(1);
-	whiteAILevel.setPaintTicks(true);
-	whiteAILevel.setLabelTable( labelTable );
-	whiteAILevel.setPaintLabels(true);
-	
-	blackAILevel.setMajorTickSpacing(1);
-	blackAILevel.setMinorTickSpacing(1);
-	blackAILevel.setPaintTicks(true);
-	blackAILevel.setLabelTable( labelTable );
-	blackAILevel.setPaintLabels(true);
-	
-	JPanel sliders = new JPanel();
-	sliders.setLayout(new BoxLayout(sliders, BoxLayout.Y_AXIS));
-	sliders.add(new JLabel("White Computer Level"));
-	sliders.add(whiteAILevel);
-	sliders.add(new JLabel("Black Computer Level"));
-	sliders.add(blackAILevel);
-
-	JPanel panel = new JPanel();
+	JPanel buttons = new JPanel();
 	launch = new JButton("Ok");
 	launch.addActionListener(this);
-
 	cancel = new JButton("Cancel");
 	cancel.addActionListener(this);
-	panel.add(launch);
-	panel.add(cancel);
+	buttons.add(launch);
+	buttons.add(cancel);
 
 	content.add(Box.createVerticalStrut(10));
-	content.add(setup.getComponent());
+	content.add(setups);
 	content.add(Box.createVerticalStrut(10));
-	content.add(atomic);
+	content.add(new JLabel("White Computer Level"));
+	content.add(whiteAILevel);
 	content.add(Box.createVerticalStrut(10));
-	content.add(sliders);
-	content.add(Box.createVerticalGlue());
-	content.add(panel);
+	content.add(new JLabel("Black Computer Level"));
+	content.add(blackAILevel);
 	content.add(Box.createVerticalStrut(10));
+	content.add(buttons);
+	
+	pack();
 
     }
 
     public boolean launch() {
 	newGame = false;
 	setup.init();
+	setup.selectSetup(game.getSetup());
+	atomic.setSelected(game.isAtomic());
+	whiteAILevel.setSelectedIndex(game.getAILevel(true));
+	blackAILevel.setSelectedIndex(game.getAILevel(false));
 	setVisible(true);
 	return newGame;
     }
@@ -105,8 +90,8 @@ public class GameModeBox extends JDialog implements ActionListener {
 	newGame = e.getSource() == launch;
 	if(newGame) {
 	    game.setSetup(setup.getName());
-	    game.setWhiteAILevel(whiteAILevel.getValue());
-	    game.setBlackAILevel(blackAILevel.getValue());
+	    game.setWhiteAILevel(whiteAILevel.getSelectedIndex());
+	    game.setBlackAILevel(blackAILevel.getSelectedIndex());
 	    game.setAtomic(atomic.isSelected());
 	}
 	setVisible(false);
