@@ -37,8 +37,11 @@ public class BestMoveSequence {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for(Move move : sequence) sb.append(move+" ; ");
-		sb.delete(sb.length()-3, sb.length());
+		for(Move move : sequence) sb.append(move+" | ");
+		sb.delete(sb.length()-2, sb.length());
+		sb.append("(final score : ");
+		sb.append(score);
+		sb.append(")");
 		return sb.toString();
 	}
 

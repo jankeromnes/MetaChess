@@ -19,21 +19,10 @@ public class AIThread extends Thread {
 		
 		BestMoveSequence bms = tree.getBestMoveSequence();
 		
-		System.out.println(bms);
-		System.out.println("Depth : "+treeDepth);
-		System.out.println("Complexity : "+tree.getComplexity());
-		System.out.println("Timing (ms) : "+(stop-start));
-		
-		// debug move values
-		/*StringBuilder sb = new StringBuilder();
-		sb.append(bms.getFirstMove().getOldX());
-		sb.append(" / ");
-		sb.append(bms.getFirstMove().getOldY());
-		sb.append(" / ");
-		sb.append(bms.getFirstMove().getNewX());
-		sb.append(" / ");
-		sb.append(bms.getFirstMove().getNewY());
-		System.out.println(sb.toString());*/
+		System.out.println("\nsequence ....... "+bms);
+		System.out.println("depth .......... "+treeDepth);
+		System.out.println("complexity ..... "+tree.getComplexity());
+		System.out.println("timing(ms) ..... "+(stop-start));
 		
 		cb.playAIMove(bms.getFirstMove());
 	}
