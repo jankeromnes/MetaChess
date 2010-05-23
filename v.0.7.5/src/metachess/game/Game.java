@@ -30,7 +30,7 @@ public class Game extends JFrame {
     private boolean atomic;
     private int whiteAILevel;
     private int blackAILevel;
-    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master"};
+    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master", "Insane"};
     private String setup;
     private final Menu menu;
     private final ChessBoard board;
