@@ -81,7 +81,11 @@ public class ChessBoard extends PlayableBoard {
      */
     public void playAIMove(Move m) {
     	waitForAI = false;
-    	playMove(m);
+    	playSquare(m.getOldX(), m.getOldY(),true);
+    	waitForAI = true;
+    	try { Thread.sleep(200); } catch (Exception e) { }
+    	waitForAI = false;
+    	playSquare(m.getNewX(), m.getNewY(),true);
     }
     
     /** Literally play a given square
