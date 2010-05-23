@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
@@ -196,7 +197,9 @@ public class Game extends JFrame {
     
 
     public static void main(String[] argv) {
-	new Game(argv.length == 1 ? argv[0] : "classic"); 
+//		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
+//	    catch (Exception e) {}
+	    new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
 
