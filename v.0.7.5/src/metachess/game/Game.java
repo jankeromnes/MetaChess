@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
@@ -30,7 +31,7 @@ public class Game extends JFrame {
     private boolean atomic;
     private int whiteAILevel;
     private int blackAILevel;
-    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master", "Insane"};
+    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master"};
     private String setup;
     private final Menu menu;
     private final ChessBoard board;
@@ -197,8 +198,19 @@ public class Game extends JFrame {
     
 
     public static void main(String[] argv) {
-//		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
-//	    catch (Exception e) {}
+		try {
+			System.out.println("Installed look and feels:");
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        System.out.print("[");
+		        if (info.getName().equals("Windows Classic")) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            System.out.print("x");
+		        }
+		        else System.out.print(" ");
+		        System.out.println("] "+info.getName());
+			}
+			System.out.println("");
+		} catch (Exception e) {}
 	    new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
