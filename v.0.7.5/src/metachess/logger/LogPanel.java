@@ -31,7 +31,6 @@ public class LogPanel extends JPanel {
     private final JList listcomp;
     private final Game game;
     private final JButton backButton;
-    //private final JButton gotoButton;
     private final JButton forwardButton;
 
     private JLabel lab;
@@ -45,11 +44,9 @@ public class LogPanel extends JPanel {
 	GridBagConstraints c = new GridBagConstraints();
 
 	backButton = new JButton();
-	//gotoButton = new JButton();
 	forwardButton = new JButton();
        
 	backButton.setIcon(new ImageIcon(getClass().getResource(ToolIcons.LEFT_ARROW.getPath())));
-	//gotoButton.setIcon(new ImageIcon(getClass().getResource(ToolIcons.GOTO_ARROW.getPath())));
 	forwardButton.setIcon(new ImageIcon(getClass().getResource(ToolIcons.RIGHT_ARROW.getPath())));
 
 
@@ -83,14 +80,6 @@ public class LogPanel extends JPanel {
 		}
 	    });
 
-	/*gotoButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    game.jump(list.getMoves(listcomp.getSelectedIndex()));
-		    update();
-		}
-	    }
-	    );*/
-
         forwardButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    redo();
@@ -108,7 +97,6 @@ public class LogPanel extends JPanel {
 
         c.fill = GridBagConstraints.HORIZONTAL;
 	    c.gridx = 1;
-	    //add(gotoButton, c);
 
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.gridx = 2;
