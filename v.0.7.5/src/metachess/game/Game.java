@@ -1,20 +1,26 @@
 package metachess.game;
 
 import java.awt.BorderLayout;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
+import metachess.count.CountPanel;
 import metachess.logger.LogPanel;
 import metachess.logger.Move;
 import metachess.menus.FileBox;
@@ -36,6 +42,7 @@ public class Game extends JFrame {
     private final Menu menu;
     private final ChessBoard board;
     private final GraphicalBoard gb;
+    private final CountPanel countPanel;
     private final LogPanel histo;
     private final GameModeBox gmBox;
     private final FileBox fileBox;
@@ -67,8 +74,20 @@ public class Game extends JFrame {
     	gb.init();
     	add(gb, BorderLayout.CENTER);
 
+
+
+	countPanel = new CountPanel();
     	histo = new LogPanel(this);
-    	add(histo, BorderLayout.EAST);
+
+	JPanel p = new JPanel();
+	p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+
+	p.add(countPanel);
+	p.add(Box.createVerticalGlue());
+	p.add(histo);
+	p.add(Box.createVerticalGlue());
+
+    	add(p, BorderLayout.EAST);
 
     	pack();
     	setVisible(true);
@@ -82,6 +101,14 @@ public class Game extends JFrame {
     public void jump(ArrayList<Move> moves) {
     	newGame(moves.isEmpty());
     	board.jump(moves);
+    }
+
+    /**  Add a piece to the count list when it's been taken
+     * @param pieceName the name of the taken piece
+     * @param isWhite whether the piece's color is white
+     */
+    public void count(String pieceName, boolean isWhite) {
+	countPanel.add(pieceName, isWhite);
     }
 
     /** Ask for a new game with the gamebox dialog box*/
@@ -102,6 +129,7 @@ public class Game extends JFrame {
     	if(clear) {
     		histo.clearMoves();
     		histo.update();
+		countPanel.clear();
     	}
 
     }
@@ -178,6 +206,7 @@ public class Game extends JFrame {
 	    whiteAILevel = sg.getAILevel(true);
 	    blackAILevel = sg.getAILevel(false);
 	    histo.loadGame(sg.getMoves());
+	    countPanel.clear();
     }
 
 
@@ -198,20 +227,10 @@ public class Game extends JFrame {
     
 
     public static void main(String[] argv) {
-		try {
-			System.out.println("Installed look and feels:");
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        System.out.print("[");
-		        if (info.getName().equals("Windows Classic")) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            System.out.print("x");
-		        }
-		        else System.out.print(" ");
-		        System.out.println("] "+info.getName());
-			}
-			System.out.println("");
-		} catch (Exception e) {}
-	    new Game(argv.length == 1 ? argv[0] : "classic"); 
+	try {
+	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+	} catch(Exception e) {}
+	new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
 

@@ -46,7 +46,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     /** Create an empty abstract board */
     public AbstractBoard() {
-    	jokerPiece = null;}
+    	jokerPiece = null;
+    }
     
     /** Associate the graphic board representation of this abstract board
      * @param gboard the board
@@ -206,6 +207,14 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public void setPiece(int i, int j, Piece p) {
 	assert isSquareValid(i,j);
     	squares[i][j].setPiece(p);
+    }
+
+
+    /** Remove the piece contained by a given square
+     * @param s the square
+     */
+    public void removePiece(AbstractSquare s) {
+	removePiece(s.getColumn(), s.getRow());
     }
 
     /** Remove the piece at the given coordinates

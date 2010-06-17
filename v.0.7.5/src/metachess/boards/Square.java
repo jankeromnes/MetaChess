@@ -2,6 +2,8 @@ package metachess.boards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JButton;
 
@@ -31,12 +33,13 @@ public class Square extends JButton {
 	    setBackground(Colour.WHITE.getColor());
 	    setIcon(null);
 	} else {
-	    if(as.hasPiece()) // && as.getPiece().getImage() != null)
+	    if(as.hasPiece())
 		setIcon(as.getPiece().getImage(dim));
 	    else setIcon(null);
 	    setBackground((as.isGreen()? Colour.GREEN : as.getColor()).getColor());
 	}
     	// setText(as.hasPiece()? null : as.getName());
+
     }
 
 
@@ -46,7 +49,19 @@ public class Square extends JButton {
     	}
     }
     
-    public void setDim(int i) { dim = i; }
+    public void setDim(int i) {
+	dim = i;
+	update();
+    }
+
+
+    public void paint(Graphics g) {
+	super.paint(g);
+	Dimension d = getSize();
+	setDim((int)(Math.min(d.getWidth(), d.getHeight())));
+
+    }
+
 
 
     @Override

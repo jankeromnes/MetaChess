@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import metachess.ai.AIThread;
 import metachess.game.Game;
+import metachess.game.Piece;
 import metachess.logger.Move;
-
 
 /** Class of the real Chess Board
  * @author Jan (7DD)
@@ -49,7 +49,7 @@ public class ChessBoard extends PlayableBoard {
     	}
     	
     	int AILevel = game.getAILevel(whitePlaying); 
-    	if(keep && AILevel>0){
+    	if(keep && AILevel > 0){
     		waitForAI = true;
     		update();
     		AIThread ait = new AIThread(this, AILevel);
@@ -57,28 +57,34 @@ public class ChessBoard extends PlayableBoard {
     	}
     }
 
-    /** Play a given move
-     * @param m the move
-     * @param keep whether 
+    /** Remove the piece at the given coordinates
+     * @param i the piece's square's column (X Coord)
+     * @param j the piece's square's row (Y Coord)
      */
+    @Override
+	public void removePiece(int i, int j) {
+
+	assert isSquareValid(i,j);
+
+	if(squares[i][j].hasPiece()) {
+	    Piece p = squares[i][j].getPiece();
+	    game.count(p.getName(), p.isWhite());
+	}
+	squares[i][j].setPiece(null);
+
+    }
+
+
     public void playMove(Move m) {
-    	playSquare(m.getOldX(), m.getOldY(),true);
-    	playSquare(m.getNewX(), m.getNewY(),true);
+    	playSquare(m.getOldX(), m.getOldY(), true);
+    	playSquare(m.getNewX(), m.getNewY(), true);
     }
 
-    /** Play a given move
-     * @param m the move
-     * @param keep whether 
-     */
     public void replayMove(Move m) {
-    	playSquare(m.getOldX(), m.getOldY(),false);
-    	playSquare(m.getNewX(), m.getNewY(),false);
+    	playSquare(m.getOldX(), m.getOldY(), false);
+    	playSquare(m.getNewX(), m.getNewY(), false);
     }
 
-    /** Play a given move
-     * @param m the move
-     * @param keep whether 
-     */
     public void playAIMove(Move m) {
     	waitForAI = false;
     	playSquare(m.getOldX(), m.getOldY(),true);

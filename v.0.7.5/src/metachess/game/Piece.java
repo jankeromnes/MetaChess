@@ -115,105 +115,101 @@ public class Piece {
      * @param m the list
      */
     public void setMoves(ArrayList<MoveType> m) {
-	moves.clear();
-	for(MoveType mt : m)
-	    addMoveType(mt);
-    }
-    public ArrayList<MoveType> getMoveTypes() { return moves; }
-
- 
-    // BOARD BROWSING COMMANDS
-
-    private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
-
-    	// TODO test king is in check
-    	// AIBoard aib = new AIBoard(new Move(ab.getActiveSquare().getColumn(),ab.getActiveSquare().getRow(),c.getColumn(),c.getRow(),ab), ab); 
-    	boolean kingInCheck = false;
-    	c.setGreen(!kingInCheck);
-    	return !kingInCheck;
-    }
-
-    private boolean checkKing(AbstractSquare c) {
-	return c.getPiece() != null && c.getPiece().isKing();
-    }
+	 moves.clear();
+	 for(MoveType mt : m)
+	     addMoveType(mt);
+     }
+     public ArrayList<MoveType> getMoveTypes() { return moves; }
 
 
+     // BOARD BROWSING COMMANDS
 
-    private boolean browseSquare(AbstractSquare c, AbstractBoard b, BrowseType f) {
-	boolean ret;
+     private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
 
-	switch(f) {
-	case GREEN_SQUARES:
-	    ret = setGreen(c, b);
-	    break;
-	case CHECK_KING:
-	    ret = checkKing(c);
-	    break;
-	default:
-	    ret = false;
-	}
+	 // TODO test king is in check
+	 // AIBoard aib = new AIBoard(new Move(ab.getActiveSquare().getColumn(),ab.getActiveSquare().getRow(),c.getColumn(),c.getRow(),ab), ab); 
+	 boolean kingInCheck = false;
+	 c.setGreen(!kingInCheck);
+	 return !kingInCheck;
+     }
 
-	return ret;
-    }
-
-    private boolean checkSquare(int i, int j, AbstractBoard ab, BrowseType f, MoveType m) {
-
-	boolean b = ab.isSquareValid(i,j) && ((m.isAttackType() 
-					       && ab.hasPiece(i, j)
-					       && ab.getPiece(i, j).isWhite() != white)
-					      || (m.isWalkType()
-						  && ! ab.hasPiece(i, j)));
-
-	return b && browseSquare(ab.getSquare(i, j), ab, f);
-    }
-
-
-    private boolean browseBoard(int i, int j, AbstractBoard ab, BrowseType f) {
-
-
-	boolean movable = false;
-
-	if(king && !moved) 
-	    // CASTLE
-	    for(int dir = -1 ; dir < 2 ; dir += 2) {
-		int xx = (ab.getCols()-1)*((dir+1)/2);
-		if(ab.squareExists(xx, j) && ab.hasPiece(xx, j)) {
-		    Piece p = ab.getSquare(xx, j).getPiece();
-		    if(p.isRook() && !p.hasMoved()) {
-			boolean possible = true;
-			for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
-			    possible &= !(ab.getSquare(xx, j).hasPiece());
-			if(possible && f == BrowseType.GREEN_SQUARES)
-			    movable |= setGreen(ab.getSquare(i+(2*dir), j), ab);
-		    }
-		}
-	    }
-	// JOKER
-	if(joker) {
-	    Piece jokerPiece = ab.getJokerPiece();
-	    if(jokerPiece != null) {
-		boolean wasWhite = jokerPiece.isWhite();
-		jokerPiece.setWhite(white);
-		movable |= jokerPiece.browseBoard(i, j, ab, f);
-		jokerPiece.setWhite(wasWhite);
-	    }
-	}
-
-	for(MoveType m : moves) {
-
-	    int s = m.getOffset();
-	    int k = m.getStep();
-	    int x = m.getXDiff();
-	    int y = m.getYDiff();
-	    if(! white) {
-		x=-x;
-		y=-y;
-	    }
+     private boolean checkKing(AbstractSquare c) {
+	 return c.getPiece() != null && c.getPiece().isKing();
+     }
 
 
 
+     private boolean browseSquare(AbstractSquare c, AbstractBoard b, BrowseType f) {
+	 boolean ret;
 
-	    if(s == 0 && m.isWalkType()) {
+	 switch(f) {
+	 case GREEN_SQUARES:
+	     ret = setGreen(c, b);
+	     break;
+	 case CHECK_KING:
+	     ret = checkKing(c);
+	     break;
+	 default:
+	     ret = false;
+	 }
+
+	 return ret;
+     }
+
+     private boolean checkSquare(int i, int j, AbstractBoard ab, BrowseType f, MoveType m) {
+	 boolean b = ab.isSquareValid(i,j) && ((m.isAttackType() 
+						&& ab.hasPiece(i, j)
+						&& ab.getPiece(i, j).isWhite() != white)
+					       || (m.isWalkType()
+						   && ! ab.hasPiece(i, j)));
+	 return b && browseSquare(ab.getSquare(i, j), ab, f);
+     }
+
+
+     private boolean browseBoard(int i, int j, AbstractBoard ab, BrowseType f) {
+
+
+	 boolean movable = false;
+
+	 if(king && !moved) 
+	     // CASTLE
+	     for(int dir = -1 ; dir < 2 ; dir += 2) {
+		 int xx = (ab.getCols()-1)*((dir+1)/2);
+		 if(ab.squareExists(xx, j) && ab.hasPiece(xx, j)) {
+		     Piece p = ab.getSquare(xx, j).getPiece();
+		     if(p.isRook() && !p.hasMoved()) {
+			 boolean possible = true;
+			 for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
+			     possible &= !(ab.getSquare(xx, j).hasPiece());
+			 if(possible && f == BrowseType.GREEN_SQUARES)
+			     movable |= setGreen(ab.getSquare(i+(2*dir), j), ab);
+		     }
+		 }
+	     }
+	 // JOKER
+	 if(joker) {
+	     Piece jokerPiece = ab.getJokerPiece();
+	     if(jokerPiece != null) {
+		 boolean wasWhite = jokerPiece.isWhite();
+		 jokerPiece.setWhite(white);
+		 movable |= jokerPiece.browseBoard(i, j, ab, f);
+		 jokerPiece.setWhite(wasWhite);
+	     }
+	 }
+
+	 for(MoveType m : moves) {
+
+	     int s = m.getOffset();
+	     int k = m.getStep();
+	     int x = m.getXDiff();
+	     int y = m.getYDiff();
+
+	     if(! white) {
+		 x=-x;
+		 y=-y;
+	     }
+
+	     if(s == 0 && m.isWalkType()) {
 		movable |= browseSquare(ab.getSquare(i,j), ab, f);
 		s+=k;
 	    }
