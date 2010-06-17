@@ -6,7 +6,7 @@ import metachess.logger.Move;
 
 public class PlayableBoard extends AbstractBoard {
 	
-	protected Move lastMove;
+    protected Move lastMove;
     protected boolean whitePlaying;
     protected boolean agbker;
     protected boolean atomic;
@@ -36,7 +36,7 @@ public class PlayableBoard extends AbstractBoard {
     	activeSquareX = -1;
     	activeSquareY = -1;
     	jokerPiece = null;
-    	lastMove = null;;
+    	lastMove = null;
     }
     
 
@@ -53,7 +53,6 @@ public class PlayableBoard extends AbstractBoard {
     			}
     		}
     }
-
 
     public void nextPlayer() {
     	checkKingsAreOK();
@@ -175,7 +174,7 @@ public class PlayableBoard extends AbstractBoard {
 		    explode(i,j);
 		    getActiveSquare().removePiece(); // not here in v1
 		} else {
-		    theSquare.removePiece();
+		    removePiece(theSquare);
 		    // Promotion
 		    if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==getRows()-1)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
 			// Classic Promotion to Queen
@@ -192,7 +191,7 @@ public class PlayableBoard extends AbstractBoard {
 				int diff = theSquare.getColumn() - getActiveSquare().getColumn();
 				if(diff==2||diff==-2){
 					squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
-					squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].setPiece(null);
+					getSquare((getCols()-1)*((diff+2)/4), theSquare.getRow()).setPiece(null);
 				}
 			}
 		    }

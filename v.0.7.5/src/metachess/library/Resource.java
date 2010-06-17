@@ -10,7 +10,7 @@ import java.io.FilenameFilter;
 public enum Resource {
 
     RESOURCES("resources"),
-	PIECES_IMAGES("resources/images/pieces","^W.+", "png", "pieceImage", null),
+	PIECES_IMAGES("resources/images/pieces","^W.+", "png", "pieceImage", new PieceImageList()),
 	PIECES("resources/pieces", "^.+", "mcp", "piece", new PiecesList()),
 	SETUPS("resources/setups", "^.+", "mcs","setup", new SetupList());
 

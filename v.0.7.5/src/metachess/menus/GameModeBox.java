@@ -35,7 +35,7 @@ public class GameModeBox extends JDialog implements ActionListener {
 	super(g, "New Game", true);
 	game = g;
 
-	setMinimumSize(new Dimension(290,250));
+	setMinimumSize(new Dimension(320,280));
 	setLocationRelativeTo(g);
 	Container content = getContentPane();
 	content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));

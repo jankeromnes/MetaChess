@@ -23,11 +23,8 @@ import metachess.library.ToolIcons;
 
 public class LogPanel extends JPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final LogList list;
+    private static final long serialVersionUID = 1L;
+    private final LogList list;
     private final JList listcomp;
     private final Game game;
     private final JButton backButton;
