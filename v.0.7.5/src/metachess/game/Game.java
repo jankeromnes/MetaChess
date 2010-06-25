@@ -126,10 +126,10 @@ public class Game extends JFrame {
     public void newGame(boolean clear){
     	board.init(setup, atomic);
     	gb.init();
+	countPanel.clear();
     	if(clear) {
-    		histo.clearMoves();
-    		histo.update();
-		countPanel.clear();
+	    histo.clearMoves();
+	    histo.update();
     	}
 
     }
