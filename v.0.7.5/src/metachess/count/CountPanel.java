@@ -44,6 +44,7 @@ public class CountPanel extends JScrollPane {
 	list.clear();
 	black.update();
 	white.update();
+	repaint();
     }
 
 
