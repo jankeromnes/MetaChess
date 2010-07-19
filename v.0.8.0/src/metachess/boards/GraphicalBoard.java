@@ -27,6 +27,9 @@ public class GraphicalBoard extends JPanel {
  	init();
     }
     
+    /** Set the dimension of the sides of all the squares in this graphical board
+     * @param i the new length of the side
+     */
     public void setDim(int i) {
 	dim = i;
     }
@@ -41,25 +44,42 @@ public class GraphicalBoard extends JPanel {
     	    for(int i = 0 ; i < width ; i++)
 		initSquare(i, j);
     	ab.setGraphicBoard(this);
-    	update();
+
+	/* The update was useful only when a new setup was loaded
+	   Check Square.paint(g), Game constructor and Game.newGame()
+	      to see how it's now handled..
+	         Agbeladem, July 19 on v.0.8.0
+	*/
+	//    	update();
+	
     }
 
     public void initSquare(int i, int j) {
-	squares[i][j] = new Square(ab.getSquare(i, j), ab);
+	squares[i][j] = new Square(ab.getSquare(i, j), this);
 	squares[i][j].setDim(dim);
 	add(squares[i][j]);
     }
 
+    /** Get the abstract board on which this graphical board is based
+     * @return the abstract board
+     */
+    public AbstractBoard getAbstractBoard() {
+	return ab;
+    }
+
+    
     public Square getSquare(int i, int j) {
 	assert squareExists(i ,j);
 	return squares[i][j];
-    }
+	}
 
     public boolean squareExists(int i, int j) {
 	return i >= 0 && i < width
 	    && j >= 0 && j < height;
     }
+    
 
+    /** Update all the graphical squares of this graphical board */
     public void update() {
     	for(int j = ab.getRows()-1 ; j >= 0 ; j--)
     	    for(int i = 0 ; i < ab.getCols() ; i++)
