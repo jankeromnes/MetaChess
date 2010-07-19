@@ -83,32 +83,31 @@ public class AIBoardTree extends PlayableBoard {
     
     public void computeBestCandidate() {
     	
-		AbstractSquare s;
-		AIBoardTree child;
-    	if(depth>0 && !gameOver){
-			for(int x = 0 ; x < width ; x++)
-				for(int y = 0 ; y < width ; y++){
-					deactivateSquare();
-					s = getSquare(x, y);
-					if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)){
-		    			activateSquare(s);
-		    			if(isSquareActive()){
-		    				for(int i = 0 ; i < width ; i++)
-		    					for(int j = 0 ; j < width ; j++)
-		    						if(getSquare(i,j).isGreen()){
-		    							child = new AIBoardTree(this, new Move(activeSquareX,activeSquareY,i,j,this), depth-1);
-		    							BestMoveSequence newCandidate = child.getBestMoveSequence();
-		    							// check if candidate was beaten
-		    							if (candidate == null
-		    									|| ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
-		    									|| ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
-		    									) candidate = newCandidate;
-		    							complexity += child.getComplexity();
-		    						}
-		    			}
-					}
-				}
-    	}
+	AbstractSquare s;
+	AIBoardTree child;
+    	if(depth>0 && !gameOver)
+	    for(int x = 0 ; x < width ; x++)
+		for(int y = 0 ; y < width ; y++) {
+		    deactivateSquare();
+		    s = getSquare(x, y);
+		    if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)){
+			activateSquare(s);
+			if(isSquareActive()){
+			    for(int i = 0 ; i < width ; i++)
+				for(int j = 0 ; j < width ; j++)
+				    if(getSquare(i,j).isGreen()){
+					child = new AIBoardTree(this, new Move(activeSquareX,activeSquareY,i,j,this), depth-1);
+					BestMoveSequence newCandidate = child.getBestMoveSequence();
+					// check if candidate was beaten
+					if (candidate == null
+					    || ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
+					    || ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
+					    ) candidate = newCandidate;
+					complexity += child.getComplexity();
+				    }
+			}
+		    }
+		}
     }
     
     public BestMoveSequence getBestMoveSequence() {

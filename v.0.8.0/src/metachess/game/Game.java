@@ -72,8 +72,8 @@ public class Game extends JFrame {
     	board.init(setup, atomic);
     	gb = new GraphicalBoard(board);
     	gb.init();
+	gb.update();
     	add(gb, BorderLayout.CENTER);
-
 
 
 	countPanel = new CountPanel();
@@ -126,6 +126,7 @@ public class Game extends JFrame {
     public void newGame(boolean clear){
     	board.init(setup, atomic);
     	gb.init();
+	gb.update();
 	countPanel.clear();
     	if(clear) {
 	    histo.clearMoves();
@@ -137,7 +138,8 @@ public class Game extends JFrame {
 
     /** End the last game */
     public void endGame() {
-    	//newGame();
+	System.out.println("Fin de la partie");
+    	// newGame();
     }
 
     /** Add a move to the logger
