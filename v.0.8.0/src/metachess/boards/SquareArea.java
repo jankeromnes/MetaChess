@@ -25,7 +25,7 @@ public class SquareArea {
 	c1 = new Coords(x1, y1);
 	c2 = new Coords(x2, y2);
 
-	assert c1.getColumn() < c2.getColumn() && c1.getRow() < c2.getRow();
+	assert c1.getColumn() <= c2.getColumn() && c1.getRow() <= c2.getRow();
 
     }
 
@@ -46,10 +46,12 @@ public class SquareArea {
 	    C2 = c2;
 	}
 
+
 	int i = as.getColumn();
 	int j = as.getRow();
 
-	return i >= C1.getColumn() && i < C2.getColumn() && j >= C1.getRow() && j < C2.getRow();
+	return i >= C1.getColumn() && i <= C2.getColumn()
+	    && j >= C1.getRow() && j <= C2.getRow();
 
     }
 

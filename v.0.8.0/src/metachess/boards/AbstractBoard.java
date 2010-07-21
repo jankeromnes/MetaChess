@@ -1,5 +1,6 @@
 package metachess.boards;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import metachess.game.Piece;
@@ -28,6 +29,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     private int lastBlank;
     protected Piece jokerPiece;
+    protected HashMap<String, Area> areas;
 
     protected class EmptySquare extends AbstractSquare {
 
@@ -47,6 +49,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     /** Create an empty abstract board */
     public AbstractBoard() {
+	areas = new HashMap<String, Area>();
     	jokerPiece = null;
     }
     
@@ -63,6 +66,16 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	if(gb != null) gb.update();
     }
     
+    // AREAS
+
+    /** Add a given area to this board
+     * @param a the area to be added
+     */
+    public void add(Area a) {
+	areas.put(a.getName(), a);
+    }
+
+
     // ITERATOR
     
     /** Iterator of the pieces in the board */
@@ -264,5 +277,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public Piece getJokerPiece() { return jokerPiece; }
 
 }
+
 
 

@@ -123,15 +123,15 @@ public class Loader {
 	     // ------------- //
 	     // Loading areas //
 	     // ------------- //
-					 
+
+
 	     if(area) {
 		 line = br.readLine();
 		 int i;
 		 while(line != null && line.indexOf("{BEGIN}") == -1) {
 		     i = line.indexOf("area");
-		     if(i != -1) {
-			 Area a = new Area(line.substring(i+4, line.length()), abstractBoard);
-		     }
+		     if(i != -1)
+			 abstractBoard.add(new Area(line.substring(i+4, line.length()), abstractBoard));
 		     line = br.readLine();
 		 } 
 
@@ -183,6 +183,15 @@ public class Loader {
 
 	    br.close();
 	    //b.updateAll();
+
+	    /*
+	      // Test all the pieces for an area in variable "a"
+	    if(a != null)
+		for(metachess.boards.AbstractSquare s : abstractBoard)
+		    if(s.hasPiece())
+			System.out.println(s.getPiece().getName()+ (s.getPiece().isWhite()?'W':'B')
+	    				   +" : "+a.containsSquare(s));
+	    */
 
 	} catch(IOException e) {
 	    e.printStackTrace();
