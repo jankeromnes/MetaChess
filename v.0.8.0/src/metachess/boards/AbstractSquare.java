@@ -14,9 +14,10 @@ public class AbstractSquare {
     private final String name;
     private final Colour color;
     private boolean isGreen;
+
     protected Piece piece;
 
-    /** Create a new abstract square
+    /** Create an abstract square
      * @param x the square's column (X Coord)
      * @param y the square's row (Y Coord)
      */
@@ -25,7 +26,7 @@ public class AbstractSquare {
 	j = y;
 	isGreen = false;
 	piece = null;
-	name = Character.toString((char)('A'+i))+(j+1);
+	name = new Coords(i, j).toString();
 	color = (i+j)%2 == 0 ? Colour.BLACK_BG : Colour.WHITE_BG;
     }
 
@@ -43,20 +44,71 @@ public class AbstractSquare {
 
     public void removePiece() { piece = null; }
 
-    public void setGreen(boolean green) { isGreen = green; } 
-    public void setPiece(Piece p) { piece = p; }
+    /** Set this square's activity
+     * @param green true if the square is active, that is if in range of the active piece
+     */
+    public void setGreen(boolean green) {
+	isGreen = green;
+    }
 
-    public boolean isGreen() { return isGreen; }
-    public Colour getColor() { return color; }
+    /** Set piece contained by this square
+     * @param p the new piece
+     */
+    public void setPiece(Piece p) {
+	piece = p;
+    }
+
+    public boolean isGreen() {
+	return isGreen;
+    }
+
+    /** Get the colour of this square
+     * @return Colour.BLACK_BG or Colour.WHITE_BG (see library.Colour)
+     */
+    public Colour getColor() {
+	return color;
+    }
+
+    /** Get the piece of this square
+     * @return the piece
+     */
     public Piece getPiece() {
 	assert hasPiece(); 
 	return piece;
     }
-    public String getName() { return name; }
-    public int getColumn() { return i; }
-    public int getRow() { return j; }
-    public boolean hasPiece() { return piece != null; }
 
+    /** Return the two characters name of this square
+     * @return the name
+     */
+    public String getName() {
+	return name;
+    }
+
+    /** Get the column of this square
+     * @return the column (X Coord)
+     */
+    public int getColumn() {
+	return i;
+    }
+
+    /** Get the row of this square
+     * @return the row (Y Coord)
+     */
+    public int getRow() {
+	return j;
+    }
+
+    /** Tells whether this square contains a piece
+     * @return true if it does
+     */
+    public boolean hasPiece() {
+	return piece != null;
+    }
+
+    /** Tells whether this square has been removed of the board
+     * @return true if it has, false by default
+     * <br/> Overriden by EmptySquare in AbstractBoard
+     */
     public boolean isNull() { return false; }
 
     @Override
@@ -75,5 +127,5 @@ public class AbstractSquare {
 
     }
 
-
 }
+

@@ -1,7 +1,12 @@
-# Metachess=v.0.6/MCS=v.3
+# Metachess=v.0.6/MCS=v.4
 
 width	= 8
 height	= 8
+
+	{AREA}
+
+area pawnline sym A2 H3
+
 
 	{BEGIN}
 
