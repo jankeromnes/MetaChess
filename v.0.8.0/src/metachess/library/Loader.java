@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
 
 import metachess.boards.AbstractBoard;
+import metachess.boards.Area;
 import metachess.game.MoveType;
 import metachess.game.Piece;
 
@@ -93,8 +94,15 @@ public class Loader {
 	     file = Resource.SETUPS.getPath(false)+file+".mcs";
 	     BufferedReader br = new BufferedReader(new InputStreamReader(instance.getClass().getResourceAsStream(file)));
 
+	     // ----------------- //
+	     // Loading variables //
+	     // ----------------- //
+
 	     String line = br.readLine();
-	     while(line.indexOf("{BEGIN}")==-1 && line != null) {
+	     boolean area = line.indexOf("{AREA}") != -1;
+	     while(line.indexOf("{BEGIN}") == -1
+		   && !area
+		   && line != null) {
 		 int i = line.indexOf('#');
 		 if(i != -1)
 		     line = line.substring(0,i);
@@ -107,14 +115,33 @@ public class Loader {
 			 abstractBoard.setCols(Integer.parseInt(value));
 		     else if(var.equals("height"))
 			 abstractBoard.setRows(Integer.parseInt(value));
-
 		 }
-
-
 		 line = br.readLine();
+		 area = line.indexOf("{AREA}") != -1;
 	     }
-	     
+
+	     // ------------- //
+	     // Loading areas //
+	     // ------------- //
+					 
+	     if(area) {
+		 line = br.readLine();
+		 int i;
+		 while(line != null && line.indexOf("{BEGIN}") == -1) {
+		     i = line.indexOf("area");
+		     if(i != -1) {
+			 Area a = new Area(line.substring(i+4, line.length()), abstractBoard);
+		     }
+		     line = br.readLine();
+		 } 
+
+	     }
+
 	     abstractBoard.endInit();
+
+	     // ------------- //
+	     // Loading board //
+	     // ------------- //
 
 	     StreamTokenizer st = new StreamTokenizer(br);
 	     st.wordChars('_', '_'+1);
@@ -157,7 +184,9 @@ public class Loader {
 	    br.close();
 	    //b.updateAll();
 
-	} catch(IOException e) { System.out.println(e); }
+	} catch(IOException e) {
+	    e.printStackTrace();
+	}
 
     }
 
