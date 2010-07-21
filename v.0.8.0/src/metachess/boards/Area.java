@@ -83,9 +83,8 @@ public class Area implements Iterable<SquareArea> {
      * @param as the abstract square
      * @return true if it is
      */
-    public boolean containsPiece(AbstractSquare as) {
+    public boolean containsSquare(AbstractSquare as) {
 	assert as.hasPiece();
-
 
 	if(color == AreaColor.WHITE && !as.getPiece().isWhite()
 	   || color == AreaColor.BLACK && as.getPiece().isWhite())
@@ -93,13 +92,27 @@ public class Area implements Iterable<SquareArea> {
 	else {
 	    boolean ret = false;
 	    for(SquareArea sa : this)
-		ret |= sa.containsSquare(as, color == AreaColor.SYM);
+		ret |= sa.containsSquare(as, color == AreaColor.SYM
+					 && !as.getPiece().isWhite());
+
 	    return ret;
 	}
     }
 
+    /** Get the name of this area
+     * @return the name, as defined in the MCS file
+     */
+    public String getName() {
+	return name;
+    }
+
     public Iterator<SquareArea> iterator() {
 	return list.iterator();
+    }
+
+    @Override
+	public String toString() {
+	return "Area "+name;
     }
 
 }
