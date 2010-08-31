@@ -159,7 +159,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param keep whether 
      */
     public void playMove(Move m) {
-	System.out.println(m);
     	playSquare(m.getOldX(), m.getOldY());
     	playSquare(m.getNewX(), m.getNewY());
     }
