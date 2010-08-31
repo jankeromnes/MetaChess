@@ -61,8 +61,6 @@ public class AIBoardTree extends PlayableBoard {
     	if(candidate != null) sequence = new BestMoveSequence(move, candidate);
     	else sequence = new BestMoveSequence(move, getScore());
     	
-    	//System.out.println(this);
-    	
     }
     
     public void copyFromParent() {

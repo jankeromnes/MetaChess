@@ -92,7 +92,7 @@ public enum Resource {
      * @return an array of File
      * 
      * IMPORTANT NOTE : For Eclipse users, don't forget to set the
-     * working directory to ${workspace_loc:project_name/bin}
+     * working directory to ${workspace_loc:PROJECT_NAME_HERE/bin}
      * See Run > Run Configurations > (your config) > Arguments
      */
     public String[] getFiles() {
