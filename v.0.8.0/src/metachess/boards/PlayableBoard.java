@@ -4,11 +4,14 @@ import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.logger.Move;
 
+/** Class of a playable board
+ * @author Jan (7DD)
+ * @version 0.8.1
+ */
 public class PlayableBoard extends AbstractBoard {
 	
     protected Move lastMove;
     protected boolean whitePlaying;
-    protected boolean agbker;
     protected boolean atomic;
     protected boolean deathMatch;
     protected boolean gameOver;
@@ -20,12 +23,11 @@ public class PlayableBoard extends AbstractBoard {
     	lastMove = null;
     }
 
-    public void init(String s, boolean isAtomic){
+    public void init(String s, boolean isAtomic) {
     	super.init(s);
 
 
     	whitePlaying = true;
-        agbker = false;
         atomic = false;
         deathMatch = false;
         gameOver = false;
@@ -207,17 +209,16 @@ public class PlayableBoard extends AbstractBoard {
     	update(); // not here in v1
     }
 
-	public boolean isWhitePlaying() {
-		return whitePlaying;
-	}
+    /**  Tells whether the white player is playing
+     * @return true if it is, false if the black player is playing
+     */
+    public boolean isWhitePlaying() {
+	return whitePlaying;
+    }
 
-	public boolean isAgbker() {
-		return agbker;
-	}
-
-	public boolean iAtomic() {
-		return atomic;
-	}
-
+    public boolean iAtomic() {
+	return atomic;
+    }
+    
     
 }

@@ -42,33 +42,35 @@ public class CountView extends JPanel {
     public void update() {
 	removeAll();
 	comp.clear();
+	int w = (int)(getSize().getWidth());
  	for(String s : list.getSet(white)) {
 	    JLabel lab = new JLabel(list.get(s, white).toString());
-	    lab.setIcon(PieceImages.getScaledImage(s, white, 50));
+	    lab.setIcon(PieceImages.getScaledImage(s, white, w/3));
 	    lab.setAlignmentX(CENTER_ALIGNMENT);
+	    lab.setIconTextGap(w/6);
 	    comp.put(s,lab);
 	    add(lab);
 	}
 	repaint();
    }
 
-    
+
+    /*  
     public void paint(Graphics g) {
 	super.paint(g);
 	int w = (int)(getSize().getWidth());
-
 	for(String s : comp.keySet()) {
 	    JLabel lab = comp.get(s);
 	    lab.setAlignmentX(CENTER_ALIGNMENT);
 	    lab.setIcon(PieceImages.getScaledImage(s, white, w/3));
 	    lab.setIcon(PieceImages.getScaledImage((javax.swing.ImageIcon)lab.getIcon(), w/3));
 	    lab.setIconTextGap(w/6);
+
 	    lab.setFont(new Font(Font.SERIF, Font.PLAIN, w/6));
 	}
-
-	setSize(new Dimension(w, StrictMath.max(300, w/2 * comp.size())));
-	
+	// setSize(new Dimension(w, StrictMath.max(300, w/2 * comp.size())-1));
     }
+    */
 
 }
 

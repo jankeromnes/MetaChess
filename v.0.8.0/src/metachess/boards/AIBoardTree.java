@@ -54,7 +54,7 @@ public class AIBoardTree extends PlayableBoard {
         
     	copyFromParent();
 
-		playMove(m);
+	playMove(m);
     	
     	computeBestCandidate();
     	
@@ -65,7 +65,6 @@ public class AIBoardTree extends PlayableBoard {
     
     public void copyFromParent() {
         whitePlaying = parent.isWhitePlaying();
-        agbker = parent.isAgbker();
         atomic = parent.iAtomic();
     	width = parent.getCols();
     	height = parent.getRows();

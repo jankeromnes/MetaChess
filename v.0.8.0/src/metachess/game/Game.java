@@ -59,7 +59,7 @@ public class Game extends JFrame {
 
     	atomic = false;
     	whiteAILevel = 0;
-    	blackAILevel = 3;
+    	blackAILevel = 0;
 
     	builder = new BuilderBox();
     	gmBox = new GameModeBox(this);
@@ -99,7 +99,8 @@ public class Game extends JFrame {
      * @param moves a list of all the played moves since the beginning
      */
     public void jump(ArrayList<Move> moves) {
-    	newGame(moves.isEmpty());
+	//newGame(moves.isEmpty());
+	newGame(false);
     	board.jump(moves);
     }
 
