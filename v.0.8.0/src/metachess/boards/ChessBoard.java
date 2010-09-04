@@ -74,17 +74,26 @@ public class ChessBoard extends PlayableBoard {
 
     }
 
-
+    /** Play a specific move in this board
+     * @param m the move to play
+     */
     public void playMove(Move m) {
     	playSquare(m.getOldX(), m.getOldY(), true);
     	playSquare(m.getNewX(), m.getNewY(), true);
     }
 
+    /** Replay a move, and prevent the AI from playing if needed
+     * @param m the move to play
+     */
     public void replayMove(Move m) {
     	playSquare(m.getOldX(), m.getOldY(), false);
     	playSquare(m.getNewX(), m.getNewY(), false);
     }
 
+    /** Make the AI play a move.
+     *  This is used when the AIThread has chosen its best move
+     * @param m the move to play
+     */
     public void playAIMove(Move m) {
     	waitForAI = false;
     	playSquare(m.getOldX(), m.getOldY(),true);
@@ -103,16 +112,21 @@ public class ChessBoard extends PlayableBoard {
     	if(!waitForAI) super.playSquare(i, j);
     }
     
+    @Override
     public void playSquare(int i, int j) {
     	playSquare(i, j, true);
     }
 
+    /** Play a list of moves in this board, starting from the beginning of the setup
+     * @param moves the list of moves to load
+     */
     public void jump(ArrayList<Move> moves) {
-	if(moves != null) {
-	    int n = moves.size();
-	    for(int i = 0; i < n ; i++)
-		replayMove(moves.get(i));
-	}
+	assert moves != null;
+
+	int n = moves.size();
+	for(int i = 0; i < n ; i++)
+	    replayMove(moves.get(i));
+
     }
  
 

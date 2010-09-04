@@ -34,7 +34,6 @@ public class CountPanel extends JScrollPane {
 	panel.add(black);
 	panel.setLayout(new GridLayout(1, 2));
 
-
 	viewport.add(panel);
 
     }
@@ -58,22 +57,23 @@ public class CountPanel extends JScrollPane {
     }
 
 
+    /*
     public void paint(Graphics g) {
 	super.paint(g);
 
 	Dimension d = getSize();
 	int width = (int)d.getWidth()/2;
-	int height = (int)d.getHeight();
+	int height = (int)d.getHeight()-3; // That "-3" part must be because of the borders
 
 	d = new Dimension(width, height);
 
 	white.setSize(d);
 	black.setSize(d);
 
-	panel.setPreferredSize(new Dimension(width*2, height));
+	panel.setPreferredSize(new Dimension(width*2+3, height));
 
     } 
-
+    */
 
 }
 
