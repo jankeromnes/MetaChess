@@ -131,13 +131,8 @@ public class MoveType {
      * @return the format as a string
      */
     public String getMCPFormat() {
-	return String.valueOf(type)+dirchar+range;
+	return String.valueOf(type)+dirchar+range+step+offset;
 
-    }
-
-    @Override
-	public String toString() { 
-	return String.valueOf(type)+'-'+dirchar+'-'+range;
     }
 
     // FOR COMBO DIRECTIONS
@@ -323,7 +318,11 @@ public class MoveType {
 	return type == m.type && range == m.range && dirchar == m.dirchar;
     }
 
- 
+    @Override
+	public String toString() { 
+	return String.valueOf(type)+'-'+dirchar+'-'+range+'-'+step+'-'+offset;
+    }
+
 
 }
 

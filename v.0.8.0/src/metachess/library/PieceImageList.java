@@ -11,25 +11,27 @@ import javax.swing.JScrollPane;
  */
 public class PieceImageList extends JList implements ResourceList {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** Creation of a pieces images list */
+    /** Creation of a pieces images list */
     public PieceImageList() {
 	super();
 	setOpaque(false);
 	setCellRenderer(new PieceImageSelectRenderer());
     }
 
+    /** (Re)initialize this list */
     public void init() {
 	setListData(Resource.PIECES_IMAGES.getFiles());
 	setSelectedIndex(0);
     }
 
     @Override
-	public String getName() {
+    public String getName() {
 	return getSelectedValue().toString();
     }
 
+    @Override
     public Component getComponent() {
 	return new JScrollPane(this);
     }

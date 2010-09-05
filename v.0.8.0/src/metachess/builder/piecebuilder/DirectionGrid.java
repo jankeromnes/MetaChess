@@ -11,15 +11,20 @@ import javax.swing.JPanel;
 import metachess.game.MoveType;
 import metachess.library.Colour;
 
+/** Class of the advanced Direction choice (as a grid of buttons)  in the Moves Builderbox
+ * @author Agbeladem
+ * @version 0.8.2
+ */
 public class DirectionGrid extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private final JButton[][] squares = new JButton[5][5];
+    private static final long serialVersionUID = 1L;
+    private final JButton[][] squares = new JButton[5][5];
     private final JButton[] walks = new JButton[8];
     private final JButton[] jumps = new JButton[8];
     private boolean walking;
     private boolean able;
 
+    /** Creation of a Direction grid */
     public DirectionGrid() {
 	super();
 	setLayout(new GridLayout(5,5));
@@ -73,6 +78,10 @@ public class DirectionGrid extends JPanel {
 
     }
     
+
+    /** Fill this grid's buttons according to a given direction
+     * @param c the direction as an MCP character
+     */
     public void fill(char c) {
 
 	Color activated = (able?Colour.DARK_BLUE.getColor()
@@ -88,7 +97,9 @@ public class DirectionGrid extends JPanel {
 
     }
 
-    
+    /** Toggle the set of choice depending on a given move policy
+     * @param walking whether the piece will be 'walking' (true) or jumping (false)
+     */
     public void toggle(boolean walking) {
 	this.walking = walking;
 	Color snow = Colour.WHITE.getColor();
@@ -104,17 +115,24 @@ public class DirectionGrid extends JPanel {
 
     }
 
+    /** Enable or disable this direction grid
+     * @param a true if it must be enabled, false otherwise
+     */
     public void setAbled(boolean able) {
 	this.able = able;
 	toggle(walking);
     }
 
+    /** (Re)initialize this grid */
     public void init() {
 	able = false;
 	toggle(true);
 	fill('A');	
     }
 
+    /** Tell if a button of this choice panel is activated (and thus selected)
+     * @param i the identifier of the button being checked
+     */
     public boolean isButtonActivated(int i) {
 	assert(i >= 0 && i < 8): "DirectionGrid : bad direction";
 	assert(able): "DirectionGrid : Grid not activated";

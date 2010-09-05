@@ -25,7 +25,6 @@ public class SetupSavePanel extends SavePanel {
 	loader.pack();
     }
 
-
     @Override
 	public void write() {
 	println("# Metachess=v.0.8.0/MCS=v.4");

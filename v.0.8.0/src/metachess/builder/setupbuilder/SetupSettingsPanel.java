@@ -10,6 +10,10 @@ import javax.swing.JSlider;
 
 import metachess.builder.PanelTitle;
 
+/** Class of the Settings Panel in the Setup Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.2
+ */
 public class SetupSettingsPanel extends JPanel {
 
   
@@ -19,6 +23,9 @@ public class SetupSettingsPanel extends JPanel {
     private final JSlider widthSlider;
     private final JSlider heightSlider;
 
+    /** Creation of a Setup Settings Panel 
+     * @param box the Setup Builderbox to which this panel belongs
+     */
     public SetupSettingsPanel(SetupBuilderBox box) {
 	super();
 

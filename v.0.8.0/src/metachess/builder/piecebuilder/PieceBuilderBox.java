@@ -13,10 +13,11 @@ import metachess.game.MoveType;
 import metachess.game.Piece;
 import metachess.library.PieceImages;
 import metachess.library.Pieces;
+import metachess.library.Resource;
 
 /** Class of the Piece tab in the Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.2
  */
 public class PieceBuilderBox extends JPanel {
 
@@ -48,31 +49,25 @@ public class PieceBuilderBox extends JPanel {
 	
     }
     
+    /** (Re)initialize this Builderbox and all its contained panels */
     public void init() {
 	update(new ArrayList<MoveType>());
 	isp.init();
     }
 
+    /** Load a given piece in this panel
+     * @param name the name of the piece to load
+     */
     public void load(String name) {
 	Piece p = Pieces.getPiece(name);
 	mp.setMoves(p.getMoveTypes());
 	changeIcon(PieceImages.getImage(name));
     }
 
-    public void changeIcon(String fileName) {
 
-	Piece p;
-	for(AbstractSquare s : bs) {
-	    p = s.getPiece();
-	    if(p.getName().equals("metamorph"))  {
-		p.setImage(fileName);
-		gb.update();
-	    }
-	}
-	bs.resetIterator();
-    }
-
-
+    /** Update the authorized moves shown in this Builderbox
+     * @param m the list of moves that will be enabled for the created piece
+     */
     public void update(ArrayList<MoveType> m) {
 	moves = m;
 	//bs.deactivateSquare();
@@ -88,15 +83,41 @@ public class PieceBuilderBox extends JPanel {
 	bs.resetIterator();
     }
 
+    /** Get the list of moves types that this piece will be able to use
+     * @return the list of moves as ArrayList
+     */
     public ArrayList<MoveType> getMoves() {
 	return moves;
     }
 
 
+    /** Change the appearance of the piece that this panel creates
+     * @param fileName the path of the image that will represent the piece
+     */
+    public void changeIcon(String fileName) {
+	image = fileName;
+	fileName = Resource.PIECES_IMAGES.getPath(false)+image;
+	Piece p;
+	for(AbstractSquare s : bs) {
+	    p = s.getPiece();
+	    if(p.getName().equals("metamorph"))  {
+		p.setImage(fileName);
+		gb.update();
+	    }
+	}
+	bs.resetIterator();
+    }
+
+    /** Get the name of the created piece's appearance
+     * @return the path of the image that wil represent the piece
+     */
     public String getImageName() {
 	return image;
     }
 
+    /** Get the list of the special moves of the created piece
+     * @return the list of special moves in the MCP format
+     */
     public String getSpecialMoves() {
 	StringBuilder s = new StringBuilder();
 	if(mp.isJoker()) s.append("SJ\n");

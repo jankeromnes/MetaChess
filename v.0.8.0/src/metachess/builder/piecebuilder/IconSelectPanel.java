@@ -7,8 +7,11 @@ import javax.swing.event.ListSelectionListener;
 
 import metachess.builder.PanelTitle;
 import metachess.library.PieceImageList;
-import metachess.library.Resource;
 
+/** Class of the Icon Selection Panel in the Piece Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.2
+ */
 public class IconSelectPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -16,6 +19,9 @@ public class IconSelectPanel extends JPanel {
     private final PieceBuilderBox pbb;
     private final ListSelectionListener listEv;
 
+    /** Creation of a Piece Icon Selection Panel
+     * @param arg the Piece Builderbox to which this panel belongs
+     */
     public IconSelectPanel(PieceBuilderBox arg) {
 	super();
 	pbb = arg;
@@ -25,20 +31,21 @@ public class IconSelectPanel extends JPanel {
 	listEv = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 		    if(! e.getValueIsAdjusting())
-			pbb.changeIcon(Resource.PIECES_IMAGES.getPath(false)+images.getName());
+			pbb.changeIcon(images.getName());
 		}
 	    };
-	images.addListSelectionListener(listEv);
 
 	add(new PanelTitle("Model Icon"));
 	add(images);
 
     }
 
+    /** (Re)initialize this panel */
     public void init() {
 	images.removeListSelectionListener(listEv);
 	images.init();
 	images.addListSelectionListener(listEv);
+	pbb.changeIcon(images.getName());
     }
 
 

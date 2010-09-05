@@ -138,7 +138,7 @@ public class ToolSelectPanel extends JPanel {
 
     }
 
-    /** Initialize the tool selection panel */
+    /** (Re)initialize this tool selection panel */
     public void init() {
 	piece.setSelected(true);
 	images.removeListSelectionListener(listEv);
@@ -148,6 +148,10 @@ public class ToolSelectPanel extends JPanel {
 	white = true;
     }
 
+
+    /** Tell whether this panel's selected piece is white
+     * @return true if it is, false it is black
+     */
     public boolean isWhite() {
 	return white;
     }

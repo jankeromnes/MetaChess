@@ -11,7 +11,7 @@ import metachess.library.Loader;
 
 /** Class of the Setup tab in the Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.2
  */
 public class SetupBuilderBox extends JPanel {
 
@@ -24,7 +24,7 @@ public class SetupBuilderBox extends JPanel {
     private int rows = 8;
     private int cols = 8;
 
-    /** Create a new Setup Builderbox */
+    /** Creation of a Setup Builderbox */
     public SetupBuilderBox() {
 	super();
 	setLayout(new BorderLayout());
@@ -48,6 +48,9 @@ public class SetupBuilderBox extends JPanel {
 	tsp.init();
     }
 
+    /** Load a given setup in this panel
+     * @param name the setup to load
+     */
     public void load(String name) {
 	Loader.loadSetup(board, name);
 	tsp.init();
