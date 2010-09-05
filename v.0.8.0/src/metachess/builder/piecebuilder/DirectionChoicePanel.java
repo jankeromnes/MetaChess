@@ -11,16 +11,23 @@ import javax.swing.JRadioButton;
 
 import metachess.builder.PanelTitle;
 
+/** Class of the Direction Choice Panel in the Moves Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.2
+ */ 
 public class DirectionChoicePanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final JRadioButton all, rook, hori, verti, diag, slash, backslash, advanced;
+    private final JRadioButton all, rook, hori, verti, diag, slash, backslash, advanced;
 
     private final MovesBox parent;
     private boolean isAdvanced;
     private char result;
 
+    /** Create a Moves Direction Choice Panel
+     * @param box the Moves Builderbox to which this panel belongs
+     */
     public DirectionChoicePanel(MovesBox box) {
 	super();
 	parent = box;
@@ -92,16 +99,23 @@ public class DirectionChoicePanel extends JPanel {
 
     }
 
+    /** (Re)initialize this panel */
     public void init() {
 	all.setSelected(true);
 	isAdvanced = false;
 	result = 'A';
     }
 
+    /** Get the direction chosen in this panel
+     * @return the selected direction, as an MCP character
+     */
     public char getDirection() {
 	return result;
     }
 
+    /** Tell whether the user have to select the authorized directions by himself
+     * @return true if he does
+     */
     public boolean isAdvancedDirection() {
 	return isAdvanced;
     }

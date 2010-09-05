@@ -17,16 +17,21 @@ import javax.swing.event.ChangeListener;
 
 import metachess.builder.PanelTitle;
 
-public class MovesSettingPanel extends JPanel {
+/** Class of the Settings Pannel in the Moves Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.2
+ */
+public class MovesSettingsPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	enum MoveForm {
+    private static final long serialVersionUID = 1L;
+
+    enum MoveForm {
 	WALK("Walk", 'W'),
         ATTACK("Attack", 'A'),
 	BOTH("Both Walk and Attack", 'B'),
 	JUMP("Jump like a knight", 'J'),
 	PAWNLINE("Walk from the pawns line", 'P');
-
+	
 	MoveForm(String name, char value) {
 	    this.name = name;
 	    this.value = value;
@@ -48,15 +53,22 @@ public class MovesSettingPanel extends JPanel {
 
     private char rangeValue;
     private char typeValue;
+    private int stepValue;
+    private int offsetValue;
 
     private final JRadioButton numRangeButton;
     private final JRadioButton maxRangeButton;
     private final JRadioButton hopperRangeButton;
-    private final JSlider slider;
+    private final JSlider numSlider;
+    private final JSlider offsetSlider;
+    private final JSlider stepSlider;
 
     private JComboBox jc;
 
-    public MovesSettingPanel(MovesBox b) {
+    /** Creation of Moves Settings Panel
+     * @param b the Moves Builderbox to which this panel belongs
+     */
+    public MovesSettingsPanel(MovesBox b) {
 	super();
 	parent = b;
 	
@@ -71,16 +83,40 @@ public class MovesSettingPanel extends JPanel {
       	JPanel comboPanel = new JPanel();
     	comboPanel.add(jc);
 	setTypeValue();
-	slider = new JSlider(1, 9, 2);
-	slider.setMinorTickSpacing(1);
-	slider.setMajorTickSpacing(1);
-	slider.setPaintTicks(true);
-	slider.setPaintLabels(true);
-	slider.setPaintTrack(true);
-	slider.setSnapToTicks(true);
 
-	JPanel sliderPanel = new JPanel();
-	sliderPanel.add(slider);
+	numSlider = new JSlider(1, 9, 2);
+	numSlider.setMinorTickSpacing(1);
+	numSlider.setMajorTickSpacing(1);
+	numSlider.setPaintTicks(true);
+	numSlider.setPaintLabels(true);
+	numSlider.setPaintTrack(true);
+	numSlider.setSnapToTicks(true);
+
+	stepValue = 1;
+	stepSlider = new JSlider(1, 9, 1);
+	stepSlider.setMinorTickSpacing(1);
+	stepSlider.setMajorTickSpacing(1);
+	stepSlider.setPaintTicks(true);
+	stepSlider.setPaintLabels(true);
+	stepSlider.setPaintTrack(true);
+	stepSlider.setSnapToTicks(true);
+
+	offsetValue = 0;
+	offsetSlider = new JSlider(0, 8, 1);
+	offsetSlider.setMinorTickSpacing(1);
+	offsetSlider.setMajorTickSpacing(1);
+	offsetSlider.setPaintTicks(true);
+	offsetSlider.setPaintLabels(true);
+	offsetSlider.setPaintTrack(true);
+	offsetSlider.setSnapToTicks(true);
+
+	
+	JPanel numSliderPanel = new JPanel();
+	numSliderPanel.add(numSlider);
+	JPanel stepSliderPanel = new JPanel();
+	stepSliderPanel.add(stepSlider);
+	JPanel offsetSliderPanel = new JPanel();
+	offsetSliderPanel.add(offsetSlider);
 
 
 	ButtonGroup bg = new ButtonGroup();
@@ -94,7 +130,7 @@ public class MovesSettingPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 		    Object o = e.getSource();
 		    boolean b = o == numRangeButton;
-		    slider.setEnabled(b);
+		    numSlider.setEnabled(b);
 		    if(b)
 			setRangeValue(RangeForm.NUMERIC);
 		    else if(o == maxRangeButton)
@@ -103,11 +139,24 @@ public class MovesSettingPanel extends JPanel {
 			setRangeValue(RangeForm.HOPPER_STYLE);
 		}
 	    };
-	slider.addChangeListener(new ChangeListener() {
+
+	numSlider.addChangeListener(new ChangeListener() {
 		public void stateChanged(ChangeEvent e) {
 		    setRangeValue(RangeForm.NUMERIC);
 		}
 	    });
+	stepSlider.addChangeListener(new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+		    stepValue = stepSlider.getValue();
+		}
+	    });
+	offsetSlider.addChangeListener(new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+		    offsetValue = offsetSlider.getValue();
+		}
+	    });
+
+
 	numRangeButton.addActionListener(ev);
 	maxRangeButton.addActionListener(ev);
 	hopperRangeButton.addActionListener(ev);
@@ -116,7 +165,9 @@ public class MovesSettingPanel extends JPanel {
 	numRangeButton.setAlignmentX(CENTER_ALIGNMENT);
 	maxRangeButton.setAlignmentX(CENTER_ALIGNMENT);
 	hopperRangeButton.setAlignmentX(CENTER_ALIGNMENT);
-	sliderPanel.setAlignmentX(CENTER_ALIGNMENT);
+	numSliderPanel.setAlignmentX(CENTER_ALIGNMENT);
+	stepSliderPanel.setAlignmentX(CENTER_ALIGNMENT);
+	offsetSliderPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -125,20 +176,26 @@ public class MovesSettingPanel extends JPanel {
 	add(comboPanel);
 	add(new PanelTitle("Range of move"));
 	add(numRangeButton);
-	add(sliderPanel);
+	add(numSliderPanel);
 	add(maxRangeButton);
 	add(hopperRangeButton);
+	add(new PanelTitle("Step for the move"));
+	add(stepSliderPanel);
+	add(new PanelTitle("Offset for the move"));
+	add(offsetSliderPanel);
 	add(Box.createVerticalGlue());
 
     }
 
-
+    /** (Re)initialize this Settings Panel */
     public void init() {
 	jc.setSelectedIndex(0);
-	slider.setEnabled(false);
+	numSlider.setEnabled(false);
 	maxRangeButton.setSelected(true);
 	setRangeValue(RangeForm.MAXIMUM);	
 	setTypeValue();
+	stepValue = stepSlider.getValue();
+	offsetValue = offsetSlider.getValue();
     }
 
 
@@ -150,7 +207,7 @@ public class MovesSettingPanel extends JPanel {
     private void setRangeValue(RangeForm r) {
 	switch(r) {
 	case NUMERIC:
-	    rangeValue = (char)('0'+slider.getValue());
+	    rangeValue = (char)('0'+numSlider.getValue());
 	    break;
 	case MAXIMUM:
 	    rangeValue = 'N';
@@ -162,8 +219,33 @@ public class MovesSettingPanel extends JPanel {
     }
 
 
-    public char getTypeValue() { return typeValue; }
-    public char getRangeValue() { return rangeValue; }
+    /** Get the type of move that has been selected in this panel
+     * @return the type of move, as an MCP character
+     */
+    public char getTypeValue() {
+	return typeValue;
+    }
+
+    /** Get the range of move that has been selected in this panel
+     * @return the range of move, as an MCP character
+     */
+    public char getRangeValue() {
+	return rangeValue;
+    }
+
+    /** Get the step chosen for this move in this panel
+     * @return the step of this move
+     */
+    public int getStepValue() {
+	return stepValue;
+    }
+
+    /** Get the offset chosen for this move in this panel
+     * @return the offset of this move
+     */
+    public int getOffsetValue() {
+	return offsetValue;
+    }
 
 }
 

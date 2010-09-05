@@ -10,11 +10,18 @@ import metachess.game.MoveType;
 import metachess.library.PieceImages;
 import metachess.library.Resource;
 
+/** Class of the Piece Builderbox save panel
+ * @author Agbeladem (7DD)
+ * @version 0.8.1
+ */
 public class PieceSavePanel extends SavePanel {
 
     private static final long serialVersionUID = 1L;
     private PieceBuilderBox parent;
 
+    /** Creation of a Piece Builderbox save panel
+     * @param b the Piece Builderbox
+     */
     public PieceSavePanel(PieceBuilderBox b) {
 	super(Resource.PIECES);
 	parent = b;
@@ -42,11 +49,10 @@ public class PieceSavePanel extends SavePanel {
 
     @Override
 	public void write() {
-	println("// Metachess v.0.7.3/MCP=v.2");
+	println("// Metachess v.0.8.2/MCP=v.2");
 	println("// Generated from builder\n");
-	for(MoveType m: parent.getMoves()) {
+	for(MoveType m: parent.getMoves())
 	    println(m.getMCPFormat());
-	}
 	println(parent.getSpecialMoves());
 
     }

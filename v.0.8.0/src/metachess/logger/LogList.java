@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 
-/** Class of the moves abstract list
+/** Class of the moves history abstract list in the logger
  * @author Agbeladem (7DD)
  * @version 0.8.1
  */
@@ -18,7 +18,7 @@ public class LogList extends AbstractListModel {
     private int lastIndex;
     private ArrayList<Move> moves;
 
-    /** Create a list model of the moves */
+    /** Creation of a list model of the moves history */
     public LogList() {
 	moves = new ArrayList<Move> ();
 	lastIndex = -1;
@@ -46,7 +46,7 @@ public class LogList extends AbstractListModel {
 	update();
     }
 
-    /** Notify the model and thus its associated view that the list has been updated */
+    /** Notify the model and thus its associated view that this list has been updated */
     public void update() {
 	fireContentsChanged(this, 0, getSize());
     }
@@ -75,6 +75,7 @@ public class LogList extends AbstractListModel {
     /** Get all the moves contained in this list until a given index
      * WARNING: this also affects this list model's last index value
      * @param max at index to which the sublist of moves should end
+     * @return the moves history as an ArrayList
      */
     public ArrayList<Move> getMoves(int max) {
 	lastIndex = max++;

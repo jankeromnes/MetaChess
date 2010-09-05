@@ -38,7 +38,7 @@ public class LogPanel extends JPanel {
 
     private JLabel lab;
 
-    /** Create a panel of the moves history
+    /** Creation of a panel of the moves history
      * @param g the current Game
      */
     public LogPanel(Game g) {

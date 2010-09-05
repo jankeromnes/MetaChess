@@ -18,6 +18,10 @@ import metachess.builder.BuilderBox;
 import metachess.builder.PanelTitle;
 import metachess.game.MoveType;
 
+/** Class of the Moves Panel in the Piece Builderbox
+ * @author Agbeladem (7DD)
+ * @version 0.8.2
+ */
 public class MovesPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +35,10 @@ public class MovesPanel extends JPanel {
     private final MovesListModel model;
     private final MovesBox dialog;
 
+    /** Creation of a Piece Moves Panel
+     * @param frame the main Builderbox parenting this panel
+     * @param pbb the Piece Builderbox to which this panel belongs
+     */
     public MovesPanel(BuilderBox frame, PieceBuilderBox pbb) {
 	super();
 	parent = pbb;
@@ -95,27 +103,60 @@ public class MovesPanel extends JPanel {
 
     }
 
-    public void addMove(char type, char dir, char range) {
-	model.add(new MoveType(type, dir, range, 1, 0));
+    /** Add a non-special move in this panel's list, in the MCP format
+     * @param type the type of the move's policy, as an MCP character
+     * @param dir the direction of the move, as an MCP character
+     * @param range the range of the move, as an MCP character
+     * @param step the step for the move
+     * @param offset the step for the move
+     */
+    public void addMove(char type, char dir, char range, int step, int offset) {
+	model.add(new MoveType(type, dir, range, step, offset));
 	update();
     }
 
+    /** Update the authorized moves in the Piece Builderbox */
     public void update() {
 	ArrayList<MoveType> a = new ArrayList<MoveType>(model.getMoves());
 	parent.update(a);
     }
 
+    /** Replace the moves in this panel by a given list
+     * @param moves the new list of non-special moves shown in this panel's moves list
+     */
     public void setMoves(ArrayList<MoveType> moves) {
 	model.setMoves(moves);
 	update();
     }
 
     
+    /** Tell whether the created piece is a joker
+     * @return true if it is
+     */
+    public boolean isJoker() {
+	return s_joker.isSelected();
+    }
 
-    public boolean isJoker() { return s_joker.isSelected(); }
-    public boolean isRook() { return s_rook.isSelected(); }
-    public boolean isKing() { return s_king.isSelected(); }
-    public boolean isPawn() { return s_pawn.isSelected(); }
+    /** Tell whether the created piece is a rook (and is thus able to do the castle move)
+     * @return true if it is
+     */
+    public boolean isRook() {
+	return s_rook.isSelected();
+    }
+
+    /** Tell whether the created piece is a king
+     * @return true if it is
+     */
+    public boolean isKing() {
+	return s_king.isSelected();
+    }
+
+    /** Tell whether the created piece is a pawn
+     * @return true if it is
+     */
+    public boolean isPawn() {
+	return s_pawn.isSelected();
+    }
 
 }
 

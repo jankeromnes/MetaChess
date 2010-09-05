@@ -4,11 +4,12 @@ import java.io.Serializable;
 
 import metachess.boards.AbstractBoard;
 
+/** Class of a specific abstract move played by a player in the history
+ * @author Agbeladem (7DD)
+ * @version 0.8.2
+ */
 public class Move implements Serializable {
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 1L;
     private int oldx;
     private int oldy;
@@ -17,8 +18,17 @@ public class Move implements Serializable {
     private transient AbstractBoard board;
     private String name;
 
+    /** Create an empty move.
+     * The move's properties should have to be defined using methods */
     public Move() {};
 
+    /** Creation of a move
+     * @param oldxarg the column (X Coord) of the moved piece before the move
+     * @param oldyarg the row (Y Coord) of the moved piece before the move
+     * @param newxarg the column (X Coord) of the moved piece after the move
+     * @param newyarg the row (Y Coord) of the moved piece after the move
+     * @param abstractBoard the board in which this move is played
+     */
     public Move(int oldxarg, int oldyarg
 		, int newxarg, int newyarg
 		, AbstractBoard abstractBoard) {
@@ -37,10 +47,33 @@ public class Move implements Serializable {
 
     }
 
-    public int getOldX() { return oldx; }
-    public int getOldY() { return oldy; }
-    public int getNewX() { return newx; }
-    public int getNewY() { return newy; }
+    /** Get the X Coord of the moved piece before the move
+     * @return the column (X Coord) of the piece
+     */
+    public int getOldX() {
+	return oldx;
+    }
+
+    /** Get the X Coord of the moved piece before the move
+     * @return the row (Y Coord) of the piece
+     */
+    public int getOldY() {
+	return oldy;
+    }
+
+    /** Get the X Coord of the moved piece after the move
+     * @return the column (X Coord) of the piece
+     */
+    public int getNewX() {
+	return newx;
+    }
+
+    /** Get the Y Coord of the moved piece after the move
+     * @return the row (Y Coord) of the piece
+     */
+    public int getNewY() {
+	return newy;
+    }
    
     @Override
 	public String toString() {

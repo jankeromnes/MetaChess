@@ -1,7 +1,7 @@
 # metachess image dictionary
 
 
-#classic
+## classic
 king:Wking.png:Bking.png
 rook:Wrook.png:Brook.png
 bishop:Wbishop.png:Bbishop.png
@@ -9,7 +9,7 @@ knight:Wknight.png:Bknight.png
 pawn:Wpawn.png:Bpawn.png
 queen:Wqueen.png:Bqueen.png
 
-#atomic
+## atomic
 metaking:Wking.png:Bking.png
 joker:Wrook.png:Brook.png
 grasshopper:Wbishop.png:Bbishop.png
@@ -26,13 +26,17 @@ metamorph:Wking.png:Bking.png
 # Generated from builder
 archbishop:Wbishop.png:Bbishop.png
 
-
-# Generated from builder
-new_piece:Wking.png:Bking.png
-
 # v.0.8.0 adds the following
 alfil:Wbishop.png:Bbishop.png
 dabbaba:Wrook.png:Brook.png
 alibaba:Wking.png:Bking.png
 zero:Wrook.png:Brook.png
 
+# Generated from builder
+new_piece:Wking.png:Bking.png
+# Generated from builder
+new_piece:Wking.png:Bking.png
+# Generated from builder
+new_piece:Wking.png:Bking.png
+# Generated from builder
+new_piece:Wking.png:Bking.png
