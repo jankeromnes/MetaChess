@@ -59,7 +59,7 @@ public class PlayableBoard extends AbstractBoard {
     public void nextPlayer() {
     	checkKingsAreOK();
     	deathMatch = atomic && blackKingDead && whiteKingDead;
-    	gameOver = !deathMatch && (blackKingDead || whiteKingDead);
+    	gameOver = isKingInCheck() || ( !deathMatch && (blackKingDead || whiteKingDead) );
 
     	togglePlayer();
     }

@@ -1,13 +1,11 @@
 package metachess.game;
 
 import java.awt.BorderLayout;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -15,8 +13,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
+import metachess.boards.AIBoardTree;
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
@@ -59,7 +57,7 @@ public class Game extends JFrame {
 
     	atomic = false;
     	whiteAILevel = 0;
-    	blackAILevel = 0;
+    	blackAILevel = 3;
 
     	builder = new BuilderBox();
     	gmBox = new GameModeBox(this);
@@ -139,8 +137,9 @@ public class Game extends JFrame {
 
     /** End the last game */
     public void endGame() {
-	System.out.println("Fin de la partie");
-    	// newGame();
+    AIBoardTree aiboard = new AIBoardTree(board, 1);
+	System.out.println("\nGAME OVER! (Final score : " + aiboard.getBestMoveSequence().getScore() + ")");
+    askNewGame();
     }
 
     /** Add a move to the logger
