@@ -127,8 +127,12 @@ public class Piece {
      private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
 
 	 // TODO test king is in check
-	 // AIBoard aib = new AIBoard(new Move(ab.getActiveSquare().getColumn(),ab.getActiveSquare().getRow(),c.getColumn(),c.getRow(),ab), ab); 
-	 boolean kingInCheck = false;
+     /* PROBLEM : new board also tests if king is in check */
+     //PlayableBoard actualBoard = (PlayableBoard)ab;
+	 //AIBoardTree checkTestBoard = new AIBoardTree(actualBoard, 0);
+	 //boolean kingInCheck = checkTestBoard.isKingInCheck();
+    	 
+     boolean kingInCheck = false;
 	 c.setGreen(!kingInCheck);
 	 return !kingInCheck;
      }
@@ -271,8 +275,6 @@ public class Piece {
 		}
 	    }
 	}
-	    
-
 
 	return movable;
 

@@ -1,7 +1,6 @@
 package metachess.count;
 
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Test {
 

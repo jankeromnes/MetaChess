@@ -1,12 +1,10 @@
 package metachess.count;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Font;
 import java.util.HashMap;
+
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import metachess.library.Colour;
 import metachess.library.PieceImages;

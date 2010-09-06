@@ -1,12 +1,10 @@
 package metachess.boards;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StreamTokenizer;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import metachess.game.Piece;
 
 /** Class of a board specific Area
  * @author Agbeladem (7DD)

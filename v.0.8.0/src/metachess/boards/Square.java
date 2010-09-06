@@ -1,9 +1,9 @@
 package metachess.boards;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
@@ -56,7 +56,7 @@ public class Square extends JButton {
 	    else setIcon(null);
 	    setBackground((as.isGreen()? Colour.GREEN : as.getColor()).getColor());
 	}
-    	setText(as.hasPiece()? null : as.getName());
+    	//setText(as.hasPiece()? null : as.getName());
 
     }
 
