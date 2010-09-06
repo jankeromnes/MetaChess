@@ -139,7 +139,6 @@ public class Game extends JFrame {
     public void endGame() {
     AIBoardTree aiboard = new AIBoardTree(board, 1);
 	System.out.println("\nGAME OVER! (Final score : " + aiboard.getBestMoveSequence().getScore() + ")");
-    askNewGame();
     }
 
     /** Add a move to the logger
