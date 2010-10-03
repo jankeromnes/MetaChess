@@ -41,13 +41,11 @@ public class ChessBoard extends PlayableBoard {
     @Override
     public void nextPlayer() {
     	super.nextPlayer();
+    	if(keep)
+	    game.addMove(lastMove);
     	
-    	if(keep) game.addMove(lastMove);
-    	
-    	if(gameOver) {
+    	if(gameOver)
     	    game.endGame();
-    	}
-    	
     	int AILevel = game.getAILevel(whitePlaying); 
     	if(keep && AILevel > 0){
     		waitForAI = true;
@@ -114,7 +112,7 @@ public class ChessBoard extends PlayableBoard {
     
     @Override
     public void playSquare(int i, int j) {
-    	playSquare(i, j, true);
+	playSquare(i, j, true);
     }
 
     /** Play a list of moves in this board, starting from the beginning of the setup

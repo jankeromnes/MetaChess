@@ -32,7 +32,6 @@ public class Pieces {
 	piece.setWhite(isWhite);
 	piece.setImage(PieceImages.getImage(pieceName, isWhite));
 	return piece;
-
     }
 
 }

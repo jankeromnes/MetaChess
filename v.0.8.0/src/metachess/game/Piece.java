@@ -11,14 +11,15 @@ import metachess.library.PieceImages;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)
- * @version 0.8.0
+ * @version 0.8.3
  */
 public class Piece {
 
     enum BrowseType {
-	CHECK_KING, GREEN_SQUARES
+	CHECK_KING, GREEN_SQUARES, CHOICE_LIST
     }
 
+    private ArrayList<AbstractSquare> choices;
     private ArrayList<MoveType> moves;
     private HashMap<Integer, ImageIcon> icons;
 
@@ -38,6 +39,7 @@ public class Piece {
     /** Create a new empty piece */
     public Piece() {
 
+	choices = new ArrayList<AbstractSquare>();
 	moves = new ArrayList<MoveType>();
 
 	pawn = false;
@@ -53,14 +55,13 @@ public class Piece {
      * @param p the other piece
      */
     public Piece(Piece p) {
-
+	choices = new ArrayList<AbstractSquare>();
 	moves = p.getMoveTypes();
 	pawn = p.isPawn();
 	joker = p.isJoker();
 	king = p.isKing();
 	rook = p.isRook();
 	name = p.getName();
-
     }
     
     /** Calculate the price of the piece from its available moves and conditions
@@ -125,23 +126,14 @@ public class Piece {
      // BOARD BROWSING COMMANDS
 
      private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
-
-	 // TODO test king is in check
-     /* PROBLEM : new board also tests if king is in check */
-     //PlayableBoard actualBoard = (PlayableBoard)ab;
-	 //AIBoardTree checkTestBoard = new AIBoardTree(actualBoard, 0);
-	 //boolean kingInCheck = checkTestBoard.isKingInCheck();
-    	 
-     boolean kingInCheck = false;
+ 	 boolean kingInCheck = false;
 	 c.setGreen(!kingInCheck);
 	 return !kingInCheck;
      }
 
      private boolean checkKing(AbstractSquare c) {
-	 return c.getPiece() != null && c.getPiece().isKing();
+	 return c.hasPiece() && c.getPiece().isKing();
      }
-
-
 
      private boolean browseSquare(AbstractSquare c, AbstractBoard b, BrowseType f) {
 	 boolean ret;
@@ -152,6 +144,11 @@ public class Piece {
 	     break;
 	 case CHECK_KING:
 	     ret = checkKing(c);
+	     setGreen(c, b);
+	     break;
+	 case CHOICE_LIST:
+	     ret = true;
+	     choices.add(c);
 	     break;
 	 default:
 	     ret = false;
@@ -172,9 +169,7 @@ public class Piece {
 
      private boolean browseBoard(int i, int j, AbstractBoard ab, BrowseType f) {
 
-
 	 boolean movable = false;
-
 	 if(king && !moved) 
 	     // CASTLE
 	     for(int dir = -1 ; dir < 2 ; dir += 2) {
@@ -190,6 +185,7 @@ public class Piece {
 		     }
 		 }
 	     }
+
 	 // JOKER
 	 if(joker) {
 	     Piece jokerPiece = ab.getJokerPiece();
@@ -214,8 +210,8 @@ public class Piece {
 	     }
 
 	     if(s == 0 && m.isWalkType()) {
-		movable |= browseSquare(ab.getSquare(i,j), ab, f);
-		s+=k;
+		 movable |= browseSquare(ab.getSquare(i,j), ab, f);
+		 s+=k;
 	    }
 	    
 	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == ab.getRows() && !white) ) {
@@ -240,7 +236,7 @@ public class Piece {
 			if(m.isWalkType())
 			    // WALKS
 			    while(b && !c.hasPiece() && m.isInRange(s)) {
-				if(f == BrowseType.GREEN_SQUARES && ! m.isHopperType())
+				if(/*f == BrowseType.GREEN_SQUARES &&*/ ! m.isHopperType())
 				    movable |= browseSquare(c, ab, f);
 				s += k;
 				b = ab.squareExists(i+s*x, j+s*y);
@@ -254,7 +250,6 @@ public class Piece {
 				    c = ab.getSquare(i+s*x, j+s*y);
 			    }
 			    
-		    
 			// ATTACKS
 			if(m.isInRange(s) && c.hasPiece()) {
 			    if(m.isHopperType()) {
@@ -266,10 +261,8 @@ public class Piece {
 					|| !c.hasPiece() && m.isWalkType()) )
 					movable |= browseSquare(c, ab, f);
 				}
-			    } else if(m.isAttackType() && c.getPiece().isWhite() != white) {
-
+			    } else if(m.isAttackType() && c.getPiece().isWhite() != white)
 				movable |= browseSquare(c, ab, f);
-			    }
 			}
 		    }
 		}
@@ -287,7 +280,14 @@ public class Piece {
      * @return true if the piece is movable
      */
     public boolean setGreenSquares(int i, int j, AbstractBoard board) {
-	return browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
+	return board.getSquare(i, j).setGreenSquares();
+	//return browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
+    }
+
+    public ArrayList<AbstractSquare> getChoiceList(int i, int j, AbstractBoard board) {
+	choices.clear();
+	browseBoard(i, j, board, BrowseType.CHOICE_LIST);
+	return choices;
     }
 
     /** Check whether the piece has a king in range
@@ -333,7 +333,6 @@ public class Piece {
 	icons.put(new Integer(image.getIconWidth()), image);
 
     }
-
 
     public void setName(String s) { name = s; }
     public void setWhite(boolean b) { white = b ; }

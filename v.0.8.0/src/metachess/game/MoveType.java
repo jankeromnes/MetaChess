@@ -68,36 +68,37 @@ public class MoveType {
     // GETTERS
     
 
-    /** The value of the MoveType
+    /** The value of the MoveType <br/> The goal of this method is to approximate the
+     * usual values given to classical chess pieces
      * @return its value as a float
      */
     public float getPrice() {
 	assert(!isComboDirection()): "Not a valid combo direction";
     	if(!priceCalculated){
-			double rangeModifier = 0;
-			double typeModifier = 0;
-			double dirModifier = 0;
+	    double rangeModifier = 0;
+	    double typeModifier = 0;
+	    double dirModifier = 0;
 		
-			if(isWalkType()) typeModifier += 1;
-			if(isAttackType()) typeModifier += 2;
+	    if(isWalkType()) typeModifier += 1;
+	    if(isAttackType()) typeModifier += 2;
 		
-			dirModifier = isDiagonalType() ? 2.35 : 3.7;
+	    dirModifier = isDiagonalType() ? 2.35 : 3.7;
 		
-			if(range == 'H') rangeModifier = 8;
-			else if(range == 'N') rangeModifier = 10.3;
-			else {
-			    double range = this.range - '0';
-			    if(range == 1) rangeModifier = 4.;
-			    else if(range == 2) rangeModifier = 6.;
-			    else if(range < 6) rangeModifier = 7.;
-			    else if(range < 8) rangeModifier = 8.;
-			    else rangeModifier = 9.;
-			}
+	    if(range == 'H') rangeModifier = 8;
+	    else if(range == 'N') rangeModifier = 10.3;
+	    else {
+		double range = this.range - '0';
+		if(range == 1) rangeModifier = 4.;
+		else if(range == 2) rangeModifier = 6.;
+		else if(range < 6) rangeModifier = 7.;
+		else if(range < 8) rangeModifier = 8.;
+		else rangeModifier = 9.;
+	    }
 		
-			price = (float)(typeModifier * rangeModifier * dirModifier);
-			if(isPawnType()) price /= 2;
+	    price = (float)(typeModifier * rangeModifier * dirModifier);
+	    if(isPawnType()) price /= 2;
     	}
-		return price;
+	return price;
     }
 
     /** Get the move's type character

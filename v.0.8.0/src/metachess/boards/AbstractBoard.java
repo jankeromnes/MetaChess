@@ -31,6 +31,9 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     protected Piece jokerPiece;
     protected HashMap<String, Area> areas;
 
+
+    /** Abstract class to represent the squares that have been removed
+     * in the loaded setup */
     protected class EmptySquare extends AbstractSquare {
 
 	public EmptySquare(int i, int j) {
@@ -136,9 +139,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	squares[i][j] = new EmptySquare(i, j);
     }
 
-    /** Launch a given setup
+    /** Load a given setup in this abstract board
      * @param setup the setup's name
-     * @param isAtomic whether the game shall be played with atomic rules or not
      */
     public void init(String setup) {
     	Loader.loadSetup(this, setup);
@@ -159,7 +161,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param keep whether 
      */
     public void playMove(Move m) {
-    	playSquare(m.getOldX(), m.getOldY());
+	playSquare(m.getOldX(), m.getOldY());
     	playSquare(m.getNewX(), m.getNewY());
     }
 
@@ -275,6 +277,47 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      */
     public Piece getJokerPiece() { return jokerPiece; }
 
+
+    @Override
+	public String toString() {
+	StringBuilder s = new StringBuilder();
+	boolean[] line1 = new boolean[width+1];
+	StringBuilder line2;
+	for(int j = height-1 ; j >= 0 ; j--) { 
+	    boolean isNull = true;
+	    line2 = new StringBuilder();
+	    for(int i = 0 ; i < width ; i++) {
+		line1[i] = squares[i][j].isNull() && (j == height-1 || (squares[i][j+1].isNull() && (i == 0 || squares[i-1][j+1].isNull()))) && (i == 0 || squares[i-1][j].isNull()); 
+		if(squares[i][j].isNull()) {
+		    line2.append(isNull? "  " : "| ");
+		    isNull = true;
+		} else {
+		    isNull = false;
+		    line2.append('|');
+		    line2.append(squares[i][j].hasPiece()?
+				 squares[i][j].getPiece().getName().toUpperCase().charAt(0): ' ');
+		}
+	    }
+	    line1[width] = squares[width-1][j].isNull() && (j == height-1 || squares[width-1][j+1].isNull());
+	    for(int i = 0 ; i < width ; i++)
+		s.append(line1[i] || line1[i+1] ? (line1[i]?"  ":"+ ") : (squares[i][j].isNull() && (j == height-1 || squares[i][j+1].isNull()))? "+ ": "+-");
+	    s.append(line1[width]?" ":"+");
+	    s.append("\n");
+	    s.append(line2);
+	    if(!isNull) s.append('|');
+	    s.append("\n");
+	}
+	line1[0] = squares[0][0].isNull();
+	line1[width] = squares[width-1][0].isNull();
+	for(int i = 1 ; i < width ; i++) {
+	    line1[i] = squares[i-1][0].isNull() && squares[i][0].isNull();
+	    s.append(line1[i-1] || line1[i] ? (line1[i-1]?"  ":"+ ") : squares[i-1][0].isNull()? " +" : "+-");
+	}
+	s.append(line1[width-1] || line1[width] ? (line1[width-1]?"  ":"+ ") : "+-");
+	s.append(line1[width]?" ":"+");
+	return s.toString();
+    }
+    
 }
 
 

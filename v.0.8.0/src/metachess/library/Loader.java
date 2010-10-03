@@ -76,7 +76,9 @@ public class Loader {
 	    br.close();
 	    Pieces.addPiece(piece);
 
-	} catch(IOException e) {System.out.println(e);}	
+	} catch(IOException e) {
+	    System.out.println(e);
+	}	
 
     }
 
@@ -85,7 +87,6 @@ public class Loader {
      * @param file the name of the setup's file
      */
     public static void loadSetup(AbstractBoard abstractBoard, String file) {
-
 	PieceImages.load();
 
 	try {
@@ -157,7 +158,6 @@ public class Loader {
 		     if(len > 1) {
 			 char start = word.charAt(0);
 			 int w = abstractBoard.getCols();
-		       //int h = b.getRows();
 			 if(start == 'R') {
 			     int n = Integer.parseInt(word.substring(1, len));
 			     for(int i = 0 ; i < n ; i ++)
@@ -192,7 +192,6 @@ public class Loader {
 			System.out.println(s.getPiece().getName()+ (s.getPiece().isWhite()?'W':'B')
 	    				   +" : "+a.containsSquare(s));
 	    */
-
 	} catch(IOException e) {
 	    e.printStackTrace();
 	}
