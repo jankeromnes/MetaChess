@@ -44,14 +44,12 @@ public class GraphicalBoard extends JPanel {
     	    for(int i = 0 ; i < width ; i++)
 		initSquare(i, j);
     	ab.setGraphicBoard(this);
-
 	/* The update was useful only when a new setup was loaded
 	   Check Square.paint(g), Game constructor and Game.newGame()
 	      to see how it's now handled..
 	         Agbeladem, July 19 on v.0.8.0
 	*/
 	//    	update();
-	
     }
 
     public void initSquare(int i, int j) {

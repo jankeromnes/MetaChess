@@ -3,6 +3,7 @@ package metachess.logger;
 import java.io.Serializable;
 
 import metachess.boards.AbstractBoard;
+import metachess.boards.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)
@@ -45,6 +46,15 @@ public class Move implements Serializable {
 	s.append(board.getSquare(newx,newy).getName());
 	name = s.toString();
 
+    }
+
+    /** Creation of a move
+     * @param a the square the moved piece belonged to before the move
+     * @param newxarg the square the moved piece belonged to after the move
+     * @param abstractBoard the board in which this move is played
+     */
+    public Move(AbstractSquare a, AbstractSquare b, AbstractBoard ab) {
+	this(a.getColumn(), a.getRow(), b.getColumn(), b.getRow(), ab);
     }
 
     /** Get the X Coord of the moved piece before the move

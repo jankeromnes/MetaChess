@@ -46,7 +46,7 @@ public class Square extends JButton {
 
     /** Update how this graphical square looks */
     public void update() {
-
+	setIcon(null); // THIS HAS TO DISAPPEAR !
 	if(as.isNull()) {
 	    setBackground(Colour.WHITE.getColor());
 	    setIcon(null);

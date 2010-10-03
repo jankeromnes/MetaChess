@@ -18,7 +18,7 @@ public class AIBoardTree extends PlayableBoard {
     private boolean scoreSet;
     
     public AIBoardTree(PlayableBoard ab, int treeDepth) {
-    	super();
+    	super(ab);
     	sequence = null;
     	candidate = null;
     	parent = ab;
@@ -31,7 +31,8 @@ public class AIBoardTree extends PlayableBoard {
         activeSquareX=-1;
         activeSquareY=-1;
         
-    	copyFromParent();
+	// Replaced by the new constructor of PlayableBoard
+	// copyFromParent();
     	
     	computeBestCandidate();
     	
@@ -39,7 +40,7 @@ public class AIBoardTree extends PlayableBoard {
     }
     
     public AIBoardTree(PlayableBoard ab, Move m, int treeDepth) {
-    	super();
+    	super(ab);
     	sequence = null;
     	candidate = null;
     	parent = ab;
@@ -52,7 +53,8 @@ public class AIBoardTree extends PlayableBoard {
         activeSquareX=-1;
         activeSquareY=-1;
         
-    	copyFromParent();
+	// Replaced by the new constructor of PlayableBoard
+    	// copyFromParent();
 
 	playMove(m);
     	
@@ -62,7 +64,8 @@ public class AIBoardTree extends PlayableBoard {
     	else sequence = new BestMoveSequence(move, getScore());
     	
     }
-    
+
+    /*
     public void copyFromParent() {
         whitePlaying = parent.isWhitePlaying();
         atomic = parent.iAtomic();
@@ -76,23 +79,21 @@ public class AIBoardTree extends PlayableBoard {
 		    ? new EmptySquare(i,j) : new AbstractSquare(parent.getSquare(i, j));
 	    }
     }
-    
+    */
     
     public void computeBestCandidate() {
-    	
-	AbstractSquare s;
+
+	resetIterator();
 	AIBoardTree child;
     	if(depth>0 && !gameOver)
-	    for(int x = 0 ; x < width ; x++)
-		for(int y = 0 ; y < width ; y++) {
+	    for(AbstractSquare s : this) {
 		    deactivateSquare();
-		    s = getSquare(x, y);
-		    if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)){
+		    if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)) {
 			activateSquare(s);
-			if(isSquareActive()){
+			if(isSquareActive())
 			    for(int i = 0 ; i < width ; i++)
 				for(int j = 0 ; j < width ; j++)
-				    if(getSquare(i,j).isGreen()){
+				    if(getSquare(i,j).isGreen()) {
 					child = new AIBoardTree(this, new Move(activeSquareX,activeSquareY,i,j,this), depth-1);
 					BestMoveSequence newCandidate = child.getBestMoveSequence();
 					// check if candidate was beaten
@@ -102,9 +103,10 @@ public class AIBoardTree extends PlayableBoard {
 					    ) candidate = newCandidate;
 					complexity += child.getComplexity();
 				    }
-			}
 		    }
-		}
+	    }
+	resetIterator();
+	
     }
     
     public BestMoveSequence getBestMoveSequence() {
@@ -140,6 +142,8 @@ public class AIBoardTree extends PlayableBoard {
 		}
 	}
 	
+    
+    /* // More advanced in AbstractBoard
     @Override
 	public String toString() {
     	StringBuilder letters = new StringBuilder("    ");
@@ -167,7 +171,7 @@ public class AIBoardTree extends PlayableBoard {
     	if(isSquareActive())sb.append("active square : "+getActiveSquare().getName()+"\n");
     	return sb.toString();
     }
-    
+    */
 	public long getComplexity() {
 		return complexity;
 	}
