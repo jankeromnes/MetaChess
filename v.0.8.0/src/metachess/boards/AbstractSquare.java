@@ -74,7 +74,7 @@ public class AbstractSquare {
     }
 
     public boolean isGreen() {
-	return isGreen;
+    	return isGreen;
     }
 
     /** Get the colour of this square

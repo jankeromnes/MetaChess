@@ -22,7 +22,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     /** Create an empty playable board */
     public PlayableBoard() {
     	super();
-	enabled = true;
+    	enabled = true;
     	lastMove = null;
     }
 
@@ -30,7 +30,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @param parent the playable board to clone
      */
     public PlayableBoard(PlayableBoard parent) {
-	whitePlaying = parent.isWhitePlaying();
+    	whitePlaying = parent.isWhitePlaying();
         atomic = parent.iAtomic();
     	width = parent.getCols();
     	height = parent.getRows();
@@ -62,8 +62,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	jokerPiece = null;
     	lastMove = null;
 
-	checkPlayer();
-
+    	checkPlayer();
 
     }
     
@@ -87,7 +86,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
     	checkKingsAreOK();
     	deathMatch = atomic && blackKingDead && whiteKingDead;
-	gameOver = isKingInCheck() || ( !deathMatch && (blackKingDead || whiteKingDead) );
+	gameOver = ( !deathMatch && (blackKingDead || whiteKingDead) );
 	
     	whitePlaying = !whitePlaying;
 	checkPlayer();
@@ -152,17 +151,21 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     }
 
     public void activateSquare(int i, int j) {
+	//System.out.println("activating square "+i+","+j);
 	assert squareExists(i, j);
     	activateSquare(squares[i][j]);
     }
     
     public void activateSquare(AbstractSquare s) {
     	if(s.hasPiece() && s.getPiece().isWhite() == whitePlaying) {
-	    activeSquareX=s.getColumn();
-	    activeSquareY=s.getRow();
-	    if(!s.getPiece().setGreenSquares(activeSquareX, activeSquareY, this))
-		deactivateSquare();
-    	}
+    		//System.out.println("activating square "+s.getRow()+","+s.getColumn());
+		    activeSquareX=s.getColumn();
+		    activeSquareY=s.getRow();
+		    if(!s.getPiece().setGreenSquares(activeSquareX, activeSquareY, this)) {
+		    	//System.out.println("NO GREEN SQUARES : reversing activation");
+		    	deactivateSquare();
+		    }
+	    }
     }
 
     public void deactivateSquare() {
@@ -173,26 +176,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	activeSquareY=-1;
     }
 
-     public boolean isKingInCheck() {
-	//  	return isKingInCheck(whitePlaying);
-	return false;
-    }
     
-    /*
-    public boolean isKingInCheck(boolean isWhite) {
-    	boolean ret = false;
-    	Piece p;
-    	for(int i = 0 ; i < getCols() ; i++)
-    		for(int j = 0 ; j < getRows() ; j++){
-		    if(squares[i][j].hasPiece()) {
-			p = squares[i][j].getPiece();
-    			ret |= p != null && (p.isWhite() != isWhite) && p.checkKingInRange(i, j, this);
-		    }
-    		}
-
-    	return ret;
-    }
-    */
+    
 
 	
     /** Set explosion to given coordinates
