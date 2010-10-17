@@ -33,7 +33,7 @@ public class PiecesList extends JList implements ResourceList {
 
     public void init() {
 	setListData(Resource.PIECES.getFiles());
-	setSelectedIndex(0); // If NullPointerException occurs here, check metachess.library.Resources:getFiles()
+	setSelectedIndex(0); // If NullPointerException occurs here, check metachess.library.Resource:getFiles()
 	setEnabled(true);
     }
 

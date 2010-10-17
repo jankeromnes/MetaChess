@@ -4,6 +4,10 @@ import java.util.Vector;
 
 import metachess.logger.Move;
 
+/** Class of a Best-Moves Sequence, calculated by an AI Board Tree
+ * @author Jan (7DD)
+ * @version 0.8.0
+ */
 public class BestMoveSequence {
 	
 	private Vector<Move> sequence;

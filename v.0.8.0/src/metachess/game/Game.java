@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import metachess.boards.AIBoardTree;
+import metachess.ai.AIBoardTree;
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
@@ -57,7 +57,7 @@ public class Game extends JFrame {
 
     	atomic = false;
     	whiteAILevel = 0;
-    	blackAILevel = 0;
+    	blackAILevel = 2;
 
     	builder = new BuilderBox();
     	gmBox = new GameModeBox(this);
