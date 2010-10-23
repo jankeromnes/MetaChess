@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 
 import metachess.boards.AbstractBoard;
 import metachess.boards.AbstractSquare;
+import metachess.boards.PlayableBoard;
+import metachess.boards.PlayableSquare;
 import metachess.library.PieceImages;
 
 /** Class of an Abstract Piece
@@ -279,8 +281,8 @@ public class Piece {
      * @param board the abstract board of the piece
      * @return true if the piece is movable
      */
-    public boolean setGreenSquares(int i, int j, AbstractBoard board) {
-	return board.getSquare(i, j).setGreenSquares();
+    public boolean setGreenSquares(int i, int j, PlayableBoard board) {
+	return board.getSquare(i, j).setGreenSquares(board);
 	//return browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
     }
 

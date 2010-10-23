@@ -38,8 +38,20 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
-		squares[i][j] = parent.getSquare(i,j).isNull()
-		    ? new EmptySquare(i,j) : new AbstractSquare(parent.getSquare(i, j));
+		squares[i][j] = (AbstractSquare)(parent.getSquare(i,j).clone());
+    }
+    
+    @Override
+    public PlayableSquare getSquare(int i, int j) {
+	AbstractSquare s = super.getSquare(i, j);
+	assert s instanceof PlayableSquare;
+	return (PlayableSquare)s;
+    }
+    
+
+    @Override
+    protected void initSquare(int i, int j) {
+	squares[i][j] = new PlayableSquare(i, j);
     }
 
    /** Load and start a given setup in this playable board
@@ -100,14 +112,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    deathMatch = blackKingDead && whiteKingDead;
 	}
 	/* REMOVAL OF THE ILLEGAL MOVES
-	  Three abstract squares will be used :
+	  Three playable squares will be used :
 	    as: the square of the piece whose moves are being studied
 	     s: the square goal of a specific move
 	   as2: the square of the ennemy piece for which the range is being checked
 	*/	
 	for(AbstractSquare as : this)
 	    if(as.hasPiece()) {
-		as.clearChoiceList();
+		((PlayableSquare)as).clearChoiceList();
 		Piece p = as.getPiece();
 		if(p.isWhite() == whitePlaying) {
 		    for(AbstractSquare s : p.getChoiceList(as.getColumn(), as.getRow(), this)) {
@@ -128,7 +140,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			}
 			pb.resetIterator();
 			if(!illegal)
-			    as.addChoice(s);
+			    ((PlayableSquare)as).addChoice(s.getCoords());
 		    }
 		    
 		}
@@ -151,20 +163,16 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     }
 
     public void activateSquare(int i, int j) {
-	//System.out.println("activating square "+i+","+j);
 	assert squareExists(i, j);
     	activateSquare(squares[i][j]);
     }
     
     public void activateSquare(AbstractSquare s) {
     	if(s.hasPiece() && s.getPiece().isWhite() == whitePlaying) {
-    		//System.out.println("activating square "+s.getRow()+","+s.getColumn());
 		    activeSquareX=s.getColumn();
 		    activeSquareY=s.getRow();
-		    if(!s.getPiece().setGreenSquares(activeSquareX, activeSquareY, this)) {
-		    	//System.out.println("NO GREEN SQUARES : reversing activation");
+		    if(!s.getPiece().setGreenSquares(activeSquareX, activeSquareY, this))
 		    	deactivateSquare();
-		    }
 	    }
     }
 
@@ -178,7 +186,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     
     
-
 	
     /** Set explosion to given coordinates
      * @param i the exploding square's column (X Coord)
@@ -241,11 +248,12 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			theSquare.setPiece(lastPiece);
 			// Castle
 			if(lastPiece.isKing()){
-				int diff = theSquare.getColumn() - getActiveSquare().getColumn();
-				if(diff==2 || diff==-2) {
-				    squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
-				    getSquare((getCols()-1)*((diff+2)/4), theSquare.getRow()).setPiece(null);
-				}
+			    int diff = theSquare.getColumn() - getActiveSquare().getColumn();
+			    if(diff==2 || diff==-2) {
+				// TO BE DONE
+				// squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
+				removePiece((getCols()-1)*((diff+2)/4), theSquare.getRow());
+			    }
 			}
 		    }
 		    getActiveSquare().setPiece(null);
@@ -253,10 +261,10 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		lastMove = new Move(activeSquareX, activeSquareY, i, j, this);
 		deactivateSquare();
 		if(enabled) nextPlayer();
-	    } else deactivateSquare(); // else not here in v1
+	    } else deactivateSquare(); // this line not here in v1
     	}
     	else if(!gameOver) activateSquare(i, j);
-    	update(); // not here in v1
+    	update(); // this line not here in v1
     }
 
     /**  Tells whether the white player is playing

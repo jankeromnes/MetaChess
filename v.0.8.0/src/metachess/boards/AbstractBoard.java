@@ -32,24 +32,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     protected HashMap<String, Area> areas;
 
 
-    /** Abstract class to represent the squares that have been removed
-     * in the loaded setup */
-    protected class EmptySquare extends AbstractSquare {
-
-	public EmptySquare(int i, int j) {
-	    super(i, j);
-	    piece = new Piece();
-	}
-	@Override
-	    public boolean isNull() { return true; }
-	@Override
-	    public boolean hasPiece() { return true; }
-	@Override
-	    public boolean isGreen() { return false; }
-
-    }
-
-
     /** Create an empty abstract board */
     public AbstractBoard() {
 	areas = new HashMap<String, Area>();
@@ -126,7 +108,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     // INITIATION
 
-    /** Initiate a given abstract square of the board
+    /** Initiate a given abstract square of the board. Automatically called a creation.
      * @param i the square's column (X Coord)
      * @param j the square's row (Y Coord)
      */
@@ -191,7 +173,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	    && y >= 0 && y < height;
     }
 
-    /** Get the abstract square with the given 
+    /** Get the abstract square with the given coordinates
      * @param x the square's column (X Coord)
      * @param y the square's row (Y Coord)
      * @return the square
@@ -199,6 +181,14 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public AbstractSquare getSquare(int i, int j) {
 	assert squareExists(i, j);
 	return squares[i][j];
+    }
+   
+    /** Get the abstract square with the given coordinates
+     * @param c the coordinates
+     * @return the square
+     */
+    public AbstractSquare getSquare(Coords c) {
+	return getSquare(c.getColumn(), c.getRow());
     }
 
 

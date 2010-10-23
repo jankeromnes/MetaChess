@@ -6,25 +6,24 @@ import metachess.game.Piece;
 import metachess.library.Colour;
 
 /** Class of an Abstract Square
- * @author Jan (7DD) and Agbeladem (7DD) [v.0.8.3]
+ * @author Jan (7DD)
  * @version 0.7.5
  */
-public class AbstractSquare {
+public class AbstractSquare implements Cloneable{
 
-    private final int i;
-    private final int j;
+    protected final int i;
+    protected final int j;
     private final String name;
     private final Colour color;
     private boolean isGreen;
 
     protected Piece piece;
-    protected ArrayList<AbstractSquare> choices;
 
     // CONSTRUCTORS
 
     /** Create an abstract square
-     * @param x the square's column (X Coord)
-     * @param y the square's row (Y Coord)
+     * @param x this square's column (X Coord)
+     * @param y this square's row (Y Coord)
      */
     public AbstractSquare(int x, int y) {
     	i = x;
@@ -32,32 +31,29 @@ public class AbstractSquare {
 	isGreen = false;
 	piece = null;
 	name = new Coords(i, j).toString();
-	choices = new ArrayList<AbstractSquare>();
 	color = (i+j)%2 == 0 ? Colour.BLACK_BG : Colour.WHITE_BG;
     }
 
     /** Create a copy of an abstract square
-     * @param s the abstract square
+     * @param s the abstract square to copy
      */
     public AbstractSquare(AbstractSquare s) {
-
 	i = s.getColumn();
 	j = s.getRow();
 	isGreen = s.isGreen();
 	name = s.getName();
 	color = s.getColor();
-	choices = new ArrayList<AbstractSquare>(s.choices);
 	piece = s.hasPiece()? s.getPiece(): null;
-
    }
 
 
     // BASIC METHODS
 
 
-
     /** Remove the piece contained by this square */
-    public void removePiece() { piece = null; }
+    public void removePiece() {
+	piece = null;
+    }
 
     /** Set this square's activity
      * @param green true if the square in range of the active piece
@@ -73,6 +69,9 @@ public class AbstractSquare {
 	piece = p;
     }
 
+    /** Tell whether this square is green
+     * @return true if it is active
+     */
     public boolean isGreen() {
     	return isGreen;
     }
@@ -99,6 +98,13 @@ public class AbstractSquare {
 	return name;
     }
 
+    /** Get the coordinates of this square
+     * @return the coords
+     */
+    public Coords getCoords() {
+	return new Coords(i, j);
+    }
+
     /** Get the column of this square
      * @return the column (X Coord)
      */
@@ -122,30 +128,9 @@ public class AbstractSquare {
 
     /** Tells whether this square has been removed of the board
      * @return true if it has, false by default
-     * <br/> Overriden by EmptySquare in AbstractBoard
+     * <br/> Overriden by EmptySquare
      */
     public boolean isNull() { return false; }
-
-
-
-
-    // METHODS CONCERNING THE LIST
-
-    public void clearChoiceList() {
-	choices.clear();
-    }
-
-    public void addChoice(AbstractSquare choice) {
-	choices.add(choice);
-    }
-
-    public boolean setGreenSquares() {
-	assert hasPiece();
-	for(AbstractSquare as : choices)
-	    as.setGreen(true);
-	return !choices.isEmpty();
-    }
-
 
     @Override
 	public boolean equals(Object o) {
@@ -165,6 +150,11 @@ public class AbstractSquare {
 	s.append(")");
 	if(isNull()) s.append(" NULL ");
 	return s.toString();
+    }
+
+    @Override
+    public Object clone() {
+	return new AbstractSquare(this);
     }
 
 }
