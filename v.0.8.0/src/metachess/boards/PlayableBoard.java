@@ -30,6 +30,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @param parent the playable board to clone
      */
     public PlayableBoard(PlayableBoard parent) {
+	this();
     	whitePlaying = parent.isWhitePlaying();
         atomic = parent.iAtomic();
     	width = parent.getCols();
@@ -260,7 +261,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		}
 		lastMove = new Move(activeSquareX, activeSquareY, i, j, this);
 		deactivateSquare();
-		if(enabled) nextPlayer();
+		if(enabled) nextPlayer(); 
 	    } else deactivateSquare(); // this line not here in v1
     	}
     	else if(!gameOver) activateSquare(i, j);
