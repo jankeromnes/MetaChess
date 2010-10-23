@@ -67,36 +67,32 @@ public class AIBoardTree extends PlayableBoard {
     
     public void computeBestCandidate() {
 
-		resetIterator();
-		AIBoardTree child;
+	resetIterator();
+	AIBoardTree child;
     	if(depth>0 && !gameOver) {
-    		//System.out.println((whitePlaying?"white":"black")+" is playing...");
-		    for(AbstractSquare s : this) {
-			    deactivateSquare();
-			    if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)) {
-					activateSquare(s);
-					if(isSquareActive()) {
-						//System.out.println("this square is active : "+getActiveSquare());
-					    for(int i = 0 ; i < width ; i++) {
-							for(int j = 0 ; j < width ; j++) {
-								//System.out.println(i+" "+j+" was "+getSquare(i,j).isGreen());
-							    if(getSquare(i,j).isGreen()) {
-							    	System.out.println("HURRAY : an AI square was green!"); // BUG: no AI square is ever green, let's find out why...
-									child = new AIBoardTree(this, new Move(activeSquareX,activeSquareY,i,j,this), depth-1);
-									BestMoveSequence newCandidate = child.getBestMoveSequence();
-									// check if candidate was beaten
-									if (candidate == null
-									    || ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
-									    || ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
-									    ) candidate = newCandidate;
-									complexity += child.getComplexity();
-							    }
-							}
-					    }
-					}
+	    for(AbstractSquare s : this) {
+		deactivateSquare();
+		if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)) {
+		    activateSquare(s);
+		    if(isSquareActive()) {
+			for(int i = 0 ; i < width ; i++) {
+			    for(int j = 0 ; j < width ; j++) {
+				if(getSquare(i,j).isGreen()) {
+				    child = new AIBoardTree(this, new Move(activeSquareX,activeSquareY,i,j,this), depth-1);
+				    BestMoveSequence newCandidate = child.getBestMoveSequence();
+				    // check if candidate was beaten
+				    if (candidate == null
+					|| ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
+					|| ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
+					) candidate = newCandidate;
+				    complexity += child.getComplexity();
+				}
 			    }
+			}
 		    }
-	    	resetIterator();
+		}
+	    }
+	    resetIterator();
     	}
 	
     }

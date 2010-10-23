@@ -1,0 +1,63 @@
+package metachess.boards;
+
+import java.util.ArrayList;
+
+/** Class of a playable square
+ * @author Agbeladem (7DD)
+ * @version 0.8.3
+ */
+public class PlayableSquare extends AbstractSquare {
+
+    private ArrayList<Coords> choices;
+
+    /** Create a playable square
+     * @param x this square's column (X Coord)
+     * @param y this square's row (Y Coord)
+     */
+    public PlayableSquare(int i, int j) {
+	super(i, j);
+	choices = new ArrayList<Coords>();
+    }
+
+    /** Create a copy of a playable square
+     * @param s the playable square to copy
+     */
+    public PlayableSquare(PlayableSquare s) {
+	super(s);
+	choices = new ArrayList<Coords>(s.choices);
+    }
+
+    // METHODS CONCERNING THE LIST
+
+    /** Clear the choice list. By doing so, no set of coordinates will be reachable
+     * by this square's piece (providing there is one !) */
+    public void clearChoiceList() {
+	assert hasPiece();
+	choices.clear();
+    }
+
+    /** Add reachable coordinates of this square's piece (providing there is one !)
+     * @param choice the coordinates to add into the choice list
+     */
+    public void addChoice(Coords choice) {
+	assert hasPiece();
+	choices.add(choice);
+    }
+
+    /** Set all the squares reachable by this square's piece green
+     * @param b the board in which the squares are to be set green
+     * @return true if square are indeed reachable
+     */
+    public boolean setGreenSquares(PlayableBoard b) {
+	assert hasPiece();
+	for(Coords c : choices)
+	    b.getSquare(c).setGreen(true);
+	return !choices.isEmpty();
+    }
+
+    @Override
+    public Object clone() {
+	return new PlayableSquare(this);
+    }
+
+}
