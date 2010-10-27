@@ -1,0 +1,8 @@
+# Metachess=v.0.6/MCS=v.3
+
+width = 5
+height = 5
+
+{BEGIN}
+6 WPAWN 5 WMETAMORPH WPAWN BPAWN 2 BPAWN 3 BPAWN
+
