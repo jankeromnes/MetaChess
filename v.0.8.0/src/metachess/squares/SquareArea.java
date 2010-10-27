@@ -1,4 +1,7 @@
-package metachess.boards;
+package metachess.squares;
+
+import metachess.boards.AbstractBoard;
+import metachess.game.Coords;
 
 /** Class of a Square Area.
  * Square areas are the basic groups of squares of which Areas are composed

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 
+import metachess.game.Move;
+
 /** Class of the moves history abstract list in the logger
  * @author Agbeladem (7DD)
  * @version 0.8.1

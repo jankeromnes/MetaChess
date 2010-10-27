@@ -3,7 +3,6 @@ package metachess.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import metachess.logger.Move;
 
 @SuppressWarnings("serial")
 public class SavedGame implements Serializable {

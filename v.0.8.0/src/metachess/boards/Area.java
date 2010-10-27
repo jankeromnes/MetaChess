@@ -6,6 +6,9 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import metachess.squares.AbstractSquare;
+import metachess.squares.SquareArea;
+
 /** Class of a board specific Area
  * @author Agbeladem (7DD)
  * @version 0.8.0

@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import metachess.squares.GraphicalSquare;
+
 /** Class of graphical boards
  * @author Jan (7DD) [0.7.5], Agbeladem (7DD) [0.8.0]
  * @version 0.8.0
@@ -13,7 +15,7 @@ public class GraphicalBoard extends JPanel {
     private static final long serialVersionUID = 1L;
     private AbstractBoard ab;
 
-    protected Square[][] squares;
+    protected GraphicalSquare[][] graphicalSquares;
     protected int width;
     protected int height;
     private int dim = 60;
@@ -39,7 +41,7 @@ public class GraphicalBoard extends JPanel {
 	width = ab.getCols();
 	height = ab.getRows();
     	setLayout(new GridLayout(height, width));
-    	squares = new Square[width][height];
+    	graphicalSquares = new GraphicalSquare[width][height];
     	for(int j = height-1 ; j >= 0 ; j--)
     	    for(int i = 0 ; i < width ; i++)
 		initSquare(i, j);
@@ -53,9 +55,9 @@ public class GraphicalBoard extends JPanel {
     }
 
     public void initSquare(int i, int j) {
-	squares[i][j] = new Square(ab.getSquare(i, j), this);
-	squares[i][j].setDim(dim);
-	add(squares[i][j]);
+	graphicalSquares[i][j] = new GraphicalSquare(ab.getSquare(i, j), this);
+	graphicalSquares[i][j].setDim(dim);
+	add(graphicalSquares[i][j]);
     }
 
     /** Get the abstract board on which this graphical board is based
@@ -66,9 +68,9 @@ public class GraphicalBoard extends JPanel {
     }
 
     
-    public Square getSquare(int i, int j) {
+    public GraphicalSquare getSquare(int i, int j) {
 	assert squareExists(i ,j);
-	return squares[i][j];
+	return graphicalSquares[i][j];
 	}
 
     public boolean squareExists(int i, int j) {
@@ -81,7 +83,7 @@ public class GraphicalBoard extends JPanel {
     public void update() {
     	for(int j = ab.getRows()-1 ; j >= 0 ; j--)
     	    for(int i = 0 ; i < ab.getCols() ; i++)
-    	    	squares[i][j].update();
+    	    	graphicalSquares[i][j].update();
     }
 
     /** Get the number of columns of the board

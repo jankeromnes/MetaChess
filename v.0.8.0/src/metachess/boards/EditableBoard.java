@@ -1,6 +1,8 @@
 package metachess.boards;
 
 import metachess.builder.setupbuilder.SetupBuilderBox;
+import metachess.squares.AbstractSquare;
+import metachess.squares.GraphicalSquare;
 
 /** Class of the editable board in the Setup Builderbox
  * @author Agbeladem (7DD)
@@ -54,7 +56,7 @@ public class EditableBoard extends AbstractBoard {
 		squares[i][j] = new AbstractSquare(i, j);
 	    else
 		removeSquare(i, j);
-	    Square s = parent.getGraphicalBoard().getSquare(i, j);
+	    GraphicalSquare s = parent.getGraphicalBoard().getSquare(i, j);
 	    s.setAbstractSquare(getSquare(i, j));
 	    s.update();
 

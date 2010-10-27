@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import metachess.game.Game;
+import metachess.game.Move;
 import metachess.library.Colour;
 import metachess.library.ToolIcons;
 
