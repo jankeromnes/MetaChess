@@ -62,13 +62,13 @@ public class ChessBoard extends PlayableBoard {
     @Override
 	public void removePiece(int i, int j) {
 
-	assert isSquareValid(i,j);
-
+	//assert isSquareValid(i,j);
 	if(squares[i][j].hasPiece()) {
 	    Piece p = squares[i][j].getPiece();
 	    game.count(p.getName(), p.isWhite());
 	}
-	squares[i][j].setPiece(null);
+	super.removePiece(i, j);
+	//squares[i][j].setPiece(null);
 
     }
 

@@ -9,11 +9,10 @@ import metachess.library.Colour;
  * @author Jan (7DD)
  * @version 0.7.5
  */
-public class AbstractSquare implements Cloneable{
+public class AbstractSquare implements Cloneable {
 
     protected final int i;
     protected final int j;
-    private final String name;
     private final Colour color;
     private boolean isGreen;
 
@@ -30,7 +29,6 @@ public class AbstractSquare implements Cloneable{
 	j = y;
 	isGreen = false;
 	piece = null;
-	name = new Coords(i, j).toString();
 	color = (i+j)%2 == 0 ? Colour.BLACK_BG : Colour.WHITE_BG;
     }
 
@@ -41,7 +39,6 @@ public class AbstractSquare implements Cloneable{
 	i = s.getColumn();
 	j = s.getRow();
 	isGreen = s.isGreen();
-	name = s.getName();
 	color = s.getColor();
 	piece = s.hasPiece()? s.getPiece(): null;
    }
@@ -91,13 +88,6 @@ public class AbstractSquare implements Cloneable{
 	return piece;
     }
 
-    /** Return the two characters name of this square
-     * @return the name
-     */
-    public String getName() {
-	return name;
-    }
-
     /** Get the coordinates of this square
      * @return the coords
      */
@@ -128,20 +118,20 @@ public class AbstractSquare implements Cloneable{
 
     /** Tells whether this square has been removed of the board
      * @return true if it has, false by default
-     * <br/> Overriden by EmptySquare
+     * <br/> Overriden to handle EmptySquare
      */
     public boolean isNull() { return false; }
 
     @Override
 	public boolean equals(Object o) {
 	assert o instanceof AbstractSquare;
-	return name.equals(((AbstractSquare) o).name);
+	return getCoords().equals(((AbstractSquare) o).getCoords());
     }
 
     @Override
 	public String toString() {
 	StringBuilder s = new StringBuilder("square (");
-	s.append(name);
+	s.append(getCoords());
 	if(hasPiece()) {
 	    s.append(" ; haspiece(");
 	    s.append(piece);

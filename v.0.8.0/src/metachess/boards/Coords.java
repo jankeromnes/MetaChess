@@ -64,5 +64,13 @@ public final class Coords {
 	return Character.toString((char)('A'+i)) +(char)( j > 8 ? 'a'-9+j : '1'+j); 
     }
 
+    @Override
+    public boolean equals(Object o) {
+	assert o instanceof Coords;
+	Coords c = (Coords)o;
+	return c.j == j && c.i == i;
+    }
+
 }
+
 

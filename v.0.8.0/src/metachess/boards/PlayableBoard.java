@@ -39,13 +39,16 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
-		squares[i][j] = (AbstractSquare)(parent.getSquare(i,j).clone());
+		squares[i][j] = (AbstractSquare)(parent.squares[i][j].clone());
     }
     
     @Override
     public PlayableSquare getSquare(int i, int j) {
 	AbstractSquare s = super.getSquare(i, j);
-	assert s instanceof PlayableSquare;
+	if(s.isNull()) {
+	    assert s instanceof EmptySquare;
+	    s = new PlayableSquare((EmptySquare)s);
+	}
 	return (PlayableSquare)s;
     }
     
@@ -225,6 +228,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     @Override
 	public void playSquare(int i, int j) {
     	AbstractSquare theSquare = getSquare(i, j);
+	boolean capture = false;
     	if(isSquareActive())  {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
@@ -232,9 +236,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
 		if(theSquare == getActiveSquare()) ;
 		else if(atomic && theSquare.hasPiece()) {
+		    capture = true;
 		    explode(i,j);
 		    getActiveSquare().removePiece(); // not here in v1
 		} else {
+		    capture = theSquare.hasPiece();
 		    removePiece(theSquare);
 		    // Promotion
 		    if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==getRows()-1)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
@@ -260,6 +266,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		    getActiveSquare().setPiece(null);
 		}
 		lastMove = new Move(activeSquareX, activeSquareY, i, j, this);
+		lastMove.setCapture(capture);
 		deactivateSquare();
 		if(enabled) nextPlayer(); 
 	    } else deactivateSquare(); // this line not here in v1

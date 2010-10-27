@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class PlayableSquare extends AbstractSquare {
 
+    private boolean empty;
     private ArrayList<Coords> choices;
 
     /** Create a playable square
@@ -17,6 +18,7 @@ public class PlayableSquare extends AbstractSquare {
     public PlayableSquare(int i, int j) {
 	super(i, j);
 	choices = new ArrayList<Coords>();
+	empty = false;
     }
 
     /** Create a copy of a playable square
@@ -25,6 +27,17 @@ public class PlayableSquare extends AbstractSquare {
     public PlayableSquare(PlayableSquare s) {
 	super(s);
 	choices = new ArrayList<Coords>(s.choices);
+	empty = false;
+    }
+
+    /** Create a playable square twin of an empty square.
+     * <br/> This trick permits the getSquare override in PlayableBoard
+     * @param s the empty square to emulate
+     */
+    public PlayableSquare(EmptySquare s) {
+	super(s);
+	choices = null;
+	empty = true;
     }
 
     // METHODS CONCERNING THE LIST
@@ -53,6 +66,10 @@ public class PlayableSquare extends AbstractSquare {
 	for(Coords c : choices)
 	    b.getSquare(c).setGreen(true);
 	return !choices.isEmpty();
+    }
+
+    public boolean isNull() {
+	return empty;
     }
 
     @Override

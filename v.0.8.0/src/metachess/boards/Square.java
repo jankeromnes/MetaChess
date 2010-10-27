@@ -56,8 +56,7 @@ public class Square extends JButton {
 	    else setIcon(null);
 	    setBackground((as.isGreen()? Colour.GREEN : as.getColor()).getColor());
 	}
-    	//setText(as.hasPiece()? null : as.getName());
-
+    	setText(as.hasPiece()? null : as.getCoords().toString());
     }
 
     /** Set the dimension of the side of this square
