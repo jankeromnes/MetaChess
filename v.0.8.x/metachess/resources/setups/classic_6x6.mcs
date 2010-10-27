@@ -1,0 +1,13 @@
+# Metachess=v.0.7.3/MCS=v.3
+# Generated from builder
+
+width	= 6
+height	= 6
+
+	{AREA}
+
+area pawnline sym A2 F2
+
+	{BEGIN}
+
+	Wrook	Warchbishop	Wking	Wqueen	Warchbishop	Wrook	Wpawn	Wpawn	Wpawn	Wpawn	Wpawn	Wpawn	12	Bpawn	Bpawn	Bpawn	Bpawn	Bpawn	Bpawn	Brook	Barchbishop	Bking	Bqueen	Barchbishop	Brook
