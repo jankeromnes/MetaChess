@@ -1,4 +1,6 @@
-package metachess.boards;
+package metachess.game;
+
+import metachess.boards.AbstractBoard;
 
 /** Class of the string representation of coordinates
  * @author Agbeladem (7DD)

@@ -3,9 +3,12 @@ package metachess.boards;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import metachess.game.Coords;
+import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.library.Loader;
-import metachess.logger.Move;
+import metachess.squares.AbstractSquare;
+import metachess.squares.EmptySquare;
 
 /** Class of an Abstract Board
  * @author Agbeladem and Jan (7DD)

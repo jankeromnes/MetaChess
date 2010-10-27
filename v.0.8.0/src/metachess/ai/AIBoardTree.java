@@ -1,9 +1,9 @@
 package metachess.ai;
 
-import metachess.boards.AbstractSquare;
 import metachess.boards.PlayableBoard;
+import metachess.game.Move;
 import metachess.game.Piece;
-import metachess.logger.Move;
+import metachess.squares.AbstractSquare;
 
 /** Class of an AI Board Tree, child of another Playable Board, with progeny
  * @author Jan (7DD)
@@ -121,6 +121,9 @@ public class AIBoardTree extends PlayableBoard {
     	return score;
     }
     
+    /**
+     *  DEPRECATED
+     *  
 	public void freeMemory() {
 		Runtime r = Runtime.getRuntime();
 		long freeMemory = r.freeMemory();
@@ -131,6 +134,7 @@ public class AIBoardTree extends PlayableBoard {
 			System.out.println("Freed "+freedPercentage+"% of memory!");
 		}
 	}
+	*/
 	
 	public long getComplexity() {
 		return complexity;

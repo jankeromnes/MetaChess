@@ -1,4 +1,4 @@
-package metachess.boards;
+package metachess.squares;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,13 +7,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import metachess.boards.GraphicalBoard;
 import metachess.library.Colour;
 
 /** Class of graphical squares
  * @author Jan (7DD) [v.0.7.5], Agbeladem (7DD) [v.0.8.0]
  * @version 0.8.0
  */
-public class Square extends JButton {
+public class GraphicalSquare extends JButton {
    
     private static final long serialVersionUID = 1L;
     private final GraphicalBoard board;
@@ -30,7 +31,7 @@ public class Square extends JButton {
      * @param a the abstract square on which this square is based
      * @param b the abstract board to which this square belongs
      */
-    public Square(AbstractSquare a, GraphicalBoard b) {
+    public GraphicalSquare(AbstractSquare a, GraphicalBoard b) {
     	super();
     	as = a;
     	board = b;

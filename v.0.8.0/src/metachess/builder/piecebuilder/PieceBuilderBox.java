@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import metachess.boards.AbstractSquare;
 import metachess.boards.GraphicalBoard;
 import metachess.boards.SampleBoard;
 import metachess.builder.BuilderBox;
@@ -14,6 +13,7 @@ import metachess.game.Piece;
 import metachess.library.PieceImages;
 import metachess.library.Pieces;
 import metachess.library.Resource;
+import metachess.squares.AbstractSquare;
 
 /** Class of the Piece tab in the Builderbox
  * @author Agbeladem (7DD)

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import metachess.ai.AIThread;
 import metachess.game.Game;
+import metachess.game.Move;
 import metachess.game.Piece;
-import metachess.logger.Move;
 
 /** Class of the real Chess Board
  * @author Jan (7DD)

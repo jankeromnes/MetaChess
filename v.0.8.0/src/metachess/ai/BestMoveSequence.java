@@ -2,7 +2,7 @@ package metachess.ai;
 
 import java.util.Vector;
 
-import metachess.logger.Move;
+import metachess.game.Move;
 
 /** Class of a Best-Moves Sequence, calculated by an AI Board Tree
  * @author Jan (7DD)

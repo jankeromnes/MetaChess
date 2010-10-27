@@ -1,8 +1,11 @@
 package metachess.boards;
 
+import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.library.Pieces;
-import metachess.logger.Move;
+import metachess.squares.AbstractSquare;
+import metachess.squares.EmptySquare;
+import metachess.squares.PlayableSquare;
 
 /** Class of a playable board
  * @author Jan (7DD)

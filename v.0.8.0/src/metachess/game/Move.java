@@ -1,10 +1,9 @@
-package metachess.logger;
+package metachess.game;
 
 import java.io.Serializable;
 
 import metachess.boards.AbstractBoard;
-import metachess.boards.AbstractSquare;
-import metachess.game.Piece;
+import metachess.squares.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)

@@ -20,7 +20,6 @@ import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
 import metachess.count.CountPanel;
 import metachess.logger.LogPanel;
-import metachess.logger.Move;
 import metachess.menus.FileBox;
 import metachess.menus.GameModeBox;
 import metachess.menus.Menu;

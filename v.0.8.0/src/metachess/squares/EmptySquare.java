@@ -1,4 +1,4 @@
-package metachess.boards;
+package metachess.squares;
 
 import metachess.game.Piece;
 
