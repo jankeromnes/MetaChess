@@ -23,6 +23,7 @@ public class LogRenderer implements ListCellRenderer {
 	if(!isSelected)
 	    renderer.setBackground(((index % 2 == 0)? Colour.WHITE_BG : Colour.BLACK_BG).getColor());
 	renderer.setText((String)value);
+	renderer.setHorizontalAlignment(JLabel.CENTER);
 	return renderer;
 
     }

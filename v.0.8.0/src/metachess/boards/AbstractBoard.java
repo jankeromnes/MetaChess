@@ -71,7 +71,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	}
     	public void reset() { i=0; j=0; blank=0; }
     	public boolean hasNext() {
-	    boolean ret = squareExists(i,j) && (getSquare(i,j).isNull() || hasPiece(i,j));
+	    boolean ret = squareExists(i,j) && (squares[i][j].isNull() || hasPiece(i,j));
 	    while( j < height && ! ret) {
 		if(hasPiece(i,j))
 		    ret = true;
@@ -160,7 +160,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @return true if it is valid
      */
     public boolean isSquareValid(int x, int y) {
-	return squareExists(x, y) && !getSquare(x,y).isNull() ; 	
+	return squareExists(x, y) && !squares[x][y].isNull() ; 	
     }
 
     /** Tells whether given coordinates match an existing square of the board

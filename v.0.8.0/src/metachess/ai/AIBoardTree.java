@@ -107,9 +107,11 @@ public class AIBoardTree extends PlayableBoard {
     		score = 0;
     		Piece p;
     		for(AbstractSquare sq : this) {
+		    if(sq.hasPiece()) {
     			p = sq.getPiece();
     			if (p.isWhite()) score+=p.getPrice();
     			else score-=p.getPrice();
+		    }
     		}
     		if(!deathMatch){
     			if(whiteKingDead) score=-10000;

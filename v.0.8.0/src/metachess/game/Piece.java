@@ -176,7 +176,7 @@ public class Piece {
 	     // CASTLE
 	     for(int dir = -1 ; dir < 2 ; dir += 2) {
 		 int xx = (ab.getCols()-1)*((dir+1)/2);
-		 if(ab.squareExists(xx, j) && ab.hasPiece(xx, j)) {
+		 if(ab.isSquareValid(xx, j) && ab.hasPiece(xx, j)) {
 		     Piece p = ab.getSquare(xx, j).getPiece();
 		     if(p.isRook() && !p.hasMoved()) {
 			 boolean possible = true;
@@ -232,7 +232,7 @@ public class Piece {
 		} else {
 
 		    AbstractSquare c = null;
-		    boolean b = ab.squareExists(i+s*x, j+s*y);
+		    boolean b = ab.isSquareValid(i+s*x, j+s*y);
 		    if(b) {
 			c = ab.getSquare(i+s*x, j+s*y);
 			if(m.isWalkType())
@@ -241,13 +241,13 @@ public class Piece {
 				if(/*f == BrowseType.GREEN_SQUARES &&*/ ! m.isHopperType())
 				    movable |= browseSquare(c, ab, f);
 				s += k;
-				b = ab.squareExists(i+s*x, j+s*y);
+				b = ab.isSquareValid(i+s*x, j+s*y);
 				if(b)
 				    c = ab.getSquare(i+s*x, j+s*y);
 			    }
 			else while(b && !c.hasPiece() && m.isInRange(s)) {
 				s+=k;
-				b = ab.squareExists(i+s*x, j+s*y);
+				b = ab.isSquareValid(i+s*x, j+s*y);
 				if(b)
 				    c = ab.getSquare(i+s*x, j+s*y);
 			    }
@@ -256,7 +256,7 @@ public class Piece {
 			if(m.isInRange(s) && c.hasPiece()) {
 			    if(m.isHopperType()) {
 				s += k;
-				if(ab.squareExists(i+s*x, j+s*y)) {
+				if(ab.isSquareValid(i+s*x, j+s*y)) {
 				    c = ab.getSquare(i+s*x, j+s*y);
 				    if(((c.hasPiece() && m.isAttackType()
 					 && c.getPiece().isWhite() != white)
@@ -317,6 +317,7 @@ public class Piece {
 	}
     }
 
+    public char getLetter() { return name.charAt(0); }
     public String getName() { return name; }
     public boolean isWhite() { return white; }
     public boolean hasMoved() { return moved; }

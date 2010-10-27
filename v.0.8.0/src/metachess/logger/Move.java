@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import metachess.boards.AbstractBoard;
 import metachess.boards.AbstractSquare;
+import metachess.game.Piece;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)
@@ -16,12 +17,15 @@ public class Move implements Serializable {
     private int oldy;
     private int newx;
     private int newy;
+    private boolean capture;
+    private Piece piece;
     private transient AbstractBoard board;
-    private String name;
+
+    // CONSTRUCTORS
 
     /** Create an empty move.
      * The move's properties should have to be defined using methods */
-    public Move() {};
+    public Move() {}
 
     /** Creation of a move
      * @param oldxarg the column (X Coord) of the moved piece before the move
@@ -33,19 +37,14 @@ public class Move implements Serializable {
     public Move(int oldxarg, int oldyarg
 		, int newxarg, int newyarg
 		, AbstractBoard abstractBoard) {
-	
+
 	board = abstractBoard;
+	capture = false;
+	piece = abstractBoard.getSquare(newxarg, newyarg).getPiece();
 	oldx = oldxarg;
 	oldy = oldyarg;
 	newx = newxarg;
 	newy = newyarg;
-	
-	StringBuilder s = new StringBuilder();
-	s.append(board.getSquare(oldx,oldy).getName());
-	s.append(" => ");
-	s.append(board.getSquare(newx,newy).getName());
-	name = s.toString();
-
     }
 
     /** Creation of a move
@@ -56,6 +55,20 @@ public class Move implements Serializable {
     public Move(AbstractSquare a, AbstractSquare b, AbstractBoard ab) {
 	this(a.getColumn(), a.getRow(), b.getColumn(), b.getRow(), ab);
     }
+
+    // ALGEABRIC CHESS NOTATION SUPPORT
+    public void resolveAmbiguity() {
+
+    }
+
+    /** Set whether a piece is captured in this move
+     * @param c true if one actually gets captured (or exploded)
+     */
+    public void setCapture(boolean c) {
+	capture = c;
+    } 
+
+    // GETTERS
 
     /** Get the X Coord of the moved piece before the move
      * @return the column (X Coord) of the piece
@@ -87,7 +100,12 @@ public class Move implements Serializable {
    
     @Override
 	public String toString() {
-	return name;
+	StringBuilder s = new StringBuilder();
+	//s.append(board.getSquare(oldx,oldy).getCoords().toString().toLowerCase());
+	if(!piece.isPawn()) s.append(piece.getLetter());
+	if(capture) s.append('x');
+	s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
+	return s.toString();
     }
 
 }

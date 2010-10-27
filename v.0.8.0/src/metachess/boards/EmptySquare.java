@@ -14,13 +14,13 @@ public class EmptySquare extends AbstractSquare {
      */
     public EmptySquare(int i, int j) {
 	super(i, j);
-	piece = new Piece();
+	piece = null;
     }
     @Override
     public boolean isNull() { return true; }
 
     @Override
-    public boolean hasPiece() { return true; }
+    public boolean hasPiece() { return false; }
 
     @Override
     public boolean isGreen() { return false; }
