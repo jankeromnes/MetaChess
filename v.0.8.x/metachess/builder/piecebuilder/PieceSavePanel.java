@@ -31,7 +31,7 @@ public class PieceSavePanel extends SavePanel {
 	protected void save() {
 	super.save();
 	try {
-	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(Resource.RESOURCES.getPathFromExecFolder() + "pieces_images.mci", true)));
+	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(Resource.RESOURCES.getPath() + "pieces_images.mci", true)));
 	    String image = parent.getImageName();
 	    StringBuilder s = new StringBuilder(field.getText().toLowerCase());
 	    s.append(':');

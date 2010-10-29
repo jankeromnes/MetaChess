@@ -15,13 +15,10 @@ import metachess.game.Game;
 import metachess.library.ToolIcons;
 
 public class Menu extends JMenuBar {
-	
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	private Game game;
+    private static final long serialVersionUID = 1L;
+    
+    private Game game;
 
     private JMenuItem undoMove;
     private JMenuItem redoMove;

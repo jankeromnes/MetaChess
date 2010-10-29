@@ -108,7 +108,7 @@ public abstract class SavePanel extends JPanel {
     protected void save() {
 
 	try {
-	    StringBuilder fileName = new StringBuilder(res.getPathFromExecFolder());
+	    StringBuilder fileName = new StringBuilder(res.getPath());
 	    fileName.append(field.getText().toLowerCase());
 	    fileName.append('.');
 	    fileName.append(res.getExtension());
@@ -117,7 +117,7 @@ public abstract class SavePanel extends JPanel {
 	    pw.close();
 	    JOptionPane.showMessageDialog(null, res.getName()+" file updated");
 	} catch(IOException e) {
-	    System.out.println(e);
+	    e.printStackTrace();
 	}
     }
 

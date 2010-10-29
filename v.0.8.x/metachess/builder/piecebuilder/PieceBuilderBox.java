@@ -96,7 +96,7 @@ public class PieceBuilderBox extends JPanel {
      */
     public void changeIcon(String fileName) {
 	image = fileName;
-	fileName = Resource.PIECES_IMAGES.getPath(false)+image;
+	fileName = Resource.PIECES_IMAGES.getPath(true)+image;
 	Piece p;
 	for(AbstractSquare s : bs) {
 	    p = s.getPiece();

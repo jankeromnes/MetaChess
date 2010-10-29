@@ -10,7 +10,7 @@ import metachess.boards.Area;
 import metachess.game.MoveType;
 import metachess.game.Piece;
 
-/** Class of the Resource Loader (exclusively by static methods)
+/** Singleton of the Resource Loader
  * @author Agbeladem (7DD)
  * @version 0.8.0
  */

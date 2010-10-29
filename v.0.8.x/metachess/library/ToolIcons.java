@@ -2,14 +2,14 @@ package metachess.library;
 
 public enum ToolIcons {
 
-    LEFT_ARROW("../resources/images/icons/back.png"),
-	RIGHT_ARROW("../resources/images/icons/next.png"),
-	GAME("../resources/images/icons/Wking.png"),
-	NEW("../resources/images/icons/add.png"),
-	SAVE("../resources/images/icons/accept.png"),
-	LOAD("../resources/images/icons/down.png"),
-	EXIT("../resources/images/icons/remove.png"),
-	BUILDER("../resources/images/icons/process.png");
+    LEFT_ARROW("back.png"),
+	RIGHT_ARROW("next.png"),
+	GAME("Wking.png"),
+	NEW("add.png"),
+	SAVE("accept.png"),
+	LOAD("down.png"),
+	EXIT("remove.png"),
+	BUILDER("process.png");
 
    private String link;
 
@@ -17,8 +17,12 @@ public enum ToolIcons {
        this.link = link;
    }
 
+   private String getFolderPath() {
+       return "/resources/images/icons/";
+   }
+
    public String getPath() {
-       return link;
+       return getFolderPath()+link;
    }
 
 

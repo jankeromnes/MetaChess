@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+/** Singleton of the Piece Images Loader
+ * @author Agbeladem (7DD)
+ * @version 0.8.0
+ */
 public class PieceImages {
 
     private static PieceImages instance = new PieceImages();
@@ -34,11 +38,9 @@ public class PieceImages {
     private void loadImages() {
 	try {
 
-	    BufferedReader br = new BufferedReader(new InputStreamReader(instance.getClass().getResourceAsStream(getPath() )));
+	    BufferedReader br = new BufferedReader(new InputStreamReader(instance.getClass().getResourceAsStream(getPath())));
 	    String line = br.readLine();
-
 	    while(line != null) {
-
 		int length = line.length();
 		if(length!=0 && line.charAt(0) != '#') {
 		    int first = line.indexOf(":");
@@ -48,10 +50,13 @@ public class PieceImages {
 		    instance.images.put(piece+"_BLACK", line.substring(last+1, length ));
 		}
 		line = br.readLine();
+
 	    }
 	    br.close();
 	    loaded = true;
-	} catch(IOException e) { System.out.println(e); }
+	} catch(IOException e) {
+	    e.printStackTrace();
+	}
 
     }
 
@@ -60,7 +65,7 @@ public class PieceImages {
     }
 
     public static String getImage(String pieceName, boolean isWhite) {
-	return getImage(pieceName, isWhite, false);
+	return getImage(pieceName, isWhite, true);
     }
 
     public static String getImage(String pieceName) {
