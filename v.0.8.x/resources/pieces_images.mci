@@ -22,21 +22,11 @@ metamorph:Wking.png:Bking.png
 
 ###
 
-
 # Generated from builder
 archbishop:Wbishop.png:Bbishop.png
-
 # v.0.8.0 adds the following
 alfil:Wbishop.png:Bbishop.png
 dabbaba:Wrook.png:Brook.png
 alibaba:Wking.png:Bking.png
 zero:Wrook.png:Brook.png
 
-# Generated from builder
-new_piece:Wking.png:Bking.png
-# Generated from builder
-new_piece:Wking.png:Bking.png
-# Generated from builder
-new_piece:Wking.png:Bking.png
-# Generated from builder
-new_piece:Wking.png:Bking.png

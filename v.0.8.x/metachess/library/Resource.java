@@ -78,16 +78,20 @@ public enum Resource {
      * @return the String of the path
      */
     public String getPath(boolean relative) {
-	return (relative? "../" : "/metachess/") + link;
+	return (relative? "../../" : "/") + link;
     }
 
     /** Get Relative Path of the Resource folder,
-	starting from the folder where the
-	application was originally executed */
+     * starting from the folder where the
+     * application was originally executed
+     * @return the path
+     */
+    /*
     public String getPathFromExecFolder() {
-	return "metachess/"+ link;
+	return "/resources/"+ link;
     }
-    
+    */
+
     /** List all the files in the Resource folder
      * @return an array of File
      * 
@@ -96,7 +100,7 @@ public enum Resource {
      * See Run > Run Configurations > (your config) > Arguments
      */
     public String[] getFiles() {
-	return new File("metachess/"+link).list(filter);
+	return new File(link).list(filter);
     }
 
     /** Get a resource list of all the elements of this resource 
