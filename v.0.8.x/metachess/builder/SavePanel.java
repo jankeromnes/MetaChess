@@ -112,7 +112,7 @@ public abstract class SavePanel extends JPanel {
 	    fileName.append(field.getText().toLowerCase());
 	    fileName.append('.');
 	    fileName.append(res.getExtension());
-	    pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName.toString() )));
+	    pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName.toString())));
 	    write();
 	    pw.close();
 	    JOptionPane.showMessageDialog(null, res.getName()+" file updated");

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.Piece;
-import metachess.library.Loader;
+import metachess.loader.SetupLoader;
 import metachess.squares.AbstractSquare;
 import metachess.squares.EmptySquare;
 
@@ -128,7 +128,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param setup the setup's name
      */
     public void init(String setup) {
-    	Loader.loadSetup(this, setup);
+    	SetupLoader.load(this, setup);
     }
 
 

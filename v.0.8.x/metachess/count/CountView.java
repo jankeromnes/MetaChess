@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import metachess.library.Colour;
 import metachess.library.PieceImages;
+import metachess.loader.PieceImageLoader;
 
 /** Class of the pieces count view for one color
  * @author Agbeladem (7DD)
@@ -30,7 +31,7 @@ public class CountView extends JPanel {
 
 	setBackground((white ? Colour.BLACK_BG : Colour.WHITE_BG).getColor());
 	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	PieceImages.load();
+	PieceImageLoader.load();
 
     }
 
@@ -53,7 +54,7 @@ public class CountView extends JPanel {
    }
 
 
-    /*  
+    /* // Not functional painting method, used layout instead
     public void paint(Graphics g) {
 	super.paint(g);
 	int w = (int)(getSize().getWidth());

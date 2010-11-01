@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 
 import metachess.builder.SavePanel;
 import metachess.game.MoveType;
-import metachess.library.PieceImages;
 import metachess.library.Resource;
+import metachess.loader.PieceImageLoader;
 
 /** Class of the Piece Builderbox save panel
  * @author Agbeladem (7DD)
@@ -41,7 +41,7 @@ public class PieceSavePanel extends SavePanel {
 	    pw.println("# Generated from builder");
 	    pw.println(s.toString());
 	    pw.close();
-	    PieceImages.load(true);
+	    PieceImageLoader.load(true);
 	} catch(IOException e) {
 	    System.out.println(e);
 	}

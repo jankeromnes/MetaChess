@@ -7,7 +7,7 @@ import javax.swing.event.ChangeListener;
 
 import metachess.builder.piecebuilder.PieceBuilderBox;
 import metachess.builder.setupbuilder.SetupBuilderBox;
-import metachess.library.PieceImages;
+import metachess.loader.PieceImageLoader;
 
 /** Class of the Builderbox (dialog window)
  * @author Agbeladem (7DD)
@@ -27,7 +27,7 @@ public class BuilderBox extends JDialog {
 
 	
 	JTabbedPane tabs = new JTabbedPane();
-	PieceImages.load();
+	PieceImageLoader.load();
 
 	
 
