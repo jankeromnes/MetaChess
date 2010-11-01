@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import metachess.boards.EditableBoard;
 import metachess.boards.GraphicalBoard;
 import metachess.game.Piece;
-import metachess.library.Loader;
+import metachess.loader.SetupLoader;
 
 /** Class of the Setup tab in the Builderbox
  * @author Agbeladem (7DD)
@@ -52,7 +52,7 @@ public class SetupBuilderBox extends JPanel {
      * @param name the setup to load
      */
     public void load(String name) {
-	Loader.loadSetup(board, name);
+	SetupLoader.load(board, name);
 	tsp.init();
 	gb.init();
     }

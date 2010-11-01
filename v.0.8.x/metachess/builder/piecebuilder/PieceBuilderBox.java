@@ -12,7 +12,6 @@ import metachess.game.MoveType;
 import metachess.game.Piece;
 import metachess.library.PieceImages;
 import metachess.library.Pieces;
-import metachess.library.Resource;
 import metachess.squares.AbstractSquare;
 
 /** Class of the Piece tab in the Builderbox
@@ -45,7 +44,6 @@ public class PieceBuilderBox extends JPanel {
 	add(gb , BorderLayout.CENTER);
 	add(mp, BorderLayout.EAST);
 	add(isp, BorderLayout.WEST);
-	
 	
     }
     
@@ -95,8 +93,6 @@ public class PieceBuilderBox extends JPanel {
      * @param fileName the path of the image that will represent the piece
      */
     public void changeIcon(String fileName) {
-	image = fileName;
-	fileName = Resource.PIECES_IMAGES.getPath(true)+image;
 	Piece p;
 	for(AbstractSquare s : bs) {
 	    p = s.getPiece();

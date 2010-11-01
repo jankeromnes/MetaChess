@@ -15,13 +15,14 @@ public class PieceImageSelectRenderer implements ListCellRenderer {
 
     protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
+    @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
 	JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
 	String text = value.toString();
 
-	renderer.setIcon(PieceImages.getScaledImageFromPath(Resource.PIECES_IMAGES.getPath(false)+text, 20));
+	renderer.setIcon(PieceImages.getScaledImageFromPath(Resource.PIECE_IMAGES.getPath(false)+text, 20));
 
 	text = text.substring(1,text.lastIndexOf('.'));
 	renderer.setText(text);

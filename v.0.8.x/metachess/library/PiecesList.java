@@ -12,8 +12,8 @@ import javax.swing.JScrollPane;
  */
 public class PiecesList extends JList implements ResourceList {
 
-	private static final long serialVersionUID = 1L;
-	private final PieceSelectRenderer renderer;
+    private static final long serialVersionUID = 1L;
+    private final PieceSelectRenderer renderer;
     private final JScrollPane scroller;
 
     /** Creation of a pieces list */

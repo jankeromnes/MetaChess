@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-/** Class of the Pieces Images List
+/** Class of the Pieces Images graphical list
  * @author Agbeladem (7DD)
  * @version 0.8.0
  */
@@ -22,7 +22,7 @@ public class PieceImageList extends JList implements ResourceList {
 
     /** (Re)initialize this list */
     public void init() {
-	setListData(Resource.PIECES_IMAGES.getFiles());
+	setListData(Resource.PIECE_IMAGES.getFiles());
 	setSelectedIndex(0);
     }
 

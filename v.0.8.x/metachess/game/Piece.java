@@ -330,8 +330,7 @@ public class Piece {
 
     public void setImage(String i)  {
 
-	image = new ImageIcon(getClass().getResource(i));
-
+	image = new ImageIcon(i);
 	icons = new HashMap<Integer, ImageIcon>();
 	icons.put(new Integer(image.getIconWidth()), image);
 

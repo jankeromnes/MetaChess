@@ -5,14 +5,24 @@ import java.io.FilenameFilter;
 
 /** Enum of Resources
  * @author Agbeladem (7DD)
- * @version 0.7.3
+ * @version 0.8.3
  */
 public enum Resource {
 
-    RESOURCES("resources"),
-	PIECES_IMAGES("resources/images/pieces","^W.+", "png", "pieceImage", new PieceImageList()),
-	PIECES("resources/pieces", "^.+", "mcp", "piece", new PiecesList()),
-	SETUPS("resources/setups", "^.+", "mcs","setup", new SetupList());
+    RESOURCES(""),
+	PIECE_IMAGES("images/pieces","^W.+", "png", "pieceImage", new PieceImageList()),
+	PIECES("pieces", "^.+", "mcp", "piece", new PiecesList()),
+	SETUPS("setups", "^.+", "mcs","setup", new SetupList());
+
+    private static String folder = null;
+    private static String getDataFolder() {
+	if(folder == null) {
+	    String folder = System.getenv("appdata");
+	    if(folder == null) folder = System.getProperty("user.home");
+	    Resource.folder = folder + File.separator + ".metachess" + File.separator;
+	}
+	return folder;
+    }
 
     private FilenameFilter filter = new FilenameFilter() {
 	    public boolean accept(File f, String name) {
@@ -38,7 +48,7 @@ public enum Resource {
      * @param regex Regular Expression of the Resource files  
      */
     private Resource(String folder, String regex) {
-	link = folder+'/';
+	link = folder+File.separator;
 	file = regex;
     }
 
@@ -74,23 +84,15 @@ public enum Resource {
     }
 
     /** Get Path of the Resouce folder 
-     * @param relative whether the path is relative or not
+     * @param relative whether the path is relative or not.
+     * If it is, refers to the path inside the jar's ressources folder
+     * Otherwise, it refers to the application data folder
      * @return the String of the path
      */
     public String getPath(boolean relative) {
-	return (relative? "../../" : "/") + link;
+	return (relative? "/resources/" : getDataFolder()) + link;
     }
 
-    /** Get Relative Path of the Resource folder,
-     * starting from the folder where the
-     * application was originally executed
-     * @return the path
-     */
-    /*
-    public String getPathFromExecFolder() {
-	return "/resources/"+ link;
-    }
-    */
 
     /** List all the files in the Resource folder
      * @return an array of File
@@ -100,7 +102,7 @@ public enum Resource {
      * See Run > Run Configurations > (your config) > Arguments
      */
     public String[] getFiles() {
-	return new File(link).list(filter);
+	return new File(getPath()).list(filter);
     }
 
     /** Get a resource list of all the elements of this resource 
