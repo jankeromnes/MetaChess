@@ -146,15 +146,15 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param keep whether 
      */
     public void playMove(Move m) {
-	playSquare(m.getOldX(), m.getOldY());
-    	playSquare(m.getNewX(), m.getNewY());
+	playSquare(m.getOldCoords());
+    	playSquare(m.getNewCoords());
     }
 
-    /** Play a given square and keep the move in the logger
-     * @param i the square's column (X Coord)
-     * @param j the square's row (Y Coord)
+    /** Literally play a given square (as a goal for a selected piece)
+     * and keep the move in the logger
+     * @param c the square's coordinates
      */
-    public void playSquare(int i, int j) { };
+    public abstract void playSquare(Coords c);
 
     /** Tells whether given coordinates match a valid square of the board or not
      * <br/> A square is valid if it exists and if it was not removed
@@ -312,6 +312,4 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
     
 }
-
-
 

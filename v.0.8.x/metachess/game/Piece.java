@@ -17,7 +17,7 @@ import metachess.squares.AbstractSquare;
 public class Piece {
 
     enum BrowseType {
-	CHECK_KING, GREEN_SQUARES, CHOICE_LIST
+	CHECK_KING, GREEN_SQUARES, CHOICE_LIST, CHECK_RANGE;
     }
 
     private ArrayList<AbstractSquare> choices;
@@ -36,6 +36,7 @@ public class Piece {
     
     private float price;
     private boolean priceCalculated;
+    private Coords newCoords;
 
     /** Create a new empty piece */
     public Piece() {
@@ -127,9 +128,8 @@ public class Piece {
      // BOARD BROWSING COMMANDS
 
      private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
- 	 boolean kingInCheck = false;
-	 c.setGreen(!kingInCheck);
-	 return !kingInCheck;
+	 c.setGreen(true);
+	 return true;
      }
 
      private boolean checkKing(AbstractSquare c) {
@@ -150,6 +150,9 @@ public class Piece {
 	 case CHOICE_LIST:
 	     ret = true;
 	     choices.add(c);
+	     break;
+	 case CHECK_RANGE:
+	     ret = c.getCoords().equals(newCoords);
 	     break;
 	 default:
 	     ret = false;
@@ -269,14 +272,13 @@ public class Piece {
 		}
 	    }
 	}
-
 	return movable;
 
     }
 
-    /** Set all the squares reachable by the piece green
-     * @param i the piece's square's column (X Coord)
-     * @param j the piece's square's row (Y Coord)
+    /** Set all the squares reachable by this piece green
+     * @param i this piece's square's column (X Coord)
+     * @param j this piece's square's row (Y Coord)
      * @param board the abstract board of the piece
      * @return true if the piece is movable
      */
@@ -291,9 +293,9 @@ public class Piece {
 	return choices;
     }
 
-    /** Check whether the piece has a king in range
-     * @param i the piece's square's column (X Coord)
-     * @param j the piece's square's row (Y Coord)
+    /** Check whether this piece has a king in range
+     * @param i this piece's square's column (X Coord)
+     * @param j this piece's square's row (Y Coord)
      * @param board the abstract board of the piece
      * @return true if it has
      */
@@ -301,6 +303,17 @@ public class Piece {
 	return browseBoard(i, j, ab, BrowseType.CHECK_KING);
     }
 
+    /** Check whether this piece can reach a given square,
+     * whether this move would be legal or not
+     * @param i this piece's square's column (X Coord)
+     * @param j this piece's square's row (Y Coord)
+     * @param board the abstract board of the piece
+     * @return true if it has
+     */
+    public boolean checkSquareInRange(Coords oldc, Coords newc, AbstractBoard ab) {
+	newCoords = newc;
+	return browseBoard(oldc.getColumn(), oldc.getRow(), ab, BrowseType.CHECK_RANGE);
+    }
 
     //  GETTERS / SETTERS
 

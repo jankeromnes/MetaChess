@@ -56,7 +56,7 @@ public class AIBoardTree extends PlayableBoard {
         activeSquareX=-1;
         activeSquareY=-1;
 
-        playMove(m);
+	playMove(m);
     	
     	computeBestCandidate();
     	
@@ -78,7 +78,8 @@ public class AIBoardTree extends PlayableBoard {
 			for(int i = 0 ; i < width ; i++) {
 			    for(int j = 0 ; j < width ; j++) {
 				if(getSquare(i,j).isGreen()) {
-				    child = new AIBoardTree(this, new Move(activeSquareX,activeSquareY,i,j,this), depth-1);
+				    Move m = new Move(activeSquareX,activeSquareY,i,j,this);
+				    child = new AIBoardTree(this, m, depth-1);
 				    BestMoveSequence newCandidate = child.getBestMoveSequence();
 				    // check if candidate was beaten
 				    if (candidate == null
@@ -122,8 +123,8 @@ public class AIBoardTree extends PlayableBoard {
     }
     
     /**
-     *  DEPRECATED
-     *  
+     // DEPRECATED
+
 	public void freeMemory() {
 		Runtime r = Runtime.getRuntime();
 		long freeMemory = r.freeMemory();
@@ -136,9 +137,9 @@ public class AIBoardTree extends PlayableBoard {
 	}
 	*/
 	
-	public long getComplexity() {
-		return complexity;
-	}
+    public long getComplexity() {
+	return complexity;
+    }
     
 }
 

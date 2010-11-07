@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import metachess.boards.GraphicalBoard;
+import metachess.game.Coords;
 import metachess.library.Colour;
 
 /** Class of graphical squares
@@ -23,7 +24,7 @@ public class GraphicalSquare extends JButton {
 
     private class SquareListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
-	    board.getAbstractBoard().playSquare(as.getColumn(), as.getRow());
+	    board.getAbstractBoard().playSquare(as.getCoords());
     	}
     }
 

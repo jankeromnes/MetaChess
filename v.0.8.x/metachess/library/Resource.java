@@ -111,7 +111,7 @@ public enum Resource {
      * @return the String of the path
      */
     public String getPath(boolean relative) {
-	return (relative? "resources/" : getDataFolder()) + link;
+	return (relative? "resources" + File.separator : getDataFolder()) + link + File.separator;
     }
 
 

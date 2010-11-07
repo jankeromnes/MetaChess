@@ -24,7 +24,7 @@ public class PieceLoader implements Loader {
 	try {
 	    Piece piece = new Piece();
 	    piece.setName(pieceName);
-	    String file = Resource.PIECES.getPath()+pieceName+".mcp";
+	    String file = Resource.PIECES.getPath()+pieceName+'.'+Resource.PIECES.getExtension();
 	    BufferedReader br = new BufferedReader(new FileReader(file));
 	    StreamTokenizer st = new StreamTokenizer(br);
 	    st.eolIsSignificant(true);

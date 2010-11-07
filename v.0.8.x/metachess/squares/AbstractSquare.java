@@ -129,15 +129,16 @@ public class AbstractSquare implements Cloneable {
 
     @Override
 	public String toString() {
-	StringBuilder s = new StringBuilder("square (");
+	StringBuilder s = new StringBuilder("abstract square (");
 	s.append(getCoords());
 	if(hasPiece()) {
-	    s.append(" ; haspiece(");
+	    s.append(" ; hasPiece(");
 	    s.append(piece);
 	    s.append(")");
 	}
-	s.append(")");
+	if(isGreen()) s.append(" GREEN ");
 	if(isNull()) s.append(" NULL ");
+	s.append(")");
 	return s.toString();
     }
 
