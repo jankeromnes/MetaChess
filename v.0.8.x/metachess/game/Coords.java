@@ -4,7 +4,7 @@ import metachess.boards.AbstractBoard;
 
 /** Class of the string representation of coordinates
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.4
  */
 public final class Coords {
 

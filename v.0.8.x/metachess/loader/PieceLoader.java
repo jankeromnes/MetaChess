@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 
+import metachess.exceptions.FileAccessException;
+import metachess.exceptions.FileContentException;
+import metachess.exceptions.LoadException;
 import metachess.game.MoveType;
 import metachess.game.Piece;
 import metachess.library.Pieces;
@@ -19,12 +22,14 @@ public class PieceLoader implements Loader {
     private static PieceLoader instance = new PieceLoader();
 
     @Override
-     public void loadResource(String pieceName) {
+     public void loadResource(String pieceName) throws LoadException {
 
+
+	String name = pieceName+'.'+Resource.PIECES.getExtension();
 	try {
 	    Piece piece = new Piece();
 	    piece.setName(pieceName);
-	    String file = Resource.PIECES.getPath()+pieceName+'.'+Resource.PIECES.getExtension();
+	    String file = Resource.PIECES.getPath()+name;
 	    BufferedReader br = new BufferedReader(new FileReader(file));
 	    StreamTokenizer st = new StreamTokenizer(br);
 	    st.eolIsSignificant(true);
@@ -48,7 +53,7 @@ public class PieceLoader implements Loader {
 			    piece.setRook(true);
 			    break;
 			default:
-			    System.out.println("Bad Special MoveType Format :"+word);
+			    throw new FileContentException("Bad Special MoveType Format : \""+word+'"', name);
 			}
 			
 		    } else {
@@ -62,7 +67,7 @@ public class PieceLoader implements Loader {
 			    piece.addMoveType(new MoveType(type, dir, range, step, offset));
 
 			} else
-			    System.out.println("Bad MoveType Format : "+word);
+			    throw new FileContentException("Bad MoveType Format : \""+word+'"', name);
 
 		    }
 
@@ -75,7 +80,7 @@ public class PieceLoader implements Loader {
 	    Pieces.addPiece(piece);
 
 	} catch(IOException e) {
-	    e.printStackTrace();
+	    throw new FileAccessException(name);
 	}	
 
     }
@@ -83,7 +88,7 @@ public class PieceLoader implements Loader {
     /** Load a specified piece
      * @param pieceName the name of the piece
      */
-    public static void load(String pieceName) {
+    public static void load(String pieceName) throws LoadException {
 	instance.loadResource(pieceName);
     }
 

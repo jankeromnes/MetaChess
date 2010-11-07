@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 import metachess.ai.AIBoardTree;
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
+import metachess.exceptions.LoadException;
 import metachess.builder.BuilderBox;
 import metachess.count.CountPanel;
 import metachess.library.DataExtractor;
@@ -27,7 +28,7 @@ import metachess.menus.Menu;
 
 /** Main Class of a Metachess Game and its window
  * @author Jan and Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.4
  */
 public class Game extends JFrame {
 
@@ -51,53 +52,58 @@ public class Game extends JFrame {
      */
     public Game(String setup) {
     	super("MetaChess");
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    	this.setup = setup;
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    	atomic = false;
-    	whiteAILevel = 0;
-    	blackAILevel = 0;
+	this.setup = setup;
 
-    	builder = new BuilderBox();
-    	gmBox = new GameModeBox(this);
-    	fileBox = new FileBox(this);
+	atomic = false;
+	whiteAILevel = 0;
+	blackAILevel = 2;
 
-    	menu = new Menu(this);
-    	setJMenuBar(menu);
+
+	gmBox = new GameModeBox(this);
+	fileBox = new FileBox(this);
+
+	menu = new Menu(this);
+	setJMenuBar(menu);
+
+	builder = new BuilderBox();
+
+	board = new ChessBoard(this);
+	board.init(setup, atomic);
+
+	gb = new GraphicalBoard(board);
+	gb.init();
+	gb.update();
+	add(gb, BorderLayout.CENTER);
 	
-    	board = new ChessBoard(this);
-    	board.init(setup, atomic);
-    	gb = new GraphicalBoard(board);
-    	gb.init();
-    	gb.update();
-    	add(gb, BorderLayout.CENTER);
-
-
-    	countPanel = new CountPanel();
-    	histo = new LogPanel(this);
-
-		JPanel p = new JPanel();
-		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 	
-		p.add(countPanel);
-		p.add(Box.createVerticalGlue());
-		p.add(histo);
-		p.add(Box.createVerticalGlue());
-
-    	add(p, BorderLayout.EAST);
-
-    	pack();
-    	setVisible(true);
-		
+	countPanel = new CountPanel();
+	histo = new LogPanel(this);
+	
+	JPanel p = new JPanel();
+	p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+	
+	p.add(countPanel);
+	p.add(Box.createVerticalGlue());
+	p.add(histo);
+	p.add(Box.createVerticalGlue());
+	
+	add(p, BorderLayout.EAST);
+	
+	pack();
+	setVisible(true);
+	    
+	    
     }
 
     /** Jump to a given position of the game's logger
      * @param moves a list of all the played moves since the beginning
      */
     public void jump(ArrayList<Move> moves) {
-		//newGame(moves.isEmpty());
-		newGame(false);
+	//newGame(moves.isEmpty());
+	newGame(false);
     	board.jump(moves);
     }
 
@@ -121,17 +127,17 @@ public class Game extends JFrame {
     /** Start a new game
      * @param clear tells whether the logger should be cleared
      */
-    public void newGame(boolean clear){
-    	board.init(setup, atomic);
-    	gb.init();
+    public void newGame(boolean clear) {
+	board.init(setup, atomic);
+	gb.init();
 	gb.update();
 	countPanel.clear();
-    	if(clear) {
+	if(clear) {
 	    histo.clearMoves();
 	    histo.update();
-    	}
+	}
     }
-
+    
 
     /** End the last game */
     public void endGame() {
@@ -178,7 +184,9 @@ public class Game extends JFrame {
     	    s = new ObjectOutputStream(new FileOutputStream(file));
     	    s.writeObject(getSavedGame());
     	    s.close();
-    	} catch(Exception e) { System.out.println(e); }
+    	} catch(Exception e) {
+	    e.printStackTrace();
+	}
     }
     
     public SavedGame getSavedGame() {
@@ -225,12 +233,12 @@ public class Game extends JFrame {
     public void setAtomic(boolean a) { atomic = a; }
 
     public static void main(String[] argv) {
-		DataExtractor.checkDataVersion();
-	    try {
-		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch(Exception e) {}
+	DataExtractor.checkDataVersion();
+	try {
+	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+	} catch(Exception e) {}
 		
-		new Game(argv.length == 1 ? argv[0] : "classic"); 
+	new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
 
