@@ -1,5 +1,6 @@
 package metachess.boards;
 
+import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.library.Pieces;
@@ -13,19 +14,23 @@ import metachess.squares.PlayableSquare;
  */
 public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
-    protected Move lastMove;
-    protected boolean enabled;
+    protected Move lastMove;   // Used for the joker movetype determination
+    protected boolean enabled; // Tell whether the actual game is being played
+    protected boolean playing; // When doing the calculations, the AI is calculating too
+
     protected boolean whitePlaying;
     protected boolean atomic;
-    protected boolean deathMatch;
     protected boolean gameOver;
+
+    // Used to start atomic death-match
+    protected boolean deathMatch;
     protected boolean whiteKingDead;
     protected boolean blackKingDead;
     
     /** Create an empty playable board */
     public PlayableBoard() {
     	super();
-    	enabled = true;
+
     	lastMove = null;
     }
 
@@ -68,6 +73,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     public void init(String s, boolean isAtomic) {
     	super.init(s);
 
+	playing = true;
+    	enabled = true;
     	whitePlaying = true;
         atomic = false;
         deathMatch = false;
@@ -84,7 +91,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	checkPlayer();
 
     }
-    
 
     private void checkKingsAreOK() {
     	blackKingDead = true;
@@ -118,6 +124,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    checkKingsAreOK();
 	    deathMatch = blackKingDead && whiteKingDead;
 	}
+
 	/* REMOVAL OF THE ILLEGAL MOVES
 	  Three playable squares will be used :
 	    as: the square of the piece whose moves are being studied
@@ -134,8 +141,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			pb.activeSquareX = as.getColumn();
 			pb.activeSquareY = as.getRow();
 			pb.squares[s.getColumn()][s.getRow()].setGreen(true);
-			pb.enabled = false;
-			pb.playSquare(s.getColumn(), s.getRow());
+			pb.playing = false;
+			pb.playSquare(s.getCoords());
 			pb.whitePlaying = !whitePlaying;
 			boolean illegal = false;
 			for(AbstractSquare as2 : pb) {
@@ -223,15 +230,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     		}
     	}
     }
-    
-    /** Literally play a given square (as a goal for a selected piece)
-     * @param i the square's column (X Coord)
-     * @param j the square's row (Y Coord)
-     */
+
     @Override
-	public void playSquare(int i, int j) {
+	public void playSquare(Coords c) {
+	int i = c.getColumn();
+	int j = c.getRow();
     	AbstractSquare theSquare = getSquare(i, j);
 	boolean capture = false;
+	PlayableBoard board = enabled ? new PlayableBoard(this) : null;
     	if(isSquareActive())  {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
@@ -240,7 +246,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		if(theSquare == getActiveSquare()) ;
 		else if(atomic && theSquare.hasPiece()) {
 		    capture = true;
-		    explode(i,j);
+		    explode(i, j);
 		    getActiveSquare().removePiece(); // not here in v1
 		} else {
 		    capture = theSquare.hasPiece();
@@ -268,15 +274,33 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		    }
 		    getActiveSquare().setPiece(null);
 		}
-		lastMove = new Move(activeSquareX, activeSquareY, i, j, this);
+		lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
 		lastMove.setCapture(capture);
+		if(enabled) lastMove.resolveAmbiguity();
 		deactivateSquare();
-		if(enabled) nextPlayer(); 
+		if(playing) nextPlayer(); 
 	    } else deactivateSquare(); // this line not here in v1
     	}
     	else if(!gameOver) activateSquare(i, j);
     	update(); // this line not here in v1
     }
+
+    /** Toggle the enabled value which describes
+     * whether the game is actually being played */
+    public void toggleEnabled() {
+	enabled = !enabled;
+    }
+
+    /** Toggle the playing value which decribes whether moves are being played.
+     * <br/> Note that this value is true in AIBoardTree (while enabled is not).
+     */
+    public void togglePlaying() {
+	playing = !playing;
+	enabled = playing;
+    }
+
+
+    // GETTERS
 
     /**  Tells whether the white player is playing
      * @return true if it is, false if the black player is playing

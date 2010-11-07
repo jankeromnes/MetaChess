@@ -61,16 +61,34 @@ public final class Coords {
 	return j;
     }
 
+    /** Get the character that corresponds to these Coords' column
+     * @return the char starting from 'A' as the first column
+     */
+    public char getColumnChar() {
+	return (char)('A'+i);
+    }
+
+    /** Get the character that corresponds to these Coords' row
+     * @return the char starting from '0' as the first row
+     * and 'a' starting from the tenth row
+     */
+    public char getRowChar() {
+	return (char)( j > 8 ? 'a'-9+j : '1'+j);
+    }
+
     @Override
-	public String toString() {
-	return Character.toString((char)('A'+i)) +(char)( j > 8 ? 'a'-9+j : '1'+j); 
+    public String toString() {
+	return Character.toString(getColumnChar())+getRowChar();
     }
 
     @Override
     public boolean equals(Object o) {
-	assert o instanceof Coords;
-	Coords c = (Coords)o;
-	return c.j == j && c.i == i;
+	if(o == null) return false;
+	else {
+	    assert o instanceof Coords;
+	    Coords c = (Coords)o;
+	    return c.j == j && c.i == i;
+	}
     }
 
 }

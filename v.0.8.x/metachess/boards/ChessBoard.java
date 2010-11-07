@@ -3,9 +3,11 @@ package metachess.boards;
 import java.util.ArrayList;
 
 import metachess.ai.AIThread;
+import metachess.game.Coords;
 import metachess.game.Game;
 import metachess.game.Move;
 import metachess.game.Piece;
+import metachess.squares.AbstractSquare;
 
 /** Class of the real Chess Board
  * @author Jan (7DD)
@@ -31,7 +33,7 @@ public class ChessBoard extends PlayableBoard {
     public void init(String s, boolean isAtomic){
     	super.init(s, isAtomic);
     	int AILevel = game.getAILevel(whitePlaying);
-    	if(AILevel>0){
+    	if(AILevel > 0){
     		waitForAI = true;
     		AIThread ait = new AIThread(this, AILevel);
     		ait.start();
@@ -48,10 +50,11 @@ public class ChessBoard extends PlayableBoard {
     	    game.endGame();
     	int AILevel = game.getAILevel(whitePlaying); 
     	if(keep && AILevel > 0){
-    		waitForAI = true;
-    		update();
-    		AIThread ait = new AIThread(this, AILevel);
-    		ait.start();
+	    toggleEnabled();
+	    waitForAI = true;
+	    update();
+	    AIThread ait = new AIThread(this, AILevel);
+	    ait.start();
     	}
     }
 
@@ -69,23 +72,22 @@ public class ChessBoard extends PlayableBoard {
 	}
 	super.removePiece(i, j);
 	//squares[i][j].setPiece(null);
-
     }
 
     /** Play a specific move in this board
      * @param m the move to play
      */
     public void playMove(Move m) {
-    	playSquare(m.getOldX(), m.getOldY(), true);
-    	playSquare(m.getNewX(), m.getNewY(), true);
+    	playSquare(m.getOldCoords(), true);
+    	playSquare(m.getNewCoords(), true);
     }
 
     /** Replay a move, and prevent the AI from playing if needed
      * @param m the move to play
      */
     public void replayMove(Move m) {
-    	playSquare(m.getOldX(), m.getOldY(), false);
-    	playSquare(m.getNewX(), m.getNewY(), false);
+    	playSquare(m.getOldCoords(), false);
+    	playSquare(m.getNewCoords(), false);
     }
 
     /** Make the AI play a move.
@@ -93,26 +95,27 @@ public class ChessBoard extends PlayableBoard {
      * @param m the move to play
      */
     public void playAIMove(Move m) {
+	toggleEnabled();
     	waitForAI = false;
-    	playSquare(m.getOldX(), m.getOldY(),true);
+    	playSquare(m.getOldCoords(),true);
     	waitForAI = true;
     	try { Thread.sleep(200); } catch (Exception e) { }
     	waitForAI = false;
-    	playSquare(m.getNewX(), m.getNewY(),true);
+    	playSquare(m.getNewCoords(),true);
     }
     
     /** Literally play a given square
-     * @param i the square's column (X Coord)
-     * @param j the square's row (Y Coord)
+     * @param c the square's Coords
+     * @param keep whether the move is being kept in the logger
      */
-    public void playSquare(int i, int j, boolean keep){
+    public void playSquare(Coords c, boolean keep){
     	this.keep = keep;
-    	if(!waitForAI) super.playSquare(i, j);
+    	if(!waitForAI) super.playSquare(c);
     }
     
     @Override
-    public void playSquare(int i, int j) {
-	playSquare(i, j, true);
+    public void playSquare(Coords c) {
+	playSquare(c, true);
     }
 
     /** Play a list of moves in this board, starting from the beginning of the setup
@@ -120,11 +123,9 @@ public class ChessBoard extends PlayableBoard {
      */
     public void jump(ArrayList<Move> moves) {
 	assert moves != null;
-
 	int n = moves.size();
 	for(int i = 0; i < n ; i++)
 	    replayMove(moves.get(i));
-
     }
  
 

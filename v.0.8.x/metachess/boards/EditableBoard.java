@@ -1,6 +1,7 @@
 package metachess.boards;
 
 import metachess.builder.setupbuilder.SetupBuilderBox;
+import metachess.game.Coords;
 import metachess.squares.AbstractSquare;
 import metachess.squares.GraphicalSquare;
 
@@ -33,12 +34,13 @@ public class EditableBoard extends AbstractBoard {
 	endInit();
     }
 
-    /** Change the content of a given square
-     * @param i the square's colmun (X Coord)
-     * @param j the square's row (Y Coord)
+    /** Change the content of a given Square
+     * @param c the square's Coords
      */
     @Override
-    public void playSquare(int i, int j) {
+    public void playSquare(Coords c) {
+	int i = c.getColumn();
+	int j = c.getRow();
 	switch(parent.getTool()) {
 	case ADDING_PIECE:
 	    if(! getSquare(i, j).isNull())
@@ -59,7 +61,6 @@ public class EditableBoard extends AbstractBoard {
 	    GraphicalSquare s = parent.getGraphicalBoard().getSquare(i, j);
 	    s.setAbstractSquare(getSquare(i, j));
 	    s.update();
-
 	    break;
 	}
 

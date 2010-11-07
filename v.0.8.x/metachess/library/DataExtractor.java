@@ -60,7 +60,7 @@ public class DataExtractor {
 				jar = new JarFile(home);
 				extractJar(jar);
 			} catch (FileNotFoundException e) {
-				copyFiles(new File(home+Resource.RESOURCES.getPath(true)), Resource.RESOURCES.getFile());
+			    copyFiles(new File(home+Resource.RESOURCES.getPath(true)), Resource.RESOURCES.getFile());
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
