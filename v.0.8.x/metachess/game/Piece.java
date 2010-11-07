@@ -9,7 +9,6 @@ import metachess.boards.AbstractBoard;
 import metachess.boards.PlayableBoard;
 import metachess.library.PieceImages;
 import metachess.squares.AbstractSquare;
-import metachess.squares.PlayableSquare;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)

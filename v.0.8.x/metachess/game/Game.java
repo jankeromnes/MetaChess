@@ -19,6 +19,7 @@ import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
 import metachess.count.CountPanel;
+import metachess.library.DataExtractor;
 import metachess.logger.LogPanel;
 import metachess.menus.FileBox;
 import metachess.menus.GameModeBox;
@@ -69,20 +70,20 @@ public class Game extends JFrame {
     	board.init(setup, atomic);
     	gb = new GraphicalBoard(board);
     	gb.init();
-	gb.update();
+    	gb.update();
     	add(gb, BorderLayout.CENTER);
 
 
-	countPanel = new CountPanel();
+    	countPanel = new CountPanel();
     	histo = new LogPanel(this);
 
-	JPanel p = new JPanel();
-	p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-
-	p.add(countPanel);
-	p.add(Box.createVerticalGlue());
-	p.add(histo);
-	p.add(Box.createVerticalGlue());
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+	
+		p.add(countPanel);
+		p.add(Box.createVerticalGlue());
+		p.add(histo);
+		p.add(Box.createVerticalGlue());
 
     	add(p, BorderLayout.EAST);
 
@@ -95,8 +96,8 @@ public class Game extends JFrame {
      * @param moves a list of all the played moves since the beginning
      */
     public void jump(ArrayList<Move> moves) {
-	//newGame(moves.isEmpty());
-	newGame(false);
+		//newGame(moves.isEmpty());
+		newGame(false);
     	board.jump(moves);
     }
 
@@ -222,13 +223,14 @@ public class Game extends JFrame {
     public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
     public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
     public void setAtomic(boolean a) { atomic = a; }
-    
 
     public static void main(String[] argv) {
-	try {
-	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-	} catch(Exception e) {}
-	new Game(argv.length == 1 ? argv[0] : "classic"); 
+		DataExtractor.checkDataVersion();
+	    try {
+		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch(Exception e) {}
+		
+		new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
 
