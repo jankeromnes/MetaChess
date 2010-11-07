@@ -1,6 +1,5 @@
 package metachess.squares;
 
-import metachess.game.Piece;
 
 /** Class of a removed square
  * @author Agbeladem (7DD)

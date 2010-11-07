@@ -1,7 +1,5 @@
 package metachess.squares;
 
-import java.util.ArrayList;
-
 import metachess.game.Coords;
 import metachess.game.Piece;
 import metachess.library.Colour;

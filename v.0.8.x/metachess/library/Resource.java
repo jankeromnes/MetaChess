@@ -15,12 +15,14 @@ public enum Resource {
 	SETUPS("setups", "^.+", "mcs","setup", new SetupList());
 
     private static String folder = null;
+    
     private static String getDataFolder() {
-	if(folder == null) {
-	    String folder = System.getenv("appdata");
-	    if(folder == null) folder = System.getProperty("user.home");
-	    Resource.folder = folder + File.separator + ".metachess" + File.separator;
-	}
+		if(folder == null) {
+		    String folder = System.getenv("appdata");
+		    if(folder != null) folder += File.separator + "MetaChess" + File.separator; 
+		    else folder = System.getProperty("user.home") + File.separator + ".metachess" + File.separator;
+		    Resource.folder = folder;
+		}
 	return folder;
     }
 
@@ -40,7 +42,7 @@ public enum Resource {
      * @param folder the folder
      */
     private Resource(String folder) {
-	this(folder, ".+");
+    	this(folder, ".+");
     }
 
     /** Create new Resource folder
@@ -48,8 +50,8 @@ public enum Resource {
      * @param regex Regular Expression of the Resource files  
      */
     private Resource(String folder, String regex) {
-	link = folder+File.separator;
-	file = regex;
+		link = folder;
+		file = regex;
     }
 
     /** Create new Resource folder
@@ -64,6 +66,25 @@ public enum Resource {
 	name = itemName;
 	defaultList = list;
     }
+
+    /** Get absolute File for this resource
+     * @return the absolute File
+     */
+    public File getFile() {
+	return new File(getPath(false));
+    }
+
+    /** Get File for this resource 
+     * @param relative whether the path is relative or not.
+     * If it is, refers to the path inside the jar's resources folder
+     * Otherwise, it refers to the application data folder
+     * @return the File
+     */
+    public File getFile(boolean relative) {
+	return new File(getPath(relative));
+    }
+    
+    
 
     /** Get the Resource file's basic extension */
     public String getExtension() {
@@ -85,12 +106,12 @@ public enum Resource {
 
     /** Get Path of the Resouce folder 
      * @param relative whether the path is relative or not.
-     * If it is, refers to the path inside the jar's ressources folder
+     * If it is, refers to the path inside the jar's resources folder
      * Otherwise, it refers to the application data folder
      * @return the String of the path
      */
     public String getPath(boolean relative) {
-	return (relative? "/resources/" : getDataFolder()) + link;
+	return (relative? "resources/" : getDataFolder()) + link;
     }
 
 
@@ -102,7 +123,7 @@ public enum Resource {
      * See Run > Run Configurations > (your config) > Arguments
      */
     public String[] getFiles() {
-	return new File(getPath()).list(filter);
+	return getFile().list(filter);
     }
 
     /** Get a resource list of all the elements of this resource 
