@@ -22,18 +22,14 @@ public class BuilderBox extends JDialog {
     /** Create a new Builderbox (only called once) */
     public BuilderBox() {
 	super();
-
 	setTitle("Metachess - Builder");
 
-	
-	JTabbedPane tabs = new JTabbedPane();
 	PieceImageLoader.load();
-
-	
-
 	setup = new SetupBuilderBox();
 	piece = new PieceBuilderBox(this);
-	
+
+	JTabbedPane tabs = new JTabbedPane();
+
 	tabs.add(setup, "Setup Builder");
        	tabs.add(piece,"Piece Builder");
 
@@ -47,7 +43,6 @@ public class BuilderBox extends JDialog {
 	add(tabs);
 
 	pack();
-
     }
 
     /** Show the Builderbox */
@@ -56,7 +51,7 @@ public class BuilderBox extends JDialog {
 	init();
     }
 
-    /** (Re)initialize the Builderbox */
+    /** (Re)initialize the tabs of the Builderbox */
     public void init() {
 	setup.init();
        	piece.init();

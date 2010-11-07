@@ -2,6 +2,8 @@ package metachess.library;
 
 import java.util.HashMap;
 
+import metachess.dialog.ErrorDialog;
+import metachess.exceptions.LoadException;
 import metachess.game.Piece;
 import metachess.loader.PieceLoader;
 
@@ -46,14 +48,20 @@ public class Pieces {
      * @param isWhite whether the wanted piece is white
      */
     public static Piece getPiece(String pieceName, boolean isWhite) {
-	if(!hasPiece(pieceName))
-	    PieceLoader.load(pieceName);
+
+	try {
+	    if(!hasPiece(pieceName))
+		PieceLoader.load(pieceName);
+	} catch(LoadException e) {
+	    new ErrorDialog(e);
+	}
+
 	Piece piece = new Piece(instance.map.get(pieceName));
 	piece.setWhite(isWhite);
 	piece.setImage(PieceImages.getImage(pieceName, isWhite));
 	return piece;
-    }
 
+    }
 
 }
 

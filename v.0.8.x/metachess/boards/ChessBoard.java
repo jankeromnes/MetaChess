@@ -30,7 +30,7 @@ public class ChessBoard extends PlayableBoard {
     }
     
     @Override
-    public void init(String s, boolean isAtomic){
+    public void init(String s, boolean isAtomic) {
     	super.init(s, isAtomic);
     	int AILevel = game.getAILevel(whitePlaying);
     	if(AILevel > 0){
@@ -45,7 +45,6 @@ public class ChessBoard extends PlayableBoard {
     	super.nextPlayer();
     	if(keep)
 	    game.addMove(lastMove);
-    	
     	if(gameOver)
     	    game.endGame();
     	int AILevel = game.getAILevel(whitePlaying); 

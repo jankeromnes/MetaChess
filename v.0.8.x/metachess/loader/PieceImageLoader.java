@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import metachess.dialog.ErrorDialog;
+import metachess.exceptions.FileAccessException;
+import metachess.exceptions.LoadException;
 import metachess.library.PieceImages;
 import metachess.library.Resource;
 
@@ -24,8 +27,12 @@ public class PieceImageLoader implements Loader {
      * @param b whether the images shall be loaded
      */
     public static void load(boolean b) {
-	if(b)
-	    instance.loadResource("pieces_images.mci");
+	try {
+	    if(b)
+		instance.loadResource("pieces_images.mci");
+	} catch(LoadException e) {
+	    new ErrorDialog(e);
+	}
     }
 
     /** Load the images if they haven't already been loaded.
@@ -36,7 +43,8 @@ public class PieceImageLoader implements Loader {
     }
 
     @Override
-    public void loadResource(String file) {
+    public void loadResource(String file) throws LoadException {
+	String name = file;
 	try {
 	    file = Resource.RESOURCES.getPath()+file;
 	    BufferedReader br = new BufferedReader(new FileReader(file));
@@ -55,7 +63,7 @@ public class PieceImageLoader implements Loader {
 	    br.close();
 	    loaded = true;
 	} catch(IOException e) {
-	    e.printStackTrace();
+	    throw new FileAccessException(name);
 	}
 
     }

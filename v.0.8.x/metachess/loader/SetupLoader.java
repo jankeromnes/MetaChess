@@ -7,6 +7,10 @@ import java.io.StreamTokenizer;
 
 import metachess.boards.AbstractBoard;
 import metachess.boards.Area;
+import metachess.dialog.ErrorDialog;
+import metachess.exceptions.FileAccessException;
+import metachess.exceptions.FileContentException;
+import metachess.exceptions.LoadException;
 import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.library.Resource;
@@ -21,15 +25,16 @@ public class SetupLoader implements Loader {
     private AbstractBoard board = null;
 
     @Override
-    public void loadResource(String file) {
+    public void loadResource(String file) throws LoadException {
 
 	assert board != null;
 	PieceImageLoader.load();
+	String name = file+".mcs";
 
 	try {
 
 	     int pos = 0;
-	     file = Resource.SETUPS.getPath()+file+".mcs";
+	     file = Resource.SETUPS.getPath()+name;
 	     BufferedReader br = new BufferedReader(new FileReader(file));
 
 	     // ----------------- //
@@ -53,6 +58,7 @@ public class SetupLoader implements Loader {
 			 instance.board.setCols(Integer.parseInt(value));
 		     else if(var.equals("height"))
 			 instance.board.setRows(Integer.parseInt(value));
+		     else throw new FileContentException("Unknown variable \""+var+'"', file);
 		 }
 		 line = br.readLine();
 		 area = line.indexOf("{AREA}") != -1;
@@ -104,23 +110,21 @@ public class SetupLoader implements Loader {
 			     for(int i = 0; i < n ; i ++)
 				 instance.board.removeSquare(pos%w, pos++/w);
 			 } else {
-			     String name = word.substring(1,word.length()).toLowerCase();
-			     if(!Pieces.hasPiece(name))
-				 PieceLoader.load(name);
-			     p = Pieces.getPiece(name, start == 'W');
+			     String pieceName = word.substring(1,word.length()).toLowerCase();
+			     if(!Pieces.hasPiece(pieceName))
+				 PieceLoader.load(pieceName);
+			     p = Pieces.getPiece(pieceName, start == 'W');
 			     instance.board.setPiece(pos%w, pos++/w, p);
 			 }
 		     
-		     } else {
-			 // exception...
-		     }
+		     } else throw new FileContentException("Invalid Token value : "+next, name);
 		 }
 		next = st.nextToken();
 	     }
 
 	    br.close();
-	    //b.updateAll();
 
+	    //b.updateAll();
 	    /*
 	      // Test all the pieces for an area in variable "a"
 	    if(a != null)
@@ -129,8 +133,9 @@ public class SetupLoader implements Loader {
 			System.out.println(s.getPiece().getName()+ (s.getPiece().isWhite()?'W':'B')
 	    				   +" : "+a.containsSquare(s));
 	    */
+
 	} catch(IOException e) {
-	    e.printStackTrace();
+	    throw new FileAccessException(name);
 	}
 
     }
@@ -140,10 +145,13 @@ public class SetupLoader implements Loader {
      * @param file the name of the setup's file
      */
     public static void load(AbstractBoard abstractBoard, String file) {
-	instance.board = abstractBoard;
-	instance.loadResource(file);
+	try {
+	    instance.board = abstractBoard;
+	    instance.loadResource(file);
+	} catch(LoadException e) {
+	    new ErrorDialog(e);
+	}
     }
-
 
 
 }

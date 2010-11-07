@@ -7,7 +7,7 @@ import metachess.squares.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.8.4
  */
 public class Move implements Serializable {
 

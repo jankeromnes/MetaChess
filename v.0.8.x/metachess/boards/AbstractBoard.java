@@ -131,7 +131,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	SetupLoader.load(this, setup);
     }
 
-
     /** Automatically launched after the setup's been loaded with init method */
     public void endInit() {
 	maxDistance = Math.max(width, height);

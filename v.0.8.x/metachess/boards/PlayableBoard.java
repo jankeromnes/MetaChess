@@ -9,8 +9,8 @@ import metachess.squares.EmptySquare;
 import metachess.squares.PlayableSquare;
 
 /** Class of a playable board
- * @author Jan (7DD)
- * @version 0.8.1
+ * @author Jan (7DD) and Agbeladem (7DD)
+ * @version 0.8.4
  */
 public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
@@ -30,8 +30,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     /** Create an empty playable board */
     public PlayableBoard() {
     	super();
-
-    	lastMove = null;
     }
 
     /** Create a clone of a given playable board
@@ -39,6 +37,9 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      */
     public PlayableBoard(PlayableBoard parent) {
 	this();
+	lastMove = parent.lastMove;
+	enabled = parent.enabled;
+	playing = parent.playing;
     	whitePlaying = parent.isWhitePlaying();
         atomic = parent.iAtomic();
     	width = parent.getCols();
@@ -72,6 +73,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      */
     public void init(String s, boolean isAtomic) {
     	super.init(s);
+
+	lastMove = null;
 
 	playing = true;
     	enabled = true;
@@ -278,7 +281,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		lastMove.setCapture(capture);
 		if(enabled) lastMove.resolveAmbiguity();
 		deactivateSquare();
-		if(playing) nextPlayer(); 
+		if(playing)
+		    nextPlayer(); 
 	    } else deactivateSquare(); // this line not here in v1
     	}
     	else if(!gameOver) activateSquare(i, j);
