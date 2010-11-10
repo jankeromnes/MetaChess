@@ -82,7 +82,7 @@ public class GraphicalSquare extends JButton {
 
     @Override
 	public String toString() {
-	return "square of "+as;
+	return "graphical square of "+as;
     }
 
 }

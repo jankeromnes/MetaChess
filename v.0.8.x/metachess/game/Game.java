@@ -57,9 +57,9 @@ public class Game extends JFrame {
 
 	this.setup = setup;
 
-	atomic = false;
+	atomic = true;
 	whiteAILevel = 0;
-	blackAILevel = 2;
+	blackAILevel = 0;
 
 
 	gmBox = new GameModeBox(this);
