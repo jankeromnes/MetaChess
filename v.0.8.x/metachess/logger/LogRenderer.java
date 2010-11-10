@@ -11,7 +11,7 @@ import metachess.library.Colour;
 
 /** Class of the renderer in the moves history list
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.8.5
  */
 public class LogRenderer implements ListCellRenderer {
 
@@ -22,7 +22,8 @@ public class LogRenderer implements ListCellRenderer {
 	JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 	if(!isSelected)
 	    renderer.setBackground(((index % 2 == 0)? Colour.WHITE_BG : Colour.BLACK_BG).getColor());
-	renderer.setText((String)value);
+	String text = (index%2==0?Integer.toString(index/2+1)+'.': "..." )+(String)value;
+	renderer.setText(text);
 	renderer.setHorizontalAlignment(JLabel.CENTER);
 	return renderer;
 

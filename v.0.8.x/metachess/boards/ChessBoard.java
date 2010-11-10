@@ -36,6 +36,7 @@ public class ChessBoard extends PlayableBoard {
     	if(AILevel > 0){
     		waitForAI = true;
     		AIThread ait = new AIThread(this, AILevel);
+		toggleEnabled();
     		ait.start();
     	}
     }
@@ -48,7 +49,7 @@ public class ChessBoard extends PlayableBoard {
     	if(gameOver)
     	    game.endGame();
     	int AILevel = game.getAILevel(whitePlaying); 
-    	if(keep && AILevel > 0){
+    	if(keep && AILevel > 0) {
 	    toggleEnabled();
 	    waitForAI = true;
 	    update();

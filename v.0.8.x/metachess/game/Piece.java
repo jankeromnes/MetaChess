@@ -283,8 +283,9 @@ public class Piece {
      * @return true if the piece is movable
      */
     public boolean setGreenSquares(int i, int j, PlayableBoard board) {
-	return board.getSquare(i, j).setGreenSquares(board);
-	//return browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
+	return board.isForeseer()
+	    ?board.getSquare(i, j).setGreenSquares(board)
+	    : browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
     }
 
     public ArrayList<AbstractSquare> getChoiceList(int i, int j, AbstractBoard board) {

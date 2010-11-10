@@ -10,13 +10,14 @@ import metachess.squares.PlayableSquare;
 
 /** Class of a playable board
  * @author Jan (7DD) and Agbeladem (7DD)
- * @version 0.8.4
+ * @version 0.8.5
  */
 public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
-    protected Move lastMove;   // Used for the joker movetype determination
-    protected boolean enabled; // Tell whether the actual game is being played
-    protected boolean playing; // When doing the calculations, the AI is calculating too
+    protected Move lastMove;    // Used for the joker movetype determination
+    private boolean enabled;    // Tell whether the actual game is being played
+    private boolean playing;    // When doing the calculations, the AI is calculating too
+    protected boolean foreseer; // Whether to forbid illegal moves in nextPlayer
 
     protected boolean whitePlaying;
     protected boolean atomic;
@@ -42,6 +43,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	playing = parent.playing;
     	whitePlaying = parent.isWhitePlaying();
         atomic = parent.iAtomic();
+	foreseer = parent.foreseer;
     	width = parent.getCols();
     	height = parent.getRows();
         jokerPiece = parent.getJokerPiece();
@@ -79,12 +81,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	playing = true;
     	enabled = true;
     	whitePlaying = true;
-        atomic = false;
         deathMatch = false;
         gameOver = false;
         whiteKingDead = false;
         blackKingDead = false; 
+
     	atomic = isAtomic;
+	foreseer = !atomic;
 	
     	activeSquareX = -1;
     	activeSquareY = -1;
@@ -128,6 +131,12 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    deathMatch = blackKingDead && whiteKingDead;
 	}
 
+	if(foreseer)
+	    setChoices();
+
+    }
+
+    private void setChoices() {
 	/* REMOVAL OF THE ILLEGAL MOVES
 	  Three playable squares will be used :
 	    as: the square of the piece whose moves are being studied
@@ -144,7 +153,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			pb.activeSquareX = as.getColumn();
 			pb.activeSquareY = as.getRow();
 			pb.squares[s.getColumn()][s.getRow()].setGreen(true);
-			pb.playing = false;
+			pb.togglePlaying();
 			pb.playSquare(s.getCoords());
 			pb.whitePlaying = !whitePlaying;
 			boolean illegal = false;
@@ -164,6 +173,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    }
 	resetIterator();
     }
+
 
     /** Tells whether the player has activated a piece
      * @return true if he has
@@ -202,8 +212,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     }
 
     
-    
-	
     /** Set explosion to given coordinates
      * @param i the exploding square's column (X Coord)
      * @param j the exploding square's row (Y Coord)
@@ -279,20 +287,16 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		}
 		lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
 		lastMove.setCapture(capture);
-		if(enabled) lastMove.resolveAmbiguity();
-		deactivateSquare();
+		if(enabled) {
+		    lastMove.resolveAmbiguity();
+		    deactivateSquare();
+		}
 		if(playing)
 		    nextPlayer(); 
-	    } else deactivateSquare(); // this line not here in v1
+	    } else if(enabled) deactivateSquare(); // this line not here in v1
     	}
     	else if(!gameOver) activateSquare(i, j);
     	update(); // this line not here in v1
-    }
-
-    /** Toggle the enabled value which describes
-     * whether the game is actually being played */
-    public void toggleEnabled() {
-	enabled = !enabled;
     }
 
     /** Toggle the playing value which decribes whether moves are being played.
@@ -303,6 +307,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	enabled = playing;
     }
 
+    /** Toggle the enabled value which describes
+     * whether the game is actually being played */
+    public void toggleEnabled() {
+	enabled = !enabled;
+    }
 
     // GETTERS
 
@@ -320,6 +329,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	return atomic;
     }
 
+    /** Tell whether this game has to check for illegal moves when the turn changes
+     * @return true if it has, false if moves are calculated when activating a piece
+     * @see PlayableBoard (choice list)
+     */
+    public boolean isForeseer() {
+	return foreseer;
+    }
+    
     @Override
 	public Object clone() {
 	return new PlayableBoard(this);
