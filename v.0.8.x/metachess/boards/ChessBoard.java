@@ -97,11 +97,11 @@ public class ChessBoard extends PlayableBoard {
     public void playAIMove(Move m) {
 	toggleEnabled();
     	waitForAI = false;
-    	playSquare(m.getOldCoords(),true);
+    	playSquare(m.getOldCoords(), true);
     	waitForAI = true;
     	try { Thread.sleep(200); } catch (Exception e) { }
     	waitForAI = false;
-    	playSquare(m.getNewCoords(),true);
+    	playSquare(m.getNewCoords(), true);
     }
     
     /** Literally play a given square

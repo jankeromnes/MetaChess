@@ -22,11 +22,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     protected boolean whitePlaying;
     protected boolean atomic;
     protected boolean gameOver;
+    private boolean kingInRange;
 
     // Used to start atomic death-match
     protected boolean deathMatch;
     protected boolean whiteKingDead;
     protected boolean blackKingDead;
+
     
     /** Create an empty playable board */
     public PlayableBoard() {
@@ -83,6 +85,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	whitePlaying = true;
         deathMatch = false;
         gameOver = false;
+	kingInRange = false;
         whiteKingDead = false;
         blackKingDead = false; 
 
@@ -258,7 +261,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		else if(atomic && theSquare.hasPiece()) {
 		    capture = true;
 		    explode(i, j);
-		    getActiveSquare().removePiece(); // not here in v1
+		    getActiveSquare().removePiece();
 		} else {
 		    capture = theSquare.hasPiece();
 		    removePiece(theSquare);
@@ -290,13 +293,15 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		if(enabled) {
 		    lastMove.resolveAmbiguity();
 		    deactivateSquare();
+		    kingInRange = getSquare(i, j).hasPiece() && getSquare(i,j).getPiece().checkKingInRange(i, j, this);
+		    lastMove.setKingInRange(kingInRange);
 		}
 		if(playing)
 		    nextPlayer(); 
-	    } else if(enabled) deactivateSquare(); // this line not here in v1
+	    } else if(enabled) deactivateSquare();
     	}
     	else if(!gameOver) activateSquare(i, j);
-    	update(); // this line not here in v1
+    	update();
     }
 
     /** Toggle the playing value which decribes whether moves are being played.
@@ -337,6 +342,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	return foreseer;
     }
     
+    /** Tell whether one player's king is in danger
+     * @return true if it is, ie if one piece of the opponent has the king in its range
+     */
+    public boolean isKingInRange() {
+	return kingInRange;
+    }
+
     @Override
 	public Object clone() {
 	return new PlayableBoard(this);

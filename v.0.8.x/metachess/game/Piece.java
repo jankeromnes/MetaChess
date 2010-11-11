@@ -145,7 +145,6 @@ public class Piece {
 	     break;
 	 case CHECK_KING:
 	     ret = checkKing(c);
-	     setGreen(c, b);
 	     break;
 	 case CHOICE_LIST:
 	     ret = true;
@@ -330,7 +329,7 @@ public class Piece {
 	}
     }
 
-    public char getLetter() { return name.charAt(0); }
+    public char getLetter() { return name.toUpperCase().charAt(0); }
     public String getName() { return name; }
     public boolean isWhite() { return white; }
     public boolean hasMoved() { return moved; }
