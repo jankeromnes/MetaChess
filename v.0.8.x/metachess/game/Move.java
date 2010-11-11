@@ -17,6 +17,7 @@ public class Move implements Serializable {
     private int newx;
     private int newy;
     private boolean capture;
+    private boolean kingInRange;
     private Piece piece;
     private transient PlayableBoard board;
     private transient boolean horizontalAmbiguity;
@@ -41,6 +42,7 @@ public class Move implements Serializable {
 
 	board = abstractBoard;
 	capture = false;
+	kingInRange = false;
 	verticalAmbiguity = false;
 	horizontalAmbiguity = false;
 
@@ -72,10 +74,8 @@ public class Move implements Serializable {
 		    b.deactivateSquare();
 		    b.playSquare(s.getCoords());
 		    if(b.getSquare(newx, newy).isGreen()) {
-			if(s.getCoords().getColumn() == oldx)
-			    verticalAmbiguity = true;
-			else
-			    horizontalAmbiguity = true;
+			horizontalAmbiguity = s.getCoords().getColumn() == oldx;
+			verticalAmbiguity = s.getCoords().getRow() == oldy;
 		    }
 		}
 	    }
@@ -89,6 +89,13 @@ public class Move implements Serializable {
 	capture = c;
     } 
 
+    /** Set whether this move has put the opponent's king in danger
+     * @param k true if it has
+     */
+    public void setKingInRange(boolean k) {
+	kingInRange = k;
+    }
+    
     // GETTERS
 
     /** Get the Coords of the moved piece before the move
@@ -113,6 +120,7 @@ public class Move implements Serializable {
 	if(verticalAmbiguity) s.append(getOldCoords().getColumnChar());
 	else if(horizontalAmbiguity) s.append(getOldCoords().getRowChar());
 	s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
+	if(kingInRange) s.append('+');
 	return s.toString();
     }
 
