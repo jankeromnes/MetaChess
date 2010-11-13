@@ -27,6 +27,8 @@ public class AIBoardTree extends PlayableBoard {
      */
     public AIBoardTree(PlayableBoard pb, int treeDepth) {
     	super(pb);
+	
+	foreseer = false;
     	sequence = null;
     	candidate = null;
     	move = null;    	
