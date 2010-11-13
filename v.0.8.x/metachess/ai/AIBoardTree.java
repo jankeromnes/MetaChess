@@ -28,7 +28,6 @@ public class AIBoardTree extends PlayableBoard {
     public AIBoardTree(PlayableBoard pb, int treeDepth) {
     	super(pb);
 	
-	foreseer = false;
     	sequence = null;
     	candidate = null;
     	move = null;    	
@@ -47,6 +46,7 @@ public class AIBoardTree extends PlayableBoard {
     
     public AIBoardTree(PlayableBoard pb, Move m, int treeDepth) {
     	super(pb);
+	foreseer = false;
     	sequence = null;
     	candidate = null;
     	move = m;    	
@@ -80,7 +80,7 @@ public class AIBoardTree extends PlayableBoard {
 			for(int i = 0 ; i < width ; i++) {
 			    for(int j = 0 ; j < width ; j++) {
 				if(getSquare(i,j).isGreen()) {
-				    Move m = new Move(activeSquareX,activeSquareY,i,j,this);
+				    Move m = new Move(activeSquareX,activeSquareY, i, j, this);
 				    child = new AIBoardTree(this, m, depth-1);
 				    BestMoveSequence newCandidate = child.getBestMoveSequence();
 				    // check if candidate was beaten
