@@ -12,7 +12,7 @@ import metachess.builder.PanelTitle;
 
 /** Class of the Settings Panel in the Setup Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.8.5
  */
 public class SetupSettingsPanel extends JPanel {
 
@@ -68,6 +68,15 @@ public class SetupSettingsPanel extends JPanel {
 
 	add(apply);
 
+    }
+
+    /** Set the dimensions of the editable board
+     * @param i the board's number of columns
+     * @param j the board's number of rows
+     */
+    public void setBoardDimensions(int i, int j) {
+	widthSlider.setValue(i);
+	heightSlider.setValue(j);
     }
 
 }

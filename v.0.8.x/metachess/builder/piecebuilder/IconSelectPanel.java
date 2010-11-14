@@ -6,12 +6,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import metachess.builder.PanelTitle;
+import metachess.library.PieceImages;
 import metachess.library.PieceImageList;
 import metachess.library.Resource;
 
 /** Class of the Icon Selection Panel in the Piece Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.8.5
  */
 public class IconSelectPanel extends JPanel {
 
@@ -47,6 +48,13 @@ public class IconSelectPanel extends JPanel {
 	images.init();
 	images.addListSelectionListener(listEv);
 	changeIcon(images.getName());
+    }
+
+    /** Change this panel's selected icon
+     * @param name the name of the icon
+     */
+    public void changeSelectedIcon(String name) {
+	images.setValue(PieceImages.getImage(name) );
     }
 
     private void changeIcon(String name) {

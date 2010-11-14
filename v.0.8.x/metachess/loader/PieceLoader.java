@@ -24,8 +24,7 @@ public class PieceLoader implements Loader {
     @Override
      public void loadResource(String pieceName) throws LoadException {
 
-
-	String name = pieceName+'.'+Resource.PIECES.getExtension();
+	String name = Resource.PIECES.getFullName(pieceName);
 	try {
 	    Piece piece = new Piece();
 	    piece.setName(pieceName);

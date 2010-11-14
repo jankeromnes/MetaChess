@@ -17,12 +17,13 @@ import javax.swing.JScrollPane;
 import metachess.builder.BuilderBox;
 import metachess.builder.PanelTitle;
 import metachess.game.MoveType;
+import metachess.library.PieceBehaviour;
 
 /** Class of the Moves Panel in the Piece Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.8.5
  */
-public class MovesPanel extends JPanel {
+public class MovesPanel extends JPanel implements PieceBehaviour {
 
     private static final long serialVersionUID = 1L;
     private final JCheckBox s_joker;
@@ -129,34 +130,29 @@ public class MovesPanel extends JPanel {
 	update();
     }
 
-    
-    /** Tell whether the created piece is a joker
-     * @return true if it is
-     */
-    public boolean isJoker() {
-	return s_joker.isSelected();
-    }
 
-    /** Tell whether the created piece is a rook (and is thus able to do the castle move)
-     * @return true if it is
-     */
-    public boolean isRook() {
-	return s_rook.isSelected();
-    }
 
-    /** Tell whether the created piece is a king
-     * @return true if it is
-     */
-    public boolean isKing() {
-	return s_king.isSelected();
-    }
+    // SETTERS
 
-    /** Tell whether the created piece is a pawn
-     * @return true if it is
-     */
-    public boolean isPawn() {
-	return s_pawn.isSelected();
-    }
+    @Override
+    public void setJoker(boolean b) { s_joker.setSelected(b); }
+    @Override
+    public void setRook(boolean b) {	s_rook.setSelected(b); }
+    @Override
+    public void setKing(boolean b) {	s_king.setSelected(b); }
+    @Override
+    public void setPawn(boolean b) {	s_pawn.setSelected(b); }
+
+    // GETTERS
+
+    @Override
+    public boolean isJoker() { return s_joker.isSelected(); }
+    @Override
+    public boolean isRook() { return s_rook.isSelected(); }
+    @Override
+    public boolean isKing() { return s_king.isSelected(); }
+    @Override
+    public boolean isPawn() { return s_pawn.isSelected(); }
 
 }
 

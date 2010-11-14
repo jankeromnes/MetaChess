@@ -5,7 +5,7 @@ import java.io.FilenameFilter;
 
 /** Enum of Resources
  * @author Agbeladem (7DD)
- * @version 0.8.3
+ * @version 0.8.5
  */
 public enum Resource {
 
@@ -96,6 +96,14 @@ public enum Resource {
      */
     public String getName() {
 	return name;
+    }
+
+
+    /** Get a resource's full name, with its extension
+     * @param name the name of the resource
+     */ 
+    public String getFullName(String name) {
+	return name + '.' + extension;
     }
 
     /** Get absolute Path of the Resource folder 

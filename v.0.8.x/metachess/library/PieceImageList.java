@@ -1,6 +1,7 @@
 package metachess.library;
 
 import java.awt.Component;
+import java.io.File;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -24,6 +25,13 @@ public class PieceImageList extends JList implements ResourceList {
     public void init() {
 	setListData(Resource.PIECE_IMAGES.getFiles());
 	setSelectedIndex(0);
+    }
+
+    /** Set this list's selected image
+     * @param v the new value (file path) of the selected image
+     */
+    public void setValue(String v) {
+	setSelectedValue((Object)(new File(v).getName()), true);
     }
 
     @Override

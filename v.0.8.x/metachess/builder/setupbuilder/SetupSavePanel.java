@@ -8,7 +8,7 @@ import metachess.squares.AbstractSquare;
 
 /** Class of the Setup Builderbox save panel
  * @author Agbeladem
- * @version 0.8.0
+ * @version 0.8.5
  */
 public class SetupSavePanel extends SavePanel {
 
@@ -26,7 +26,7 @@ public class SetupSavePanel extends SavePanel {
     }
 
     @Override
-	public void write() {
+    public void write() {
 	println("# Metachess=v.0.8.0/MCS=v.4");
 	println("# Generated from builder");
 	println("\nwidth\t= "+parent.getCols());
@@ -102,7 +102,8 @@ public class SetupSavePanel extends SavePanel {
     }
 
     @Override
-	protected void load(String name) {
+    protected void load(String name) {
+	super.load(name);
 	parent.load(name);
     }
 

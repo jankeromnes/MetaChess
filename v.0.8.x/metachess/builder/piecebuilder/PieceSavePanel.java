@@ -12,7 +12,7 @@ import metachess.loader.PieceImageLoader;
 
 /** Class of the Piece Builderbox save panel
  * @author Agbeladem (7DD)
- * @version 0.8.1
+ * @version 0.8.5
  */
 public class PieceSavePanel extends SavePanel {
 
@@ -28,7 +28,7 @@ public class PieceSavePanel extends SavePanel {
     }
 
     @Override
-	protected void save() {
+    protected void save() {
 	super.save();
 	try {
 	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(Resource.RESOURCES.getPath() + "pieces_images.mci", true)));
@@ -43,12 +43,12 @@ public class PieceSavePanel extends SavePanel {
 	    pw.close();
 	    PieceImageLoader.load(true);
 	} catch(IOException e) {
-	    System.out.println(e);
+	    e.printStackTrace();
 	}
     }
 
     @Override
-	public void write() {
+    public void write() {
 	println("// Metachess v.0.8.2/MCP=v.2");
 	println("// Generated from builder\n");
 	for(MoveType m: parent.getMoves())
@@ -58,7 +58,8 @@ public class PieceSavePanel extends SavePanel {
     }
 
     @Override
-	protected void load(String name) {
+    protected void load(String name) {
+	super.load(name);
 	parent.load(name);
     }
     
