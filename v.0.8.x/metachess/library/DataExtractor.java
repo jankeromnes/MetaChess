@@ -14,23 +14,37 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-/** Data folder extraction, localizing MetaChess resources on the Operating System (cross-platform)
+import metachess.dialog.ErrorDialog;
+import metachess.exceptions.ExtractException;
+import metachess.exceptions.DestinationExtractException;
+import metachess.exceptions.ExtractException;
+import metachess.exceptions.GlobalExtractException;
+import metachess.exceptions.JarAccessException;
+import metachess.exceptions.JarEntryAccessException;
+import metachess.exceptions.SourceExtractException;
+
+/** 
+ * Data extractor, installing MetaChess' resources on the Operating System
  * @author Jan (7DD)
- * @version 0.8.0 beta
+ * @version 0.8.5
  */
 public class DataExtractor {
 	
-	/** The unique instance of the DataExtractor. */
+	/** 
+	 * The unique instance of the DataExtractor.
+	 */
 	private static DataExtractor instance = new DataExtractor();
 	
-	/** Get the unique instance of the DataExtractor.
+	/** 
+	 * Get the unique instance of the DataExtractor.
 	 * @return the instance
 	 */
 	public static DataExtractor getInstance() {
 		return instance;
 	}
 	
-	/** Check if the local data folder exists and is up to date. If not, the data is extracted.
+	/** 
+	 * Check if the installation data folder exists and is up to date. If not, extract the data.
 	 */
 	public static void checkDataVersion() {
     	
@@ -49,105 +63,108 @@ public class DataExtractor {
 	}
 	
 	/**
-	 * Generic extraction method (from Jar or pysical folder)
+	 * Generic data extraction (can be run either from .jar or .class)
 	 */
 	public static void extract() {
 		try {
-			String home = getInstance().getClass().getProtectionDomain()
-					.getCodeSource().getLocation().toString().substring(6);
+			
+			// Get the home folder of executed files
+			String home = getInstance().getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(6);
 			JarFile jar = null;
 			try {
 				jar = new JarFile(home);
+				// If we run from a Jar file, extract from the Jar file
 				extractJar(jar);
 			} catch (FileNotFoundException e) {
-			    copyFiles(new File(home+Resource.RESOURCES.getPath(true)), Resource.RESOURCES.getFile());
+				// Else, extract from physical folder
+				extractFiles(new File(home+Resource.RESOURCES.getPath(true)), Resource.RESOURCES.getFile());
 			}
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
+			catch (IOException e) { throw new JarAccessException(home);}
+		} catch (ExtractException e) { new ErrorDialog(e); }
 	}
 	
-	private static void extractJar(JarFile jar) throws IOException {
+	/**
+	 * Data extraction from a Jar file
+	 * @param the Jar file
+	 * @throws IOException
+	 */
+	private static void extractJar(JarFile jar) throws ExtractException {
 	      for (Enumeration<JarEntry> list = jar.entries(); list.hasMoreElements(); ) {
 	    	  ZipEntry source = list.nextElement();
 	    	  if(source.toString().startsWith(Resource.RESOURCES.getPath(true))) {
-		    	  InputStream in = new BufferedInputStream(jar.getInputStream(source));
+		    	  InputStream inputStream;
+		    	  try {
+		    		  inputStream = new BufferedInputStream(jar.getInputStream(source));
+		    	  } catch (IOException e) {
+		    		  throw new JarEntryAccessException(source.toString());
+		    	  }
 		    	  String destination = Resource.RESOURCES.getPath()
 		    			  +source.toString().substring(Resource.RESOURCES.getPath(true).length());
 		    	  destination = destination.replace('/', File.separatorChar);
 		    	  File parentfolder = new File(destination.substring(0,destination.lastIndexOf(File.separator)));
 		    	  if (!parentfolder.exists()) parentfolder.mkdirs();
-		    	  OutputStream out = new BufferedOutputStream(new FileOutputStream(destination));
-			      byte[] buffer = new byte[2048];
-			      for (;;)  {
-			        int nBytes = in.read(buffer);
-			        if (nBytes <= 0) break;
-			        out.write(buffer, 0, nBytes);
+		    	  OutputStream outputStream;
+		    	  try {
+		    		  outputStream = new BufferedOutputStream(new FileOutputStream(destination));
+				      byte[] buffer = new byte[2048];
+				      for (;;)  {
+				        int nBytes;
+				        nBytes = inputStream.read(buffer);
+				        if (nBytes <= 0) break;
+				        outputStream.write(buffer, 0, nBytes);
+				      }
+				      outputStream.flush();
+				      outputStream.close();
+		    	  } catch (IOException e) { throw new DestinationExtractException(destination); }
+			      try { inputStream.close(); }
+			      catch (IOException e) {
+			    	  throw new JarEntryAccessException(source.toString());
 			      }
-			      out.flush();
-			      out.close();
-			      in.close();
 	    	  }
 	      }
-	      jar.close();
+	      try { jar.close(); } catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	/**
-	 * This function will copy files or directories from one location to another.
-	 * note that the source and the destination must be mutually exclusive. This 
-	 * function can not be used to copy a directory to a sub directory of itself.
-	 * The function will also have problems if the destination files already exist.
-	 * @param source A File object that represents the source for the copy
-	 * @param destination A File object that represents the destination for the copy.
-	 * @throws IOException if unable to copy.
+	 * Data extraction from a source folder to a destination folder
+	 * @param source the source file
+	 * @param destination the destination file
+	 * @throws ExtractException if something goes wrong
 	 */
-	private static void copyFiles(File source, File destination) throws IOException {
-		//Check to ensure that the source is valid...
-		if (!source.exists()) {
-			throw new IOException("copyFiles: Can not find source: " + source.getAbsolutePath()+".");
-		} else if (!source.canRead()) { //check to ensure we have rights to the source...
-			throw new IOException("copyFiles: No right to source: " + source.getAbsolutePath()+".");
+	private static void extractFiles(File source, File destination) throws ExtractException {
+
+		if (!source.exists() || !source.canRead()) {
+			throw new SourceExtractException(source.getAbsolutePath());
 		}
-		//is this a directory copy?
+		
+		// Handling a Directory
 		if (source.isDirectory()) 	{
-			if (!destination.exists()) { //does the destination already exist?
-				//if not we need to make it exist if possible (note this is mkdirs not mkdir)
-				if (!destination.mkdirs()) {
-					throw new IOException("copyFiles: Could not create direcotry: " + destination.getAbsolutePath() + ".");
-				}
+			if (!destination.exists() && !destination.mkdirs()) {
+				throw new DestinationExtractException(destination.getAbsolutePath() + ".");
 			}
-			//get a listing of files...
 			String list[] = source.list();
-			//copy all the files in the list.
-			for (int i = 0; i < list.length; i++)
-			{
-				File destination1 = new File(destination, list[i]);
-				File source1 = new File(source, list[i]);
-				copyFiles(source1 , destination1);
+			for (int i = 0; i < list.length; i++) {
+				extractFiles(new File(source, list[i]) , new File(destination, list[i]));
 			}
-		} else { 
-			//This was not a directory, so lets just copy the file
-			FileInputStream fin = null;
-			FileOutputStream fout = null;
-			byte[] buffer = new byte[4096]; //Buffer 4K at a time (you can change this).
-			int bytesRead;
+		}
+		
+		// Handling a File
+		else { 
+			FileInputStream fileInputStream = null;
+			FileOutputStream fileOutputStream = null;
+			byte[] buffer = new byte[1024];
+			int readCounter;
 			try {
-				//open the files for input and output
-				fin =  new FileInputStream(source);
-				fout = new FileOutputStream (destination);
-				//while bytesRead indicates a successful read, lets write...
-				while ((bytesRead = fin.read(buffer)) >= 0) {
-					fout.write(buffer,0,bytesRead);
+				fileInputStream =  new FileInputStream(source);
+				fileOutputStream = new FileOutputStream (destination);
+				while ((readCounter = fileInputStream.read(buffer)) >= 0) {
+					fileOutputStream.write(buffer,0,readCounter);
 				}
-			} catch (IOException e) { //Error copying file... 
-				IOException wrapper = new IOException("copyFiles: Unable to copy file: " + 
-							source.getAbsolutePath() + "to" + destination.getAbsolutePath()+".");
-				wrapper.initCause(e);
-				wrapper.setStackTrace(e.getStackTrace());
-				throw wrapper;
-			} finally { //Ensure that the files are closed (if they were open).
-				if (fin != null) { fin.close(); }
-				if (fout != null) { fout.close(); }
+			} catch (IOException e) {
+				throw new GlobalExtractException(source.getAbsolutePath(), destination.getAbsolutePath());
+			} finally {
+				if (fileInputStream != null) { try { fileInputStream.close(); } catch (IOException e) { e.printStackTrace(); } }
+				if (fileOutputStream != null) { try { fileOutputStream.close(); } catch (IOException e) { e.printStackTrace(); } } 
 			}
 		}
 	}
