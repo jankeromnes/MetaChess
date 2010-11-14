@@ -1,6 +1,7 @@
 package metachess.builder.piecebuilder;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -59,9 +60,15 @@ public class PieceBuilderBox extends JPanel {
     public void load(String name) {
 	Piece p = Pieces.getPiece(name);
 	mp.setMoves(p.getMoveTypes());
+
+	mp.setJoker(p.isJoker());
+	mp.setRook(p.isRook());
+	mp.setPawn(p.isPawn());
+	mp.setKing(p.isKing());
+
+	isp.changeSelectedIcon(name);
 	changeIcon(PieceImages.getImage(name));
     }
-
 
     /** Update the authorized moves shown in this Builderbox
      * @param m the list of moves that will be enabled for the created piece
@@ -94,6 +101,7 @@ public class PieceBuilderBox extends JPanel {
      */
     public void changeIcon(String fileName) {
 	Piece p;
+	image = new File(fileName).getName();
 	for(AbstractSquare s : bs) {
 	    p = s.getPiece();
 	    if(p.getName().equals("metamorph"))  {

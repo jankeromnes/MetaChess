@@ -47,9 +47,12 @@ public class GraphicalBoard extends JPanel {
 		initSquare(i, j);
     	ab.setGraphicBoard(this);
 	/* The update was useful only when a new setup was loaded
-	   Check Square.paint(g), Game constructor and Game.newGame()
+	   Check Square.paint(g), Game constructor and Game.newGame(),
+	   SetupBuilderBox.setBoardDimension(i, j) and SetupBuilderBox.load(setup)
 	      to see how it's now handled..
-	         Agbeladem, July 19 on v.0.8.0
+	         Agbeladem,
+		   July 19        on v.0.8.0,
+		   November 14    on v.0.8.5
 	*/
 	//    	update();
     }

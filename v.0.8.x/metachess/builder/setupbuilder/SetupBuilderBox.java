@@ -11,7 +11,7 @@ import metachess.loader.SetupLoader;
 
 /** Class of the Setup tab in the Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.8.5
  */
 public class SetupBuilderBox extends JPanel {
 
@@ -19,6 +19,9 @@ public class SetupBuilderBox extends JPanel {
     private final EditableBoard board;
     private final GraphicalBoard gb;
     private final ToolSelectPanel tsp;
+    private final SetupSavePanel sap;
+    private final SetupSettingsPanel ssp;
+
     private Tool tool;
     private Piece piece;
     private int rows = 8;
@@ -35,10 +38,12 @@ public class SetupBuilderBox extends JPanel {
 	gb.setDim(30);
 	gb.init();
 	tsp = new ToolSelectPanel(this);
+	sap = new SetupSavePanel(this);
+	ssp = new SetupSettingsPanel(this);
 
-	add(new SetupSavePanel(this), BorderLayout.NORTH);
+	add(sap, BorderLayout.NORTH);
 	add(gb, BorderLayout.CENTER);
-	add(new SetupSettingsPanel(this), BorderLayout.EAST);
+	add(ssp, BorderLayout.EAST);
 	add(tsp, BorderLayout.SOUTH);
 
     }
@@ -53,8 +58,13 @@ public class SetupBuilderBox extends JPanel {
      */
     public void load(String name) {
 	SetupLoader.load(board, name);
-	tsp.init();
 	gb.init();
+	tsp.init();
+	cols = gb.getCols();
+	rows = gb.getRows();
+	ssp.setBoardDimensions(cols, rows);
+
+	gb.update();
     }
 
     // GETTERS / SETTERS

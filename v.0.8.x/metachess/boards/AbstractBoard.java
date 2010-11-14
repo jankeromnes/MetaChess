@@ -219,7 +219,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param j the piece's square's row (Y Coord)
      */
     public void setPiece(int i, int j, Piece p) {
-	assert isSquareValid(i,j);
+	//assert isSquareValid(i,j);
     	squares[i][j].setPiece(p);
     }
 
@@ -236,7 +236,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param j the piece's square's row (Y Coord)
      */
     public void removePiece(int i, int j) {
-	assert isSquareValid(i,j): "Removed piece at unvalid coordinates ("+i+','+j+')';
+	// Removed assert in case of an explosion in an empty square :
+	// assert isSquareValid(i,j): "Removed piece at unvalid coordinates "+new Coords(i, j);
 	squares[i][j].setPiece(null);
     }
 

@@ -220,7 +220,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @param j the exploding square's row (Y Coord)
      */
     public void explode(int i, int j) {
-    	removePiece(i, j);
+   	removePiece(i, j);
     	if(i+1 < getCols()){
 	    removePiece(i+1, j);
     		if(j+1<getRows()){

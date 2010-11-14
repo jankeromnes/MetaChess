@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,16 +16,19 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import metachess.dialog.ConfirmDialog;
+import metachess.dialog.ErrorDialog;
+import metachess.dialog.MessageDialog;
+import metachess.exceptions.WriteException;
 import metachess.library.Resource;
 import metachess.library.ResourceList;
 
-/** Abstract class of a builder's load or save panel
+/** Abstract class of a builder's load AND save panel
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.5
  */
 public abstract class SavePanel extends JPanel {
 
@@ -39,7 +43,7 @@ public abstract class SavePanel extends JPanel {
     private PrintWriter pw;
 
     /** Creation of a save panel
-     * @param r the resource (Piece, Image) to which it is related
+     * @param r the resource (Setup, Piece, Image) to which it is related
      */
     public SavePanel(Resource r) {
 	super();
@@ -95,6 +99,13 @@ public abstract class SavePanel extends JPanel {
 
     }
     
+    /** Set the value of the field containing the name of the created resource
+     * @param name the new value for the field
+     */
+    public void setName(String name) {
+	field.setText(name);
+    }
+
     private Component space() {
 	return Box.createHorizontalStrut(10);
     }
@@ -102,7 +113,9 @@ public abstract class SavePanel extends JPanel {
     /** Load a Resource
      * @param name the resource's name
      */
-    protected abstract void load(String name);
+    protected void load(String name) {
+	setName(name);
+    }
 
     /** Save a Resource */
     protected void save() {
@@ -112,15 +125,20 @@ public abstract class SavePanel extends JPanel {
 	    fileName.append(field.getText().toLowerCase());
 	    fileName.append('.');
 	    fileName.append(res.getExtension());
-	    pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName.toString())));
-	    write();
-	    pw.close();
-	    JOptionPane.showMessageDialog(null, res.getName()+" file updated");
+	    File file = new File(fileName.toString());
+	    if(!file.exists() || new ConfirmDialog("Save a "+res.getName(),
+						  "If you save this file, it will erase the existing file\n"
+						  + "Continue ?", false).launch()) {
+		pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		write();
+		pw.close();
+		new MessageDialog(res.getName()+" file updated");
+	    }
 	} catch(IOException e) {
-	    e.printStackTrace();
+	    new ErrorDialog(new WriteException(res.getPath()));
 	}
-    }
 
+    }
 
     protected void print(String s) {
 	pw.print(s);

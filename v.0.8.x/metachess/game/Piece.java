@@ -7,14 +7,15 @@ import javax.swing.ImageIcon;
 
 import metachess.boards.AbstractBoard;
 import metachess.boards.PlayableBoard;
+import metachess.library.PieceBehaviour;
 import metachess.library.PieceImages;
 import metachess.squares.AbstractSquare;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)
- * @version 0.8.3
+ * @version 0.8.5
  */
-public class Piece {
+public class Piece implements PieceBehaviour {
 
     enum BrowseType {
 	CHECK_KING, GREEN_SQUARES, CHOICE_LIST, CHECK_RANGE;
@@ -329,15 +330,41 @@ public class Piece {
 	}
     }
 
-    public char getLetter() { return name.toUpperCase().charAt(0); }
-    public String getName() { return name; }
-    public boolean isWhite() { return white; }
-    public boolean hasMoved() { return moved; }
+    /** Get the letter of this piece
+     * @return the first letter of this piece's name, in lower case
+     */
+    public char getLetter() {
+	return name.toUpperCase().charAt(0);
+    }
 
+    /** Get this piece's name
+     * @return the name as a string
+     */
+    public String getName() { 
+	return name;
+    }
 
+    /** Tell whether this piece is white
+     * @return true if it is
+     */
+    public boolean isWhite() {
+	return white;
+    }
+
+    /** Tell whether this piece has been moved
+     * @return true if it has
+     */
+    public boolean hasMoved() {
+	return moved;
+    }
+
+    @Override
     public boolean isKing()  { return king;  }
+    @Override
     public boolean isPawn()  { return pawn;  }
+    @Override
     public boolean isRook()  { return rook;  }
+    @Override
     public boolean isJoker() { return joker; }
 
     public void setImage(String i)  {
@@ -348,14 +375,35 @@ public class Piece {
 
     }
 
-    public void setName(String s) { name = s; }
-    public void setWhite(boolean b) { white = b ; }
-    public void setMoved(boolean b) { moved = b ; }
+    /** Set this piece's name
+     * @param s the new name for this piece
+     */
+    public void setName(String s) {
+	name = s;
+    }
 
-    public void setKing(boolean b)  { king = b ;  }
-    public void setPawn(boolean b)  { pawn = b ;  }
-    public void setRook(boolean b)  { rook = b ;  }
-    public void setJoker(boolean b) { joker = b ; }
+    /** Set this piece color
+     * @param b true if this piece is white
+     */
+    public void setWhite(boolean b) {
+	white = b;
+    }
+
+    /** Set whether this piece has been moved already
+     * @param b true if it has
+     */
+    public void setMoved(boolean b) {
+	moved = b;
+    }
+
+    @Override
+    public void setKing(boolean b)  { king = b;  }
+    @Override
+    public void setPawn(boolean b)  { pawn = b;  }
+    @Override
+    public void setRook(boolean b)  { rook = b;  }
+    @Override
+    public void setJoker(boolean b) { joker = b; }
 
     public String getMCSFormat() {
 	StringBuilder s = new StringBuilder();

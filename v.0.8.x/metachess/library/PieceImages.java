@@ -26,18 +26,18 @@ public class PieceImages {
 	instance.images.put(key, value);
     }
 
-    /** Get an image for a specified piece
+    /** Get an image path for a specified piece
      * @param pieceName the piece which matching image will be returned
      * @param isWhite whether the piece and thus the returned image is white
-     * @return the wanted image for the piece
+     * @return the wanted path for the piece image
      */
     public static String getImage(String pieceName, boolean isWhite) {
 	return Resource.PIECE_IMAGES.getPath() + instance.images.get(pieceName+'_'+(isWhite ? "WHITE": "BLACK"));
     }
 
-    /** Get an image for a specified white piece
+    /** Get an image path for a specified white piece
      * @param pieceName the white piece which matching image will be returned
-     * @return the wanted image for the piece
+     * @return the wanted path for the piece image
      */
     public static String getImage(String pieceName) {
 	return getImage(pieceName, true);

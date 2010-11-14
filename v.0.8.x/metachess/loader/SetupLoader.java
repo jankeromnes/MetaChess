@@ -29,7 +29,7 @@ public class SetupLoader implements Loader {
 
 	assert board != null;
 	PieceImageLoader.load();
-	String name = file+".mcs";
+	String name = Resource.SETUPS.getFullName(file);
 
 	try {
 
@@ -125,8 +125,8 @@ public class SetupLoader implements Loader {
 	    br.close();
 
 	    //b.updateAll();
-	    /*
-	      // Test all the pieces for an area in variable "a"
+	    /* // For version 1.1 !
+	       // Test all the pieces for an area in variable "a"
 	    if(a != null)
 		for(metachess.boards.AbstractSquare s : instance.board)
 		    if(s.hasPiece())
