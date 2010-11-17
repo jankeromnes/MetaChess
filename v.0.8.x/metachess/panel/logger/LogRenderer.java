@@ -1,4 +1,4 @@
-package metachess.logger;
+package metachess.panel.logger;
 
 import java.awt.Component;
 

@@ -7,7 +7,6 @@ import metachess.game.Coords;
 import metachess.game.Game;
 import metachess.game.Move;
 import metachess.game.Piece;
-import metachess.squares.AbstractSquare;
 
 /** Class of the real Chess Board
  * @author Jan (7DD)

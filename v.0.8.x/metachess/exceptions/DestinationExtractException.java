@@ -1,6 +1,5 @@
 package metachess.exceptions;
 
-import metachess.library.Resource;
 
 /** Exception while extracting to a destination
  * @author Jan (7DD)

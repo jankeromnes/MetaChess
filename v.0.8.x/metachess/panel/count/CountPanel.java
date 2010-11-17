@@ -1,4 +1,4 @@
-package metachess.count;
+package metachess.panel.count;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

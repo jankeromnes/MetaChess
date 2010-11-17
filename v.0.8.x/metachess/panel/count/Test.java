@@ -1,4 +1,4 @@
-package metachess.count;
+package metachess.panel.count;
 
 import javax.swing.JFrame;
 

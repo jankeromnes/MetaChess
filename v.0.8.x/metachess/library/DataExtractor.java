@@ -15,7 +15,6 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 import metachess.dialog.ErrorDialog;
-import metachess.exceptions.ExtractException;
 import metachess.exceptions.DestinationExtractException;
 import metachess.exceptions.ExtractException;
 import metachess.exceptions.GlobalExtractException;
