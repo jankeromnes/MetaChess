@@ -1,4 +1,4 @@
-package metachess.count;
+package metachess.panel.count;
 
 import java.util.HashMap;
 import java.util.Set;

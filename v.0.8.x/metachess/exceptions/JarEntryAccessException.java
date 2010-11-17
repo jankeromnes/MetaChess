@@ -1,6 +1,5 @@
 package metachess.exceptions;
 
-import metachess.library.Resource;
 
 /** Exception for file access problems
  * @author Agbeladem (7DD)

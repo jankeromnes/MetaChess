@@ -6,8 +6,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import metachess.builder.PanelTitle;
-import metachess.library.PieceImages;
 import metachess.library.PieceImageList;
+import metachess.library.PieceImages;
 import metachess.library.Resource;
 
 /** Class of the Icon Selection Panel in the Piece Builderbox

@@ -17,14 +17,12 @@ import javax.swing.UIManager;
 import metachess.ai.AIBoardTree;
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
-import metachess.exceptions.LoadException;
 import metachess.builder.BuilderBox;
-import metachess.count.CountPanel;
+import metachess.dialog.FileBox;
+import metachess.dialog.GameModeBox;
 import metachess.library.DataExtractor;
-import metachess.logger.LogPanel;
-import metachess.menus.FileBox;
-import metachess.menus.GameModeBox;
-import metachess.menus.Menu;
+import metachess.panel.count.CountPanel;
+import metachess.panel.logger.LogPanel;
 
 /** Main Class of a Metachess Game and its window
  * @author Jan and Agbeladem (7DD)

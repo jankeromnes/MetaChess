@@ -1,4 +1,4 @@
-package metachess.menus;
+package metachess.game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import metachess.game.Game;
 import metachess.library.ToolIcons;
 
 public class Menu extends JMenuBar {

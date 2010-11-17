@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import metachess.boards.GraphicalBoard;
-import metachess.game.Coords;
 import metachess.library.Colour;
 
 /** Class of graphical squares

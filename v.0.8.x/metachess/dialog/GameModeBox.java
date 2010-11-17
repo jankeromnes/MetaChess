@@ -1,4 +1,4 @@
-package metachess.menus;
+package metachess.dialog;
 
 import java.awt.Container;
 import java.awt.Dimension;

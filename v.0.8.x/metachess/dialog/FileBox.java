@@ -1,4 +1,4 @@
-package metachess.menus;
+package metachess.dialog;
 
 import java.io.File;
 
