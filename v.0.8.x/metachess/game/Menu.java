@@ -106,7 +106,7 @@ public class Menu extends JMenuBar {
 	editMenu.add(undoMove);
 	undoMove.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-		    game.undo();
+			if(!game.isBoardLocked()) game.undo();
 		}
 	    });
 
@@ -115,7 +115,7 @@ public class Menu extends JMenuBar {
 	redoMove.setIcon(new ImageIcon(getClass().getResource(ToolIcons.RIGHT_ARROW.getPath())));
 	redoMove.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-		    game.redo();
+			if(!game.isBoardLocked()) game.redo();
 		}				
 	    });
 	redoMove.setMnemonic('R');

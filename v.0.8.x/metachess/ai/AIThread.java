@@ -20,7 +20,7 @@ public class AIThread extends Thread {
 		treeDepth = AILevel;
 	}
 	
-	/** Launch the Thread and print some infos about the best-move-sequence found
+	/** Launch the Thread and print some info about the best-move-sequence found
 	 * and the complexity of the search */
 	@Override
 	public void run() {

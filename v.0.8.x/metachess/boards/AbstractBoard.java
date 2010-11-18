@@ -30,6 +30,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     protected int activeSquareX;
     protected int activeSquareY;
 
+    private boolean locked;
     private int lastBlank;
     protected Piece jokerPiece;
     protected HashMap<String, Area> areas;
@@ -37,7 +38,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     /** Create an empty abstract board */
     public AbstractBoard() {
-	areas = new HashMap<String, Area>();
+    	setLock(false);
+    	areas = new HashMap<String, Area>();
     	jokerPiece = null;
     }
     
@@ -310,6 +312,32 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	s.append(line1[width]?" ":"+");
 	return s.toString();
     }
+
+	/** Change the board lock
+	 * @param lock the new lock status
+	 */
+	public void setLock(boolean lock) {
+		locked = lock;
+	}
+
+	/** Lock the board
+	 */
+	public void lock() {
+		setLock(true);
+	}
+
+	/** Unlock the board
+	 */
+	public void unlock() {
+		setLock(false);
+	}
+
+	/** Check if the board is locked
+	 * @return true if locked
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
     
 }
 
