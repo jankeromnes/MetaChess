@@ -34,7 +34,7 @@ public class Game extends JFrame {
     private boolean atomic;
     private int whiteAILevel;
     private int blackAILevel;
-    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master"};
+    private String[] AILevels = {"Human", "Very Easy", "Easy", "Average", "Master", "Elder"};
     private String setup;
     private final Menu menu;
     private final ChessBoard board;
@@ -100,9 +100,11 @@ public class Game extends JFrame {
      * @param moves a list of all the played moves since the beginning
      */
     public void jump(ArrayList<Move> moves) {
-	//newGame(moves.isEmpty());
-	newGame(false);
-    	board.jump(moves);
+		//newGame(moves.isEmpty());
+    	if(!board.isLocked()) {
+			newGame(false);
+	    	board.jump(moves);
+    	}
     }
 
     /**  Add a piece to the count list when it's been taken
@@ -110,37 +112,37 @@ public class Game extends JFrame {
      * @param isWhite whether the piece's color is white
      */
     public void count(String pieceName, boolean isWhite) {
-	countPanel.add(pieceName, isWhite);
+    	countPanel.add(pieceName, isWhite);
     }
 
     /** Ask for a new game with the gamebox dialog box*/
     public void askNewGame() {
-    	if(gmBox.launch())
-    		newGame();
+    	if(!board.isLocked() && gmBox.launch()) newGame();
     }
     
     /** Start a new game */
-    public void newGame() { newGame(true); }
+    private void newGame() { newGame(true); }
 
     /** Start a new game
      * @param clear tells whether the logger should be cleared
      */
-    public void newGame(boolean clear) {
-	board.init(setup, atomic);
-	gb.init();
-	gb.update();
-	countPanel.clear();
-	if(clear) {
-	    histo.clearMoves();
-	    histo.update();
-	}
+    private void newGame(boolean clear) {
+		board.init(setup, atomic);
+		gb.init();
+		gb.update();
+		countPanel.clear();
+		if(clear) {
+		    histo.clearMoves();
+		    histo.update();
+		}
     }
     
 
     /** End the last game */
     public void endGame() {
-    AIBoardTree aiboard = new AIBoardTree(board, 1);
-	System.out.println("\nGAME OVER! (Final score : " + aiboard.getBestMoveSequence().getScore() + ")");
+    	// to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
+	    AIBoardTree aiboard = new AIBoardTree(board, 1);
+		System.out.println("\nGAME OVER! (Final score : " + aiboard.getBestMoveSequence().getScore() + ")");
     }
 
     /** Add a move to the logger
@@ -170,7 +172,7 @@ public class Game extends JFrame {
 
     /** Launch the file box to save the game */
     public void saveGame() {
-    	fileBox.launch(true);
+    	if(!board.isLocked()) fileBox.launch(true);
     }
 
     /** Save the game to a given path
@@ -192,8 +194,9 @@ public class Game extends JFrame {
     }
 
     public void loadGame() {
-    	fileBox.launch(false);
+    	if(!board.isLocked()) fileBox.launch(false);
     }
+    
     public void loadGame(File file) {
     	try {
     	    ObjectInputStream s;
@@ -224,6 +227,7 @@ public class Game extends JFrame {
     public int getAILevel(boolean white) { return (white ? whiteAILevel : blackAILevel); }
     public int getMaxAILevel() { return AILevels.length; }
     public String[] getAILevels() { return AILevels; }
+    public boolean isBoardLocked() { return board.isLocked(); }
     public String getSetup() { return setup; }
     public void setSetup(String s) { setup = s; }
     public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
@@ -231,12 +235,12 @@ public class Game extends JFrame {
     public void setAtomic(boolean a) { atomic = a; }
 
     public static void main(String[] argv) {
-	DataExtractor.checkDataVersion();
-	try {
-	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-	} catch(Exception e) {}
-		
-	new Game(argv.length == 1 ? argv[0] : "classic"); 
+		DataExtractor.checkDataVersion();
+		try {
+		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch(Exception e) {}
+			
+		new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
 

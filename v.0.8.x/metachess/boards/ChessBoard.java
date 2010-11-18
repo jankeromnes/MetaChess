@@ -18,7 +18,6 @@ public class ChessBoard extends PlayableBoard {
 
     private Game game;
     private boolean keep;
-    private boolean waitForAI;
 
     /** Create a new Chess Board
      * @param g the game window in which its graphical board will be created
@@ -33,9 +32,9 @@ public class ChessBoard extends PlayableBoard {
     	super.init(s, isAtomic);
     	int AILevel = game.getAILevel(whitePlaying);
     	if(AILevel > 0){
-    		waitForAI = true;
+    		lock();
     		AIThread ait = new AIThread(this, AILevel);
-		toggleEnabled();
+    		toggleEnabled();
     		ait.start();
     	}
     }
@@ -50,8 +49,8 @@ public class ChessBoard extends PlayableBoard {
     	int AILevel = game.getAILevel(whitePlaying); 
     	if(keep && AILevel > 0) {
 	    toggleEnabled();
-	    waitForAI = true;
-	    update();
+	    lock();
+	    //update();
 	    AIThread ait = new AIThread(this, AILevel);
 	    ait.start();
     	}
@@ -94,12 +93,12 @@ public class ChessBoard extends PlayableBoard {
      * @param m the move to play
      */
     public void playAIMove(Move m) {
-	toggleEnabled();
-    	waitForAI = false;
+    	toggleEnabled();
+    	unlock();
     	playSquare(m.getOldCoords(), true);
-    	waitForAI = true;
+    	lock();
     	try { Thread.sleep(200); } catch (Exception e) { }
-    	waitForAI = false;
+    	unlock();
     	playSquare(m.getNewCoords(), true);
     }
     
@@ -109,7 +108,7 @@ public class ChessBoard extends PlayableBoard {
      */
     public void playSquare(Coords c, boolean keep){
     	this.keep = keep;
-    	if(!waitForAI) super.playSquare(c);
+    	if(!isLocked()) super.playSquare(c);
     }
     
     @Override
