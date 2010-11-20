@@ -70,7 +70,9 @@ public class PieceLoader implements Loader {
 
 		    }
 
-		}
+		} else if(next != StreamTokenizer.TT_EOL)
+		    throw new FileContentException("Invalid Token value : "+next, name);
+
 		next = st.nextToken();
 
 	    }

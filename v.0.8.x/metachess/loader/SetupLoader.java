@@ -19,7 +19,7 @@ import metachess.library.Resource;
  * @author Agbeladem (7DD)
  * @version 0.8.4
  */
-public class SetupLoader implements Loader {
+public class SetupLoader extends VariableLoader {
 
     private static SetupLoader instance = new SetupLoader();
     private AbstractBoard board = null;
@@ -35,6 +35,7 @@ public class SetupLoader implements Loader {
 
 	     int pos = 0;
 	     file = Resource.SETUPS.getPath()+name;
+	     this.file = file;
 	     BufferedReader br = new BufferedReader(new FileReader(file));
 
 	     // ----------------- //
@@ -46,20 +47,7 @@ public class SetupLoader implements Loader {
 	     while(line.indexOf("{BEGIN}") == -1
 		   && !area
 		   && line != null) {
-		 int i = line.indexOf('#');
-		 if(i != -1)
-		     line = line.substring(0,i);
-		 line = line.replaceAll("\\s","");
-		 i = line.indexOf('=');
-		 if(i != -1) {
-		     String var = line.substring(0,i);
-		     String value = line.substring(i+1, line.length());
-		     if(var.equals("width"))
-			 instance.board.setCols(Integer.parseInt(value));
-		     else if(var.equals("height"))
-			 instance.board.setRows(Integer.parseInt(value));
-		     else throw new FileContentException("Unknown variable \""+var+'"', file);
-		 }
+		 readVariable(line);
 		 line = br.readLine();
 		 area = line.indexOf("{AREA}") != -1;
 	     }
@@ -117,7 +105,8 @@ public class SetupLoader implements Loader {
 			     instance.board.setPiece(pos%w, pos++/w, p);
 			 }
 		     
-		     } else throw new FileContentException("Invalid Token value : "+next, name);
+		     } else if(next != StreamTokenizer.TT_EOL)
+			 throw new FileContentException("Invalid Token value : "+next, name);
 		 }
 		next = st.nextToken();
 	     }
@@ -138,6 +127,14 @@ public class SetupLoader implements Loader {
 	    throw new FileAccessException(name);
 	}
 
+    }
+
+    protected void setVariable(String var, String value) throws FileContentException {
+	if(var.equals("width"))
+	    board.setCols(Integer.parseInt(value));
+	else if(var.equals("height"))
+	    board.setRows(Integer.parseInt(value));
+	else throw new FileContentException("Unknown variable \""+var+'"', file);
     }
 
     /** Load a specified setup in a given board

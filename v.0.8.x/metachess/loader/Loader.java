@@ -2,7 +2,7 @@ package metachess.loader;
 
 import metachess.exceptions.LoadException;
 
-/** Interface of a resource loader (as a singleton)
+/** Interface of a resource loader
  * @author Agbeladem (7DD)
  * @version 0.8.4
  */
@@ -14,4 +14,5 @@ public interface Loader {
     public void loadResource(String file) throws LoadException;
 
 }
+
 

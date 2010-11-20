@@ -18,15 +18,18 @@ import metachess.ai.AIBoardTree;
 import metachess.boards.ChessBoard;
 import metachess.boards.GraphicalBoard;
 import metachess.builder.BuilderBox;
+import metachess.dialog.ErrorDialog;
 import metachess.dialog.FileBox;
 import metachess.dialog.GameModeBox;
+import metachess.exceptions.MetachessException;
 import metachess.library.DataExtractor;
+import metachess.loader.GameLoader;
 import metachess.panel.count.CountPanel;
 import metachess.panel.logger.LogPanel;
 
 /** Main Class of a Metachess Game and its window
  * @author Jan and Agbeladem (7DD)
- * @version 0.8.4
+ * @version 0.8.6
  */
 public class Game extends JFrame {
 
@@ -127,14 +130,14 @@ public class Game extends JFrame {
      * @param clear tells whether the logger should be cleared
      */
     private void newGame(boolean clear) {
-		board.init(setup, atomic);
-		gb.init();
-		gb.update();
-		countPanel.clear();
-		if(clear) {
-		    histo.clearMoves();
-		    histo.update();
-		}
+	board.init(setup, atomic);
+	gb.init();
+	gb.update();
+	countPanel.clear();
+	if(clear) {
+	    histo.clearMoves();
+	    histo.update();
+	}
     }
     
 
@@ -179,6 +182,7 @@ public class Game extends JFrame {
      * @param file the path
      */
     public void saveGame(File file) {
+	/*
     	try {
     	    ObjectOutputStream s;
     	    s = new ObjectOutputStream(new FileOutputStream(file));
@@ -187,17 +191,27 @@ public class Game extends JFrame {
     	} catch(Exception e) {
 	    e.printStackTrace();
 	}
+	*/
     }
     
+    /*
     public SavedGame getSavedGame() {
     	return new SavedGame(setup, atomic, whiteAILevel, blackAILevel, histo.getMoves());
     }
+    */
 
     public void loadGame() {
     	if(!board.isLocked()) fileBox.launch(false);
     }
     
     public void loadGame(File file) {
+
+	try {
+	    GameLoader.load(file);
+	    loadGame(GameLoader.getSavedGame());
+	} catch(MetachessException e) { new ErrorDialog(e); }
+
+	/*
     	try {
     	    ObjectInputStream s;
     	    s = new ObjectInputStream(new FileInputStream(file));
@@ -205,16 +219,19 @@ public class Game extends JFrame {
     	    loadGame(sg);
     	    s.close();
     	}
-    	catch(Exception e) { System.out.println(e); }
+    	catch(Exception e) { e.printStackTrace(); }
+	*/
+
     }
     
     public void loadGame(SavedGame sg){
-	    setup = sg.getSetup();
-	    atomic = sg.isAtomic();
-	    whiteAILevel = sg.getAILevel(true);
-	    blackAILevel = sg.getAILevel(false);
-	    histo.loadGame(sg.getMoves());
-	    countPanel.clear();
+	setup = sg.getSetup();
+	atomic = sg.isAtomic();
+	board.init(setup, atomic);
+	whiteAILevel = sg.getWhiteAILevel();
+	blackAILevel = sg.getBlackAILevel();
+	histo.loadGame(sg.getMoves());
+	countPanel.clear();
     }
 
 
@@ -235,12 +252,12 @@ public class Game extends JFrame {
     public void setAtomic(boolean a) { atomic = a; }
 
     public static void main(String[] argv) {
-		DataExtractor.checkDataVersion();
-		try {
-		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch(Exception e) {}
+	DataExtractor.checkDataVersion();
+	try {
+	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+	} catch(Exception e) {}
 			
-		new Game(argv.length == 1 ? argv[0] : "classic"); 
+	new Game(argv.length == 1 ? argv[0] : "classic"); 
     }
 
 
