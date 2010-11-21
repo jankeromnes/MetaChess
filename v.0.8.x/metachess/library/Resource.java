@@ -109,7 +109,7 @@ public enum Resource {
     /** Get absolute Path of the Resource folder 
      * @return the String of the path*/
     public String getPath() {
-	return getPath(false);
+	return getPath(false) + File.separator;
     }
 
     /** Get Path of the Resouce folder 
@@ -119,7 +119,7 @@ public enum Resource {
      * @return the String of the path
      */
     public String getPath(boolean relative) {
-	return (relative? "resources" + File.separator : getDataFolder()) + link + File.separator;
+	return (relative? "resources/" : getDataFolder()) + link;
     }
 
 

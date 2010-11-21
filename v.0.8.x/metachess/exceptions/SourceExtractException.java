@@ -5,7 +5,7 @@ package metachess.exceptions;
  * @author Jan (7DD)
  * @version 0.8.4
  */
-public class SourceExtractException extends ExtractException {
+public class SourceExtractException extends JarExtractException {
 
     /** Create a file load exception
      * @param file the name of the file
