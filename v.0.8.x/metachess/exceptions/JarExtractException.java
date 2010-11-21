@@ -4,13 +4,13 @@ package metachess.exceptions;
  * @author Jan (7DD)
  * @version 0.8.5
  */
-public class ExtractException extends MetachessException {
+public class JarExtractException extends ExtractException {
 
     /** Create an extract exception
      * @param msg the explanation about the exception
      */
-    public ExtractException(String msg) {
-	super("Data Exctraction Exception "+msg+" !");
+    public JarExtractException(String msg) {
+	super("(Jar) >> "+msg+" !");
     }
 
 }
