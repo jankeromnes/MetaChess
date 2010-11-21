@@ -8,10 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import metachess.ai.AIBoardTree;
@@ -24,14 +21,15 @@ import metachess.dialog.GameModeBox;
 import metachess.exceptions.MetachessException;
 import metachess.library.DataExtractor;
 import metachess.loader.GameLoader;
-import metachess.panel.count.CountPanel;
-import metachess.panel.logger.LogPanel;
+import metachess.model.GameBehaviour;
+import metachess.model.PanelLinkBehaviour;
+import metachess.panel.MainPanel;
 
 /** Main Class of a Metachess Game and its window
  * @author Jan and Agbeladem (7DD)
  * @version 0.8.6
  */
-public class Game extends JFrame {
+public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
     private static final long serialVersionUID = 1L;
     private boolean atomic;
@@ -42,8 +40,7 @@ public class Game extends JFrame {
     private final Menu menu;
     private final ChessBoard board;
     private final GraphicalBoard gb;
-    private final CountPanel countPanel;
-    private final LogPanel histo;
+    private final MainPanel panel;
     private final GameModeBox gmBox;
     private final FileBox fileBox;
     private final BuilderBox builder;
@@ -78,24 +75,12 @@ public class Game extends JFrame {
 	gb.init();
 	gb.update();
 	add(gb, BorderLayout.CENTER);
-	
-	
-	countPanel = new CountPanel();
-	histo = new LogPanel(this);
-	
-	JPanel p = new JPanel();
-	p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-	
-	p.add(countPanel);
-	p.add(Box.createVerticalGlue());
-	p.add(histo);
-	p.add(Box.createVerticalGlue());
-	
-	add(p, BorderLayout.EAST);
+
+	panel = new MainPanel(this);
+	add(panel, BorderLayout.EAST);
 	
 	pack();
 	setVisible(true);
-	    
 	    
     }
 
@@ -110,13 +95,7 @@ public class Game extends JFrame {
     	}
     }
 
-    /**  Add a piece to the count list when it's been taken
-     * @param pieceName the name of the taken piece
-     * @param isWhite whether the piece's color is white
-     */
-    public void count(String pieceName, boolean isWhite) {
-    	countPanel.add(pieceName, isWhite);
-    }
+ 
 
     /** Ask for a new game with the gamebox dialog box*/
     public void askNewGame() {
@@ -133,11 +112,7 @@ public class Game extends JFrame {
 	board.init(setup, atomic);
 	gb.init();
 	gb.update();
-	countPanel.clear();
-	if(clear) {
-	    histo.clearMoves();
-	    histo.update();
-	}
+	clear(clear);
     }
     
 
@@ -146,23 +121,6 @@ public class Game extends JFrame {
     	// to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
 	    AIBoardTree aiboard = new AIBoardTree(board, 1);
 		System.out.println("\nGAME OVER! (Final score : " + aiboard.getBestMoveSequence().getScore() + ")");
-    }
-
-    /** Add a move to the logger
-     * @param m the move
-     */
-    public void addMove(Move m) {
-    	histo.addMove(m);
-    }
-
-    /** Undo last move */
-    public void undo(){
-    	histo.undo();
-    }
-
-    /** Redo last undone move */
-    public void redo() {
-    	histo.redo();
     }
 
     /** Update the menu to enable/disable the Undo or Redo items
@@ -182,28 +140,17 @@ public class Game extends JFrame {
      * @param file the path
      */
     public void saveGame(File file) {
-	/*
-    	try {
-    	    ObjectOutputStream s;
-    	    s = new ObjectOutputStream(new FileOutputStream(file));
-    	    s.writeObject(getSavedGame());
-    	    s.close();
-    	} catch(Exception e) {
-	    e.printStackTrace();
-	}
-	*/
-    }
-    
-    /*
-    public SavedGame getSavedGame() {
-    	return new SavedGame(setup, atomic, whiteAILevel, blackAILevel, histo.getMoves());
-    }
-    */
 
+    }
+
+    /** Launch the file box to load a game */
     public void loadGame() {
     	if(!board.isLocked()) fileBox.launch(false);
     }
     
+    /** Load the game contained in a specified mcg file
+     * @param file the file that contains the saved game
+     */
     public void loadGame(File file) {
 
 	try {
@@ -211,45 +158,79 @@ public class Game extends JFrame {
 	    loadGame(GameLoader.getSavedGame());
 	} catch(MetachessException e) { new ErrorDialog(e); }
 
-	/*
-    	try {
-    	    ObjectInputStream s;
-    	    s = new ObjectInputStream(new FileInputStream(file));
-    	    SavedGame sg = (SavedGame)(s.readObject());
-    	    loadGame(sg);
-    	    s.close();
-    	}
-    	catch(Exception e) { e.printStackTrace(); }
-	*/
-
     }
-    
+
+
+    // PANEL LINK BEHAVIOUR
+
+    @Override
+    public void addMove(Move m) { panel.addMove(m); }
+
+    @Override
+    public void undo() { panel.undo(); }
+
+    @Override
+    public void redo() { panel.redo(); }
+
+    @Override
+    public void clear(boolean b) { panel.clear(b); }
+
+    @Override
     public void loadGame(SavedGame sg){
 	setup = sg.getSetup();
 	atomic = sg.isAtomic();
 	board.init(setup, atomic);
 	whiteAILevel = sg.getWhiteAILevel();
 	blackAILevel = sg.getBlackAILevel();
-	histo.loadGame(sg.getMoves());
-	countPanel.clear();
     }
+
+    @Override
+    public void count(String pieceName, boolean isWhite) {
+    	panel.count(pieceName, isWhite);
+    }
+
+
+    // GAME BEHAVIOUR
+
+    @Override
+    public boolean isAtomic() { return atomic; }
+
+    @Override
+    public int getWhiteAILevel() { return whiteAILevel; }
+
+    @Override
+    public int getBlackAILevel() { return blackAILevel; }
+
+    @Override
+    public String getSetup() { return setup; }
+
+    @Override
+    public void setSetup(String s) { setup = s; }
+
+    @Override
+    public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
+
+    @Override
+    public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
+
+    @Override
+    public void setAtomic(boolean a) { atomic = a; }
+
+    @Override
+    public ArrayList<Move> getMoves() {
+	return null;
+    }
+
+
 
 
     public void launchBuilder() {
 	builder.launch();
     }
 
-    public boolean isAtomic() { return atomic; }
-    
-    public int getAILevel(boolean white) { return (white ? whiteAILevel : blackAILevel); }
     public int getMaxAILevel() { return AILevels.length; }
     public String[] getAILevels() { return AILevels; }
     public boolean isBoardLocked() { return board.isLocked(); }
-    public String getSetup() { return setup; }
-    public void setSetup(String s) { setup = s; }
-    public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
-    public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
-    public void setAtomic(boolean a) { atomic = a; }
 
     public static void main(String[] argv) {
 	DataExtractor.checkDataVersion();

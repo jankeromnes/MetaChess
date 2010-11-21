@@ -77,8 +77,8 @@ public class GameModeBox extends JDialog implements ActionListener {
 	setup.init();
 	setup.selectSetup(game.getSetup());
 	atomic.setSelected(game.isAtomic());
-	whiteAILevel.setSelectedIndex(game.getAILevel(true));
-	blackAILevel.setSelectedIndex(game.getAILevel(false));
+	whiteAILevel.setSelectedIndex(game.getWhiteAILevel());
+	blackAILevel.setSelectedIndex(game.getBlackAILevel());
 	setVisible(true);
 	return newGame;
     }
