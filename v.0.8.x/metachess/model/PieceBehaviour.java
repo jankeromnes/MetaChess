@@ -1,4 +1,4 @@
-package metachess.library;
+package metachess.model;
 
 /** Interface for all the special move types possible for a piece
  * @author Agbeladem (7DD)

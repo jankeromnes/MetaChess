@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import metachess.builder.BuilderBox;
 import metachess.builder.PanelTitle;
 import metachess.game.MoveType;
-import metachess.library.PieceBehaviour;
+import metachess.model.PieceBehaviour;
 
 /** Class of the Moves Panel in the Piece Builderbox
  * @author Agbeladem (7DD)

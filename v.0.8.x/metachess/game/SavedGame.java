@@ -3,12 +3,14 @@ package metachess.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import metachess.model.GameBehaviour;
+
 /** Class of a saved metachess game model
  * @author Jan and Agbeladem (7DD)
  * @version 0.8.6
  */
 @SuppressWarnings("serial")
-public class SavedGame implements Serializable {
+public class SavedGame implements Serializable, GameBehaviour {
 
     private String setup;
     private boolean atomic;
@@ -38,28 +40,39 @@ public class SavedGame implements Serializable {
     }
 
    
+    @Override
     public void setSetup(String s) { setup = s; }
+
+    @Override
     public void setAtomic(boolean a) { atomic = a; }
+
+    @Override
     public void setBlackAILevel(int l) { blackAILevel = l; } 
+
+    @Override
     public void setWhiteAILevel(int l) { whiteAILevel = l; } 
 
+    @Override
     public boolean isAtomic() { return atomic; }    
+
+    @Override
     public String getSetup() { return setup; }
+
+    @Override
     public int getBlackAILevel() { return blackAILevel; }
+
+    @Override
     public int getWhiteAILevel() { return whiteAILevel; }
 
-    /** Add a move to this saved game
-     * @param m the move to add
-     */
+    @Override
     public void addMove(Move m) {
 	moves.add(m);
     }
 
-    /** Get all the moves played in this saved game
-     * @return the list of the moves as an ArrayList
-     */ 
+    @Override
     public ArrayList<Move> getMoves() {
 	return moves;
     }
 
 }
+

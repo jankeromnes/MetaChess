@@ -30,7 +30,7 @@ public class ChessBoard extends PlayableBoard {
     @Override
     public void init(String s, boolean isAtomic) {
     	super.init(s, isAtomic);
-    	int AILevel = game.getAILevel(whitePlaying);
+    	int AILevel = whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
     	if(AILevel > 0){
     		lock();
     		AIThread ait = new AIThread(this, AILevel);
@@ -46,7 +46,7 @@ public class ChessBoard extends PlayableBoard {
 	    game.addMove(lastMove);
     	if(gameOver)
     	    game.endGame();
-    	int AILevel = game.getAILevel(whitePlaying); 
+    	int AILevel = whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
     	if(keep && AILevel > 0) {
 	    toggleEnabled();
 	    lock();

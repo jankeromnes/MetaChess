@@ -7,8 +7,8 @@ import javax.swing.ImageIcon;
 
 import metachess.boards.AbstractBoard;
 import metachess.boards.PlayableBoard;
-import metachess.library.PieceBehaviour;
 import metachess.library.PieceImages;
+import metachess.model.PieceBehaviour;
 import metachess.squares.AbstractSquare;
 
 /** Class of an Abstract Piece
