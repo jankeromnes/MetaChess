@@ -1,5 +1,6 @@
 package metachess.panel;
 
+import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -35,6 +36,11 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
 
 	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+    }
+
+    @Override
+    public ArrayList<Move> getMoves() {
+	return histo.getMoves();
     }
 
     @Override

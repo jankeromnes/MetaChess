@@ -1,5 +1,8 @@
 package metachess.boards;
 
+import metachess.game.Coords;
+import metachess.model.PointBehaviour;
+
 /** Class of a sample board <br/>.
  * This sample is used by the piece builder box
  * @author Agbeladem
@@ -14,6 +17,10 @@ public class SampleBoard extends PlayableBoard {
 	super();
 	init("sample");
     }
+
+    @Override
+    public void playSquare(PointBehaviour b) {};
+
 
     
 }

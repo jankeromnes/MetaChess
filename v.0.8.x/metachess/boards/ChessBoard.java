@@ -7,6 +7,7 @@ import metachess.game.Coords;
 import metachess.game.Game;
 import metachess.game.Move;
 import metachess.game.Piece;
+import metachess.model.PointBehaviour;
 
 /** Class of the real Chess Board
  * @author Jan (7DD)
@@ -26,16 +27,16 @@ public class ChessBoard extends PlayableBoard {
     	super();
     	game = g;
     }
-    
-    @Override
-    public void init(String s, boolean isAtomic) {
-    	super.init(s, isAtomic);
+
+
+    /** Launch the game, to be sent after init */
+    public void launch() {
     	int AILevel = whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
-    	if(AILevel > 0){
-    		lock();
-    		AIThread ait = new AIThread(this, AILevel);
-    		toggleEnabled();
-    		ait.start();
+	if(AILevel > 0) {
+	    lock();
+	    AIThread ait = new AIThread(this, AILevel);
+	    toggleEnabled();
+	    ait.start();
     	}
     }
     
@@ -97,7 +98,7 @@ public class ChessBoard extends PlayableBoard {
     	unlock();
     	playSquare(m.getOldCoords(), true);
     	lock();
-    	try { Thread.sleep(200); } catch (Exception e) { }
+    	try { Thread.sleep(200); } catch (Exception e) { e.printStackTrace(); }
     	unlock();
     	playSquare(m.getNewCoords(), true);
     }
@@ -106,26 +107,25 @@ public class ChessBoard extends PlayableBoard {
      * @param c the square's Coords
      * @param keep whether the move is being kept in the logger
      */
-    public void playSquare(Coords c, boolean keep){
+    public void playSquare(PointBehaviour c, boolean keep) {
     	this.keep = keep;
-    	if(!isLocked()) super.playSquare(c);
+	if(!isLocked()) super.playSquare(c);
     }
     
     @Override
-    public void playSquare(Coords c) {
+    public void playSquare(PointBehaviour c) {
 	playSquare(c, true);
     }
 
-    /** Play a list of moves in this board, starting from the beginning of the setup
+    /** Replay a list of moves in this board, starting from the beginning of the setup
      * @param moves the list of moves to load
      */
     public void jump(ArrayList<Move> moves) {
 	assert moves != null;
 	int n = moves.size();
-	for(int i = 0; i < n ; i++)
+	for(int i = 0 ; i < n ; i++)
 	    replayMove(moves.get(i));
     }
- 
 
 }
 

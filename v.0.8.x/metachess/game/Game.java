@@ -81,6 +81,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	
 	pack();
 	setVisible(true);
+
+	board.launch();
 	    
     }
 
@@ -88,10 +90,10 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param moves a list of all the played moves since the beginning
      */
     public void jump(ArrayList<Move> moves) {
-		//newGame(moves.isEmpty());
+	//newGame(moves.isEmpty());
     	if(!board.isLocked()) {
-			newGame(false);
-	    	board.jump(moves);
+	    newGame(false);
+	    board.jump(moves);
     	}
     }
 
@@ -113,6 +115,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	gb.init();
 	gb.update();
 	clear(clear);
+	board.launch();
     }
     
 
@@ -140,7 +143,12 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param file the path
      */
     public void saveGame(File file) {
-
+	try {
+	    new SavedGame(setup, atomic, whiteAILevel, blackAILevel,
+			  panel.getMoves()).save(file);
+	} catch(MetachessException e) {
+	    new ErrorDialog(e);
+	}
     }
 
     /** Launch the file box to load a game */
@@ -152,9 +160,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param file the file that contains the saved game
      */
     public void loadGame(File file) {
-
 	try {
-	    GameLoader.load(file);
+	    GameLoader.load(file, board);
 	    loadGame(GameLoader.getSavedGame());
 	} catch(MetachessException e) { new ErrorDialog(e); }
 
@@ -177,11 +184,27 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
     @Override
     public void loadGame(SavedGame sg){
+
 	setup = sg.getSetup();
 	atomic = sg.isAtomic();
+
 	board.init(setup, atomic);
+	gb.init();
+	gb.update();
+
+	whiteAILevel = 0;
+	blackAILevel = 0;
+
+	ArrayList<Move> moves = sg.getMoves();
+	int n = moves.size();
+	for(int i = 0 ; i < n ; i++)
+	    board.playMove(moves.get(i));
+
 	whiteAILevel = sg.getWhiteAILevel();
 	blackAILevel = sg.getBlackAILevel();
+
+	board.launch();
+
     }
 
     @Override

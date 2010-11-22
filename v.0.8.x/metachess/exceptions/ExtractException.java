@@ -10,7 +10,7 @@ public class ExtractException extends MetachessException {
      * @param msg the explanation about the exception
      */
     public ExtractException(String msg) {
-	super("Data Exctraction Exception "+msg+" !");
+	super("Data Extraction Exception "+msg+" !");
     }
 
 }

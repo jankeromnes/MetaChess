@@ -58,6 +58,9 @@ public class PieceBuilderBox extends JPanel {
      * @param name the name of the piece to load
      */
     public void load(String name) {
+	
+	bs.deactivateSquare();
+	
 	Piece p = Pieces.getPiece(name);
 	mp.setMoves(p.getMoveTypes());
 

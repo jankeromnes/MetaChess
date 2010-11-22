@@ -6,7 +6,6 @@ package metachess.exceptions;
  */
 public class WriteException extends MetachessException {
 
-
     /** Create a writing exception
      * @param folder the folder where the problem occured
      */

@@ -17,6 +17,10 @@ import javax.swing.JPanel;
 import metachess.game.Game;
 import metachess.library.SetupList;
 
+/** Class of the new game Mode Box
+ * @author Agbeladem
+ * @version 0.5.0
+ */
 public class GameModeBox extends JDialog implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +35,9 @@ public class GameModeBox extends JDialog implements ActionListener {
     private JButton cancel;
     private boolean newGame;
 
+    /** Create a game mode box to ask for a new game
+     * @param g the game model on which the new game will be loaded
+     */
     public GameModeBox(Game g) {
 	super(g, "New Game", true);
 	game = g;
@@ -72,6 +79,7 @@ public class GameModeBox extends JDialog implements ActionListener {
 
     }
 
+    /** Launch this box */
     public boolean launch() {
 	newGame = false;
 	setup.init();
@@ -83,6 +91,7 @@ public class GameModeBox extends JDialog implements ActionListener {
 	return newGame;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
 	newGame = e.getSource() == launch;
 	if(newGame) {

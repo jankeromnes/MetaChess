@@ -3,11 +3,12 @@ package metachess.game;
 import java.io.Serializable;
 
 import metachess.boards.PlayableBoard;
+import metachess.model.PointBehaviour;
 import metachess.squares.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)
- * @version 0.8.4
+ * @version 0.8.6
  */
 public class Move implements Serializable {
 
@@ -53,11 +54,11 @@ public class Move implements Serializable {
     }
 
     /** Creation of a move
-     * @param a the square the moved piece belonged to before the move
-     * @param newxarg the square the moved piece belonged to after the move
-     * @param abstractBoard the board in which this move is played
+     * @param a the position of the moved piece before the move
+     * @param b the position of the moved piece after the move
+     * @param ab the board in which this move is played
      */
-    public Move(AbstractSquare a, AbstractSquare b, PlayableBoard ab) {
+    public Move(PointBehaviour a, PointBehaviour b, PlayableBoard ab) {
 	this(a.getColumn(), a.getRow(), b.getColumn(), b.getRow(), ab);
     }
 
@@ -112,8 +113,15 @@ public class Move implements Serializable {
 	return new Coords(newx, newy);
     }
 
+    /** Get the format used for the game file (MCG format)
+     * @return the format as a string
+     */
+    public String getMCGFormat() {
+	return getOldCoords().toString() + getNewCoords().toString();
+    }
+
     @Override
-	public String toString() {
+    public String toString() {
 	StringBuilder s = new StringBuilder();
 	if(!piece.isPawn()) s.append(piece.getLetter());
 	if(capture) s.append('x');

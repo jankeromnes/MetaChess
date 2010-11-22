@@ -30,7 +30,8 @@ public class ConfirmDialog {
 	return JOptionPane.showConfirmDialog(null,
 					     message,
 					     title,
-					     yesNo? JOptionPane.YES_NO_OPTION: JOptionPane.OK_CANCEL_OPTION,
+					     yesNo? JOptionPane.YES_NO_OPTION
+					     : JOptionPane.OK_CANCEL_OPTION,
 					     JOptionPane.INFORMATION_MESSAGE)
 	    == (yesNo ? JOptionPane.YES_OPTION: JOptionPane.OK_OPTION);
     }

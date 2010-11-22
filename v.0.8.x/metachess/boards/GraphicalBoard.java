@@ -36,6 +36,7 @@ public class GraphicalBoard extends JPanel {
 	dim = i;
     }
 
+    /** (Re)initizalize this graphical board */
     public void init() {
     	removeAll();
 	width = ab.getCols();
@@ -57,7 +58,7 @@ public class GraphicalBoard extends JPanel {
 	//    	update();
     }
 
-    public void initSquare(int i, int j) {
+    private void initSquare(int i, int j) {
 	graphicalSquares[i][j] = new GraphicalSquare(ab.getSquare(i, j), this);
 	graphicalSquares[i][j].setDim(dim);
 	add(graphicalSquares[i][j]);
@@ -74,7 +75,7 @@ public class GraphicalBoard extends JPanel {
     public GraphicalSquare getSquare(int i, int j) {
 	assert squareExists(i ,j);
 	return graphicalSquares[i][j];
-	}
+    }
 
     public boolean squareExists(int i, int j) {
 	return i >= 0 && i < width

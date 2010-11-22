@@ -3,12 +3,13 @@ package metachess.squares;
 import metachess.game.Coords;
 import metachess.game.Piece;
 import metachess.library.Colour;
+import metachess.model.PointBehaviour;
 
 /** Class of an Abstract Square
  * @author Jan (7DD)
  * @version 0.7.5
  */
-public class AbstractSquare implements Cloneable {
+public class AbstractSquare implements Cloneable, PointBehaviour {
 
     protected final int i;
     protected final int j;
@@ -87,23 +88,17 @@ public class AbstractSquare implements Cloneable {
 	return piece;
     }
 
-    /** Get the coordinates of this square
-     * @return the coords
-     */
+    @Override
     public Coords getCoords() {
 	return new Coords(i, j);
     }
 
-    /** Get the column of this square
-     * @return the column (X Coord)
-     */
+    @Override
     public int getColumn() {
 	return i;
     }
 
-    /** Get the row of this square
-     * @return the row (Y Coord)
-     */
+    @Override
     public int getRow() {
 	return j;
     }

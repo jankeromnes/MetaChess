@@ -17,7 +17,7 @@ public interface GameBehaviour {
      */
     public void addMove(Move m);
 
-    /** Get all the moves played in this saved game
+    /** Get all the moves played in this game
      * @return the list of the moves as an ArrayList
      */ 
     public ArrayList<Move> getMoves();

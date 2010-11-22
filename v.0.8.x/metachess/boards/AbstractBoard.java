@@ -7,6 +7,7 @@ import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.loader.SetupLoader;
+import metachess.model.PointBehaviour;
 import metachess.squares.AbstractSquare;
 import metachess.squares.EmptySquare;
 
@@ -153,9 +154,9 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     /** Literally play a given square (as a goal for a selected piece)
      * and keep the move in the logger
-     * @param c the square's coordinates
+     * @param c the position of the square
      */
-    public abstract void playSquare(Coords c);
+    public abstract void playSquare(PointBehaviour c);
 
     /** Tells whether given coordinates match a valid square of the board or not
      * <br/> A square is valid if it exists and if it was not removed
@@ -313,31 +314,29 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return s.toString();
     }
 
-	/** Change the board lock
-	 * @param lock the new lock status
-	 */
-	public void setLock(boolean lock) {
-		locked = lock;
-	}
+    /** Change the board lock
+     * @param lock the new lock status
+     */
+    public void setLock(boolean lock) {
+	locked = lock;
+    }
 
-	/** Lock the board
-	 */
-	public void lock() {
-		setLock(true);
-	}
+    /** Lock the board */
+    public void lock() {
+	setLock(true);
+    }
 
-	/** Unlock the board
-	 */
-	public void unlock() {
-		setLock(false);
-	}
+    /** Unlock the board */
+    public void unlock() {
+	setLock(false);
+    }
 
-	/** Check if the board is locked
-	 * @return true if locked
-	 */
-	public boolean isLocked() {
-		return locked;
-	}
+    /** Check if the board is locked
+     * @return true if locked
+     */
+    public boolean isLocked() {
+	return locked;
+    }
     
 }
 

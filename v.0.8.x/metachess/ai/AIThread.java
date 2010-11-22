@@ -8,35 +8,35 @@ import metachess.boards.ChessBoard;
  */
 public class AIThread extends Thread {
 	
-	private ChessBoard cb;
-	private int treeDepth;
+    private ChessBoard cb;
+    private int treeDepth;
 	
-	/** Create an AI Thread to calculate a best-move-sequence from a given position to a given depth
+    /** Create an AI Thread to calculate a best-move-sequence from a given position to a given depth
      * @param board the Chess Board with its current position
      * @param AILevel the depth of the recursive study
      */
-	public AIThread(ChessBoard board, int AILevel) {
-		cb = board;
-		treeDepth = AILevel;
-	}
+    public AIThread(ChessBoard board, int AILevel) {
+	cb = board;
+	treeDepth = AILevel;
+    }
 	
-	/** Launch the Thread and print some info about the best-move-sequence found
-	 * and the complexity of the search */
-	@Override
-	public void run() {
+    /** Launch the Thread and print some info about the best-move-sequence found
+     * and the complexity of the search */
+    @Override
+    public void run() {
 		
-		long start = System.currentTimeMillis();
-		AIBoardTree tree = new AIBoardTree(cb, treeDepth);
-		long stop = System.currentTimeMillis();
+	long start = System.currentTimeMillis();
+	AIBoardTree tree = new AIBoardTree(cb, treeDepth);
+	long stop = System.currentTimeMillis();
 		
-		BestMoveSequence bms = tree.getBestMoveSequence();
+	BestMoveSequence bms = tree.getBestMoveSequence();
 		
-		System.out.println("\nsequence ....... "+bms);
-		System.out.println("depth .......... "+treeDepth);
-		System.out.println("complexity ..... "+tree.getComplexity());
-		System.out.println("timing(ms) ..... "+(stop-start));
-		cb.playAIMove(bms.getFirstMove());
+	System.out.println("\nsequence ....... "+bms);
+	System.out.println("depth .......... "+treeDepth);
+	System.out.println("complexity ..... "+tree.getComplexity());
+	System.out.println("timing(ms) ..... "+(stop-start));
+	cb.playAIMove(bms.getFirstMove());
 		    
-	}
+    }
 }
 
