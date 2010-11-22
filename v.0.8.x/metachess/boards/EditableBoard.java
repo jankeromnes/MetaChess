@@ -2,6 +2,7 @@ package metachess.boards;
 
 import metachess.builder.setupbuilder.SetupBuilderBox;
 import metachess.game.Coords;
+import metachess.model.PointBehaviour;
 import metachess.squares.AbstractSquare;
 import metachess.squares.GraphicalSquare;
 
@@ -34,11 +35,8 @@ public class EditableBoard extends AbstractBoard {
 	endInit();
     }
 
-    /** Change the content of a given Square
-     * @param c the square's Coords
-     */
     @Override
-    public void playSquare(Coords c) {
+    public void playSquare(PointBehaviour c) {
 	int i = c.getColumn();
 	int j = c.getRow();
 	switch(parent.getTool()) {

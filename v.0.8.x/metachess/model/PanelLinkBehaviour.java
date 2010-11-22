@@ -1,5 +1,7 @@
 package metachess.model;
 
+import java.util.ArrayList;
+
 import metachess.game.SavedGame;
 import metachess.game.Move;
 
@@ -13,6 +15,11 @@ public interface PanelLinkBehaviour {
      * @param sg the saved game model
      */
     public void loadGame(SavedGame sg);
+
+    /** Get all the moves played in the game
+     * @return the list of the moves as an ArrayList
+     */ 
+    public ArrayList<Move> getMoves();
 
     /** Clear the count panel and the logger
      * @param clear whether the logger should be cleared

@@ -10,23 +10,25 @@ pawn:Wpawn.png:Bpawn.png
 queen:Wqueen.png:Bqueen.png
 
 ## atomic
-metaking:Wking.png:Bking.png
-joker:Wrook.png:Brook.png
-grasshopper:Wbishop.png:Bbishop.png
-dragon:Wknight.png:Bknight.png
-metapawn:Wpawn.png:Bpawn.png
-amazon:Wqueen.png:Bqueen.png
+metaking:Wmetaking.png:Bmetaking.png
+joker:Wjoker.png:Bjoker.png
+grasshopper:Wgrasshopper.png:Bgrasshopper.png
+dragon:Wdragon.png:Bdragon.png
+metapawn:Wmetapawn.png:Bmetapawn.png
+amazon:Wamazon.png:Bamazon.png
 
 #samples
-metamorph:Wking.png:Bking.png
+metamorph:Wmetamorph.png:Bmetamorph.png
 
 ###
 
 # Generated from builder
-archbishop:Wbishop.png:Bbishop.png
+archbishop:Warchbishop.png:Barchbishop.png
+
 # v.0.8.0 adds the following
 alfil:Wbishop.png:Bbishop.png
 dabbaba:Wrook.png:Brook.png
 alibaba:Wking.png:Bking.png
 zero:Wrook.png:Brook.png
+
 

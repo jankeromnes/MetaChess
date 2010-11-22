@@ -1,12 +1,13 @@
 package metachess.game;
 
 import metachess.boards.AbstractBoard;
+import metachess.model.PointBehaviour;
 
 /** Class of the string representation of coordinates
  * @author Agbeladem (7DD)
  * @version 0.8.4
  */
-public final class Coords {
+public final class Coords implements PointBehaviour {
 
     /** Tells whether these coord are valid
      * @param x the column
@@ -47,19 +48,15 @@ public final class Coords {
 	return new Coords(board.getCols()-i-1,  board.getRows()-j-1);
     }
 
-    /** Get the first coordinate of this set
-     * @return the column (X Coord)
-     */
-    public int getColumn() {
-	return i;
-    }
 
-   /** Get the second coordinate of this set
-     * @return the row (Y Coord)
-     */
-    public int getRow() {
-	return j;
-    }
+    @Override
+    public Coords getCoords() { return this; }
+
+    @Override
+    public int getColumn() { return i; }
+
+    @Override
+    public int getRow() { return j; }
 
     /** Get the character that corresponds to these Coords' column
      * @return the char starting from 'A' as the first column
@@ -76,6 +73,7 @@ public final class Coords {
 	return (char)( j > 8 ? 'a'-9+j : '1'+j);
     }
 
+    
     @Override
     public String toString() {
 	return Character.toString(getColumnChar())+getRowChar();

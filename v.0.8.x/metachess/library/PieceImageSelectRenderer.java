@@ -22,7 +22,7 @@ public class PieceImageSelectRenderer implements ListCellRenderer {
 
 	String text = value.toString();
 
-	renderer.setIcon(PieceImages.getScaledImageFromPath(Resource.PIECE_IMAGES.getPath(false)+text, 20));
+	renderer.setIcon(PieceImages.getScaledImageFromPath(Resource.PIECE_IMAGES.getPath()+text, 20));
 
 	text = text.substring(1,text.lastIndexOf('.'));
 	renderer.setText(text);

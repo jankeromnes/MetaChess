@@ -1,8 +1,14 @@
 package metachess.game;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import metachess.exceptions.WriteException;
 import metachess.model.GameBehaviour;
 
 /** Class of a saved metachess game model
@@ -39,7 +45,35 @@ public class SavedGame implements Serializable, GameBehaviour {
 	this.moves = moves;
     }
 
+
+    public void save(File f) throws WriteException {
+
+	try {
+	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)));
+	    pw.println("# Metachess v.0.8.6/MCG=v.1");
+	    pw.println("# Automatically generated");
+	    pw.println("atomic = "+(atomic?"TRUE":"FALSE"));
+	    pw.println("setup = "+setup);
+	    pw.println("whitelevel = "+whiteAILevel);
+	    pw.println("blacklevel = "+blackAILevel);
+	    pw.println("\n{BEGIN}\n");
+	    
+	    int n = moves.size();
+	    for(int i = 0 ; i < n ; i++)
+		pw.println(moves.get(i).getMCGFormat());
+
+	    pw.close();
+
+	} catch(IOException e) {
+	    throw new WriteException(f.getPath());
+	}
+
+    }
+
+	    
    
+    // GAME BEHAVIOUR
+
     @Override
     public void setSetup(String s) { setup = s; }
 

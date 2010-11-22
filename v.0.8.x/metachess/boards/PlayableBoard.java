@@ -4,6 +4,7 @@ import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.library.Pieces;
+import metachess.model.PointBehaviour;
 import metachess.squares.AbstractSquare;
 import metachess.squares.EmptySquare;
 import metachess.squares.PlayableSquare;
@@ -91,7 +92,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     	atomic = isAtomic;
 	foreseer = !atomic;
-	
+
     	activeSquareX = -1;
     	activeSquareY = -1;
     	jokerPiece = null;
@@ -117,13 +118,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     /** Changes the player who is expected to play next */
     public void nextPlayer() {
-	
+
     	checkKingsAreOK();
     	deathMatch = atomic && blackKingDead && whiteKingDead;
 	gameOver = ( !deathMatch && (blackKingDead || whiteKingDead) );
 	
     	whitePlaying = !whitePlaying;
 	checkPlayer();
+
 
     }
 
@@ -133,7 +135,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    checkKingsAreOK();
 	    deathMatch = blackKingDead && whiteKingDead;
 	}
-
+	
 	if(foreseer)
 	    setChoices();
 
@@ -157,7 +159,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			pb.activeSquareY = as.getRow();
 			pb.squares[s.getColumn()][s.getRow()].setGreen(true);
 			pb.togglePlaying();
-			pb.playSquare(s.getCoords());
+			pb.playSquare(s);
 			pb.whitePlaying = !whitePlaying;
 			boolean illegal = false;
 			for(AbstractSquare as2 : pb) {
@@ -246,7 +248,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     }
 
     @Override
-	public void playSquare(Coords c) {
+    public void playSquare(PointBehaviour c) {
 	int i = c.getColumn();
 	int j = c.getRow();
     	AbstractSquare theSquare = getSquare(i, j);
