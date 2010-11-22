@@ -74,7 +74,8 @@ public class AIBoardTree extends PlayableBoard {
     	if(depth>0 && !gameOver) {
 	    for(AbstractSquare s : this) {
 		deactivateSquare();
-		if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying)) {
+		// optimization idea: if reached maximum final score, don't search for other options (complexity gets a little bit better)
+		if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying) && ( candidate == null || ( !whitePlaying && candidate.getScore() > -9999 ) || ( whitePlaying && candidate.getScore() < 9999 ) ) ) {
 		    activateSquare(s);
 		    if(isSquareActive()) {
 			for(int i = 0 ; i < width ; i++) {
