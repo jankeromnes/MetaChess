@@ -267,17 +267,16 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		} else {
 		    capture = theSquare.hasPiece();
 		    removePiece(theSquare);
+
 		    // Promotion
-		    if(lastPiece.isPawn()&&((lastPiece.isWhite()&&theSquare.getRow()==getRows()-1)||(!lastPiece.isWhite()&&theSquare.getRow()==0))) {
-			// Classic Promotion to Queen
-			if(lastPiece.getName().equals("pawn"))
-			    theSquare.setPiece(Pieces.getPiece("queen", lastPiece.isWhite()));
-			// Promotion to Amazon
-			else
-			    theSquare.setPiece(Pieces.getPiece("amazon", lastPiece.isWhite()));
-		    }
+		    if(lastPiece.isPawn() &&
+		       ( ( lastPiece.isWhite() && theSquare.getRow() == getRows()-1)
+		       || (!lastPiece.isWhite() && theSquare.getRow() == 0)))
+			promote(theSquare, lastPiece.isWhite());
+
 		    else {
 			theSquare.setPiece(lastPiece);
+
 			// Castle
 			if(lastPiece.isKing()){
 			    int diff = theSquare.getColumn() - getActiveSquare().getColumn();
@@ -305,6 +304,16 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	else if(!gameOver) activateSquare(i, j);
     	update();
     }
+
+
+    /** Promote a pawn, ie add a piece where the pawn was promoted
+     * @param as the square where the pawn is being promoted
+     * @param white whether the new piece will be white
+     */
+    protected void promote(AbstractSquare as, boolean white) {
+	as.setPiece(Pieces.getPiece("queen", white));
+    }
+
 
     /** Toggle the playing value which decribes whether moves are being played.
      * <br/> Note that this value is true in AIBoardTree (while enabled is not).

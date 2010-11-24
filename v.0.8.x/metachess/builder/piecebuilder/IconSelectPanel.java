@@ -47,6 +47,7 @@ public class IconSelectPanel extends JPanel {
 	images.removeListSelectionListener(listEv);
 	images.init();
 	images.addListSelectionListener(listEv);
+	images.setValue(PieceImages.getImage("metamorph", true));
 	changeIcon(images.getName());
     }
 

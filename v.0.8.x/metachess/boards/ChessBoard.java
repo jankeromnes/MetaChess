@@ -10,7 +10,7 @@ import metachess.game.Piece;
 import metachess.model.PointBehaviour;
 
 /** Class of the real Chess Board
- * @author Jan (7DD)
+ * @author Jan (7DD) and Agbeladem (7DD)
  * @version 0.8.0
  */
 public class ChessBoard extends PlayableBoard {
@@ -128,5 +128,6 @@ public class ChessBoard extends PlayableBoard {
     }
 
 }
+
 
 

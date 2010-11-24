@@ -368,7 +368,6 @@ public class Piece implements PieceBehaviour {
     public boolean isJoker() { return joker; }
 
     public void setImage(String i)  {
-
 	image = new ImageIcon(i);
 	icons = new HashMap<Integer, ImageIcon>();
 	icons.put(new Integer(image.getIconWidth()), image);
