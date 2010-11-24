@@ -109,18 +109,6 @@ public class LogList extends AbstractListModel {
 	return lastIndex+1 < moves.size();
     }
 
-    /* // Obselete by Jan's game.SavedGame
-    public void saveGame(File f) {
-	try {
-	    ObjectOutputStream s;
-	    s = new ObjectOutputStream(new FileOutputStream(f));
-	    s.writeObject(moves);
-	    s.close();
-	} catch(IOException e) {}
-
-    }
-    */
-
     /** Load all the moves of a loaded game
      * @param m the list of moves to load in this list
      */

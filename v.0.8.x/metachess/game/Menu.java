@@ -29,13 +29,13 @@ public class Menu extends JMenuBar {
 		
 	// GAME MENU
 	JMenu gameMenu = new JMenu("Game");
-	gameMenu.setIcon(new ImageIcon(getClass().getResource(ToolIcons.GAME.getPath())));
+	gameMenu.setIcon(new ImageIcon(ToolIcons.GAME.getPath()));
 	gameMenu.setMnemonic('G');
 		
 
 	// New Game
 	JMenuItem newGame = new JMenuItem("New Game");
-	newGame.setIcon(new ImageIcon(getClass().getResource(ToolIcons.NEW.getPath())));
+	newGame.setIcon(new ImageIcon(ToolIcons.NEW.getPath()));
 	newGame.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 		    game.askNewGame();
@@ -49,7 +49,7 @@ public class Menu extends JMenuBar {
 
 	// Save Game
 	JMenuItem saveGame = new JMenuItem("Save Game");
-	saveGame.setIcon(new ImageIcon(getClass().getResource(ToolIcons.SAVE.getPath())));
+	saveGame.setIcon(new ImageIcon(ToolIcons.SAVE.getPath()));
 	saveGame.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 		    game.saveGame();
@@ -62,7 +62,7 @@ public class Menu extends JMenuBar {
 
 	// Load Game
 	JMenuItem loadGame = new JMenuItem("Load Game");
-	loadGame.setIcon(new ImageIcon(getClass().getResource(ToolIcons.LOAD.getPath())));
+	loadGame.setIcon(new ImageIcon(ToolIcons.LOAD.getPath()));
 	loadGame.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 		    game.loadGame();
@@ -79,7 +79,7 @@ public class Menu extends JMenuBar {
 
 	// Quit Game
 	JMenuItem quitGame = new JMenuItem("Quit Game");
-	quitGame.setIcon(new ImageIcon(getClass().getResource(ToolIcons.EXIT.getPath())));
+	quitGame.setIcon(new ImageIcon(ToolIcons.EXIT.getPath()));
 	quitGame.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 		    System.exit(0);
@@ -94,13 +94,13 @@ public class Menu extends JMenuBar {
 
 	// EDIT MENU
 	JMenu editMenu = new JMenu("Edit");
-	editMenu.setIcon(new ImageIcon(getClass().getResource(ToolIcons.BUILDER.getPath())));
+	editMenu.setIcon(new ImageIcon(ToolIcons.BUILDER.getPath()));
 	editMenu.setMnemonic('E');
 		
 
 	// Undo Move
 	undoMove = new JMenuItem("Undo Move");
-	undoMove.setIcon(new ImageIcon(getClass().getResource(ToolIcons.LEFT_ARROW.getPath())));
+	undoMove.setIcon(new ImageIcon(ToolIcons.LEFT_ARROW.getPath()));
 	undoMove.setMnemonic('U');
 	undoMove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
 	editMenu.add(undoMove);
@@ -112,7 +112,7 @@ public class Menu extends JMenuBar {
 
 	// Redo Move
 	redoMove = new JMenuItem("Redo Move");
-	redoMove.setIcon(new ImageIcon(getClass().getResource(ToolIcons.RIGHT_ARROW.getPath())));
+	redoMove.setIcon(new ImageIcon(ToolIcons.RIGHT_ARROW.getPath()));
 	redoMove.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if(!game.isBoardLocked()) game.redo();
@@ -125,7 +125,7 @@ public class Menu extends JMenuBar {
 
 	// BuilderPannel
 	JMenuItem builder = new JMenuItem("Open Builder");
-	builder.setIcon(new ImageIcon(getClass().getResource(ToolIcons.BUILDER.getPath())));
+	builder.setIcon(new ImageIcon(ToolIcons.BUILDER.getPath()));
 	builder.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    game.launchBuilder();

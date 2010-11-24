@@ -115,11 +115,12 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	gb.init();
 	gb.update();
 	clear(clear);
-	board.launch();
+	if(clear)
+	    board.launch();
     }
     
 
-    /** End the last game */
+    /** End the last game, meaning one player has won or that it is a draw */
     public void endGame() {
     	// to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
 	    AIBoardTree aiboard = new AIBoardTree(board, 1);
@@ -160,6 +161,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param file the file that contains the saved game
      */
     public void loadGame(File file) {
+
 	try {
 	    GameLoader.load(file, board);
 	    loadGame(GameLoader.getSavedGame());
@@ -185,6 +187,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     @Override
     public void loadGame(SavedGame sg){
 
+	clear(true);
+
 	setup = sg.getSetup();
 	atomic = sg.isAtomic();
 
@@ -204,7 +208,6 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	blackAILevel = sg.getBlackAILevel();
 
 	board.launch();
-
     }
 
     @Override

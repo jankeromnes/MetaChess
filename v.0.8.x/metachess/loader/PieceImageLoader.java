@@ -1,6 +1,7 @@
 package metachess.loader;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import metachess.library.Resource;
 
 /** Singleton of the Piece Image Loader
  * @author Agbeladem (7DD)
- * @version 0.8.4
+ * @version 0.8.6
  */
 public class PieceImageLoader implements Loader {
 
@@ -55,8 +56,13 @@ public class PieceImageLoader implements Loader {
 		    int first = line.indexOf(":");
 		    int last = line.lastIndexOf(":");
 		    String piece = line.substring(0,first);
-		    PieceImages.put(piece+"_WHITE", line.substring(first+1, last));
-		    PieceImages.put(piece+"_BLACK", line.substring(last+1, length ));
+		    String whiteImage = line.substring(first+1, last);
+		    String blackImage = line.substring(last+1, length);
+		    String path = Resource.PIECE_IMAGES.getPath();
+		    if(! new File(path+whiteImage).exists())  whiteImage = "Wmetamorph.png";
+		    if(! new File(path+blackImage).exists())  blackImage = "Bmetamorph.png";
+		    PieceImages.put(piece+"_WHITE", whiteImage);
+		    PieceImages.put(piece+"_BLACK", blackImage);
 		}
 		line = br.readLine();
 	    }

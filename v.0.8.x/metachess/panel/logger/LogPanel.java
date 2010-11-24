@@ -24,7 +24,7 @@ import metachess.library.ToolIcons;
 /** Class of the Panel that contains all the current game's moves history
  * and the associated buttons
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.6
  */
 public class LogPanel extends JPanel {
 
@@ -52,8 +52,8 @@ public class LogPanel extends JPanel {
 	backButton = new JButton();
 	forwardButton = new JButton();
        
-	backButton.setIcon(new ImageIcon(getClass().getResource(ToolIcons.LEFT_ARROW.getPath())));
-	forwardButton.setIcon(new ImageIcon(getClass().getResource(ToolIcons.RIGHT_ARROW.getPath())));
+	backButton.setIcon(new ImageIcon(ToolIcons.LEFT_ARROW.getPath()));
+	forwardButton.setIcon(new ImageIcon(ToolIcons.RIGHT_ARROW.getPath()));
 
 
 	list = new LogList();
@@ -167,12 +167,6 @@ public class LogPanel extends JPanel {
     	lab.setText(String.valueOf(list.getLastIndex()+1));
     	game.updateMenu(list.isBackable(),list.isForwardable());
     }
-
-    /* // Obsolete by Jan's game.SavedGame
-    public void saveGame(File file) {
-    	list.saveGame(file);
-    }
-    */
 
     /** Load all the moves in a game
      * @param m the list of moves
