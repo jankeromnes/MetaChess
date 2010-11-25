@@ -2,11 +2,11 @@
 
 width	= 8
 height	= 8
+promotion = queen, bishop, knight, rook
 
 	{AREA}
 
 area pawnline sym A2 H2
-
 
 	{BEGIN}
 

@@ -1,5 +1,6 @@
 package metachess.boards;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -13,7 +14,7 @@ import metachess.squares.EmptySquare;
 
 /** Class of an Abstract Board
  * @author Agbeladem and Jan (7DD)
- * @version 0.8.0
+ * @version 0.8.7
  */
 public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
@@ -31,17 +32,19 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     protected int activeSquareX;
     protected int activeSquareY;
 
+    protected ArrayList<String> promotions;
+    protected HashMap<String, Area> areas;
+
     private boolean locked;
     private int lastBlank;
     protected Piece jokerPiece;
-    protected HashMap<String, Area> areas;
-
 
     /** Create an empty abstract board */
     public AbstractBoard() {
-    	setLock(false);
-    	areas = new HashMap<String, Area>();
+    	unlock();
     	jokerPiece = null;
+    	areas = new HashMap<String, Area>();
+	promotions = new ArrayList<String>();
     }
     
     /** Associate the graphic board representation of this abstract board
@@ -62,10 +65,18 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     /** Add a given area to this board
      * @param a the area to be added
      */
-    public void add(Area a) {
+    public void addArea(Area a) {
 	areas.put(a.getName(), a);
     }
 
+    // PROMOTION
+
+    /** Add a given piece to the list of available pieces for a pawn promotion
+     * @param piece the name of the piece to be added
+     */
+    public void addPromotionPiece(String piece) {
+	promotions.add(piece);
+    }
 
     // ITERATOR
     
@@ -101,6 +112,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	public void remove() {}
     }
 
+    @Override
     public Iterator<AbstractSquare> iterator() { return browser ; }
 
     public void resetIterator() { browser.reset(); }
@@ -142,6 +154,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	    for(int i = 0 ; i < width ; i++)
 		initSquare(i, j);
     }
+
+    // SQUARES
 
     /** Play a given move
      * @param m the move
@@ -196,6 +210,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return getSquare(c.getColumn(), c.getRow());
     }
 
+    // PIECES
 
     /** Tells whether a square at the given coordinates possess a piece
      * @param i the square's column (X Coord)
@@ -248,6 +263,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     public void setRows(int y) { height = y; }
 
+    // GETTERS
+
     /** Get the number of columns of the board
      * @return the number of columns
      */
@@ -273,6 +290,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      */
     public Piece getJokerPiece() { return jokerPiece; }
 
+
+    // TERMINAL FORMAT / TOSTRING
 
     @Override
 	public String toString() {
@@ -314,21 +333,16 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return s.toString();
     }
 
-    /** Change the board lock
-     * @param lock the new lock status
-     */
-    public void setLock(boolean lock) {
-	locked = lock;
-    }
+    // LOCK
 
     /** Lock the board */
     public void lock() {
-	setLock(true);
+	locked = true;
     }
 
     /** Unlock the board */
     public void unlock() {
-	setLock(false);
+	locked = false;
     }
 
     /** Check if the board is locked

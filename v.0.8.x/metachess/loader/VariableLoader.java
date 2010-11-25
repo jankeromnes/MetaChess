@@ -21,7 +21,7 @@ public abstract class VariableLoader implements Loader {
 	if(i != -1) {
 	    String var = line.substring(0,i);
 	    String value = line.substring(i+1, line.length());
-	    setVariable(var.toLowerCase(), value.toUpperCase());
+	    setVariable(var.toLowerCase(), value.toLowerCase());
 	}
     }
 
