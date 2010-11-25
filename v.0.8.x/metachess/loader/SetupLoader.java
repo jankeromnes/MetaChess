@@ -17,7 +17,7 @@ import metachess.library.Resource;
 
 /** Singleton of the Setup Loader
  * @author Agbeladem (7DD)
- * @version 0.8.4
+ * @version 0.8.7
  */
 public class SetupLoader extends VariableLoader {
 
@@ -63,7 +63,7 @@ public class SetupLoader extends VariableLoader {
 		 while(line != null && line.indexOf("{BEGIN}") == -1) {
 		     i = line.indexOf("area");
 		     if(i != -1)
-			 instance.board.add(new Area(line.substring(i+4, line.length()), instance.board));
+			 instance.board.addArea(new Area(line.substring(i+4, line.length()), instance.board));
 		     line = br.readLine();
 		 } 
 
@@ -134,6 +134,9 @@ public class SetupLoader extends VariableLoader {
 	    board.setCols(Integer.parseInt(value));
 	else if(var.equals("height"))
 	    board.setRows(Integer.parseInt(value));
+	else if(var.equals("promotion"))
+	    for(String s: value.split(","))
+		board.addPromotionPiece(s);
 	else throw new FileContentException("Unknown variable \""+var+'"', file);
     }
 

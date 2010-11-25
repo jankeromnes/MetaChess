@@ -75,9 +75,9 @@ public class GameLoader extends VariableLoader {
     protected void setVariable(String name, String value) throws FileContentException {
 
 	if(name.equals("atomic"))
-	    sg.setAtomic(value.equals("TRUE"));
+	    sg.setAtomic(value.equals("true"));
 	else if(name.equals("setup"))
-	    sg.setSetup(value.toLowerCase());
+	    sg.setSetup(value);
 	else if(name.equals("whitelevel"))
 	    sg.setWhiteAILevel(Integer.parseInt(value));
 	else if(name.equals("blacklevel"))

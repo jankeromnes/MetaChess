@@ -50,6 +50,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	width = parent.getCols();
     	height = parent.getRows();
         jokerPiece = parent.getJokerPiece();
+	areas = parent.areas;
+	promotions = parent.promotions;
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
@@ -311,6 +313,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @param white whether the new piece will be white
      */
     protected void promote(AbstractSquare as, boolean white) {
+	// Queening
 	as.setPiece(Pieces.getPiece("queen", white));
     }
 
