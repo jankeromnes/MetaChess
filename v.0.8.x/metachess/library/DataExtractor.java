@@ -67,18 +67,21 @@ public class DataExtractor {
 	 * Generic data extraction (can be run either from .jar or .class)
 	 */
 	public static void extract() throws ExtractException {
-			
-			// Get the home folder of executed files
-			String home = getInstance().getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(6);
-			JarFile jar = null;
-			try {
-				jar = new JarFile(home);
-				// If we run from a Jar file, extract from the Jar file
-				extractJar(jar);
-			} catch (FileNotFoundException e) {
-				// Else, extract from physical folder
-				extractFiles(new File(home+Resource.RESOURCES.getPath(true)), Resource.RESOURCES.getFile());
-			} catch (IOException e) { throw new JarExtractException(e.getMessage()); }
+		try {
+			String className = instance.getClass().getName().replace('.', '/');
+			String classJar = instance.getClass().getResource("/" + className + ".class").toString();
+			String home = getInstance().getClass().getProtectionDomain().getCodeSource().getLocation().toString();
+			// If we run from a Jar file, extract from the Jar file
+   			if (classJar.startsWith("jar:")) {
+				extractJar(new JarFile(home.substring(5)));
+			}
+			// If we run from a class file, extract from physical folder
+			else {
+				extractFiles(new File(Resource.RESOURCES.getPath(true)), Resource.RESOURCES.getFile());
+			}
+		
+		
+		} catch (IOException e) { throw new ExtractException(e.getMessage()); }
 	}
 	
 	/**
@@ -87,33 +90,34 @@ public class DataExtractor {
 	 * @throws JarExtractException
 	 */
 	private static void extractJar(JarFile jar) throws JarExtractException {
-		System.out.println("JAR Extraction...");
+		String resourcePath = Resource.RESOURCES.getPath(true);
 		try {
 			for (Enumeration<JarEntry> list = jar.entries(); list.hasMoreElements();) {
 				ZipEntry source = list.nextElement();
-				System.out.println(source.toString()+" must start with "+Resource.RESOURCES.getPath(true));
-				if (source.toString().startsWith(Resource.RESOURCES.getPath(true))) {
+				if (source.toString().startsWith(resourcePath)) {
 					InputStream inputStream = new BufferedInputStream(jar.getInputStream(source));
 					String destination = Resource.RESOURCES.getPath()
 							+ source.toString().substring(
-									Resource.RESOURCES.getPath(true).length());
+									resourcePath.length());
 					destination = destination.replace('/', File.separatorChar);
-					System.out.println("JAR Extracting "+source.toString()+" to "+destination);
 					File parentfolder = new File(destination.substring(0,
 							destination.lastIndexOf(File.separator)));
 					if (!parentfolder.exists()) parentfolder.mkdirs();
-					OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(destination));
-					byte[] buffer = new byte[2048];
-					for (;;) {
-						int nBytes;
-						nBytes = inputStream.read(buffer);
-						if (nBytes <= 0)
-							break;
-						outputStream.write(buffer, 0, nBytes);
+
+					if(! new File(destination).isDirectory()) {
+						OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(destination));
+						byte[] buffer = new byte[2048];
+						for (;;) {
+							int nBytes;
+							nBytes = inputStream.read(buffer);
+							if (nBytes <= 0)
+								break;
+							outputStream.write(buffer, 0, nBytes);
+						}
+						outputStream.flush();
+						outputStream.close();
+						inputStream.close();
 					}
-					outputStream.flush();
-					outputStream.close();
-					inputStream.close();
 				}
 			}
 			jar.close();
