@@ -264,7 +264,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 	} catch(Exception e) {}
 			
-	new Game(argv.length == 1 ? argv[0] : "classic"); 
+	new Game(argv.length == 1 ? argv[0] : "classic");
     }
 
 

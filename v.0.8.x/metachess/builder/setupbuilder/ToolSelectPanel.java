@@ -3,10 +3,14 @@ package metachess.builder.setupbuilder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
@@ -19,7 +23,7 @@ import metachess.library.PiecesList;
 
 /** Class of the tool selection panel
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.7
  */
 public class ToolSelectPanel extends JPanel {
 
@@ -76,6 +80,7 @@ public class ToolSelectPanel extends JPanel {
 	// PIECES LIST
 
 	images = new PiecesList();
+	images.setLayoutOrientation(JList.VERTICAL_WRAP);
 
 	listEv = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
@@ -124,6 +129,8 @@ public class ToolSelectPanel extends JPanel {
 	buttons.add(blackButton);
 
 
+	Component scroll = images.getComponent();
+	scroll.setPreferredSize(new Dimension(200, 120));
 
 	// INIT
 
@@ -133,7 +140,7 @@ public class ToolSelectPanel extends JPanel {
 	add(squareToggler);
 	add(pieceEraser);
 	add(piece);
-	add(images.getComponent());
+	add(scroll);
 	add(buttons);
 
     }
