@@ -137,22 +137,38 @@ public class ChessBoard extends PlayableBoard {
     @Override
     protected void promote(AbstractSquare as, boolean white) {
 	assert !promotions.isEmpty();
+
 	promotionSquare = as;
 	promotionWhite = white;
 	lock();
+
 	if(getAILevel() > 0) {
+
 	    // The best of the available pieces
-	    as.setPiece(Pieces.getPiece("amazon", white));
+	    float price = 0f;
+	    String piece = null;
+	    for(String s: promotions) {
+		float p = Pieces.getPiece(s).getPrice();
+		if(p > price) {
+		    piece = s;
+		    price = p;
+		}
+	    }
+
+	    as.setPiece(Pieces.getPiece(piece, white));
 	    unlock();
-	    System.out.println(as);
+	    checkKingInRange();
+
 	} else if(isPlaying()) {
 
 	    // Promotion Box
 	    togglePlaying();
 	    box.launch(promotions);
+
 	} // Else the move is being loaded or replayed
 
      }
+
 
      /** Confirm the promotion piece
       * @param piece the name of the piece that will be added on this board
@@ -163,6 +179,7 @@ public class ChessBoard extends PlayableBoard {
 	 deactivateSquares();
 	 promotionSquare.setPiece(Pieces.getPiece(piece, promotionWhite));
 	 lastMove.resolveAmbiguity();
+	 checkKingInRange();
 	 togglePlaying();
 	 update();
 	 nextPlayer();

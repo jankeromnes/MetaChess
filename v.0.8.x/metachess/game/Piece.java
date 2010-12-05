@@ -305,7 +305,7 @@ public class Piece implements PieceBehaviour {
     }
 
     /** Check whether this piece can reach a given square,
-     * whether this move would be legal or not
+     * ie whether this move would be legal or not
      * @param i this piece's square's column (X Coord)
      * @param j this piece's square's row (Y Coord)
      * @param board the abstract board of the piece
