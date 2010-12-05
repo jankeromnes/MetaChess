@@ -12,7 +12,8 @@ import metachess.model.PointBehaviour;
 import metachess.squares.AbstractSquare;
 import metachess.squares.EmptySquare;
 
-/** Class of an Abstract Board
+/** Class of an Abstract Board.
+ * This is a board that can be loaded from a MCS (setup) file.
  * @author Agbeladem and Jan (7DD)
  * @version 0.8.7
  */
@@ -59,7 +60,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public void update() {
     	if(gb != null) gb.update();
     }
-    
+
     // AREAS
 
     /** Add a given area to this board

@@ -37,9 +37,9 @@ public class Move implements Serializable {
      * @param newyarg the row (Y Coord) of the moved piece after the move
      * @param abstractBoard the board in which this move is played
      */
-    public Move(int oldxarg, int oldyarg
-		, int newxarg, int newyarg
-		, PlayableBoard abstractBoard) {
+    public Move(int oldxarg, int oldyarg,
+		int newxarg, int newyarg,
+		PlayableBoard abstractBoard) {
 
 	board = abstractBoard;
 	capture = false;
@@ -72,7 +72,7 @@ public class Move implements Serializable {
 		Piece p = s.getPiece();
 		if(p.isWhite() == piece.isWhite() && p.getLetter() == piece.getLetter()) {
 		    PlayableBoard b = new PlayableBoard(board);
-		    b.deactivateSquare();
+		    b.deactivateSquares();
 		    b.playSquare(s.getCoords());
 		    if(b.getSquare(newx, newy).isGreen()) {
 			horizontalAmbiguity = s.getCoords().getColumn() == oldx;

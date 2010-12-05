@@ -3,21 +3,33 @@ package metachess.boards;
 import java.util.ArrayList;
 
 import metachess.ai.AIThread;
+import metachess.dialog.PromotionBox;
 import metachess.game.Coords;
 import metachess.game.Game;
 import metachess.game.Move;
 import metachess.game.Piece;
+import metachess.library.Pieces;
 import metachess.model.PointBehaviour;
+import metachess.squares.AbstractSquare;
 
-/** Class of the real Chess Board
+/** Class of the real Chess Board.
+ * It is a playable board which has support for artificial intelligence.
  * @author Jan (7DD) and Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.8.7
  */
 public class ChessBoard extends PlayableBoard {
 
+    /* v.0.8.0- : Jan
+       v.0.8.6+ : Agbeladem */ 
+
     private static final long serialVersionUID = 1L;
 
+    private PromotionBox box;
     private Game game;
+
+    private AbstractSquare promotionSquare;
+    private boolean promotionWhite;
+
     private boolean keep;
 
     /** Create a new Chess Board
@@ -26,12 +38,17 @@ public class ChessBoard extends PlayableBoard {
     public ChessBoard(Game g) {
     	super();
     	game = g;
+	box = new PromotionBox(g, this);
     }
 
 
+    private int getAILevel() {
+	return whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
+    }
+
     /** Launch the game, to be sent after init */
     public void launch() {
-    	int AILevel = whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
+	int AILevel = getAILevel();
 	if(AILevel > 0) {
 	    lock();
 	    AIThread ait = new AIThread(this, AILevel);
@@ -47,7 +64,7 @@ public class ChessBoard extends PlayableBoard {
 	    game.addMove(lastMove);
     	if(gameOver)
     	    game.endGame();
-    	int AILevel = whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
+    	int AILevel = getAILevel();
     	if(keep && AILevel > 0) {
 	    toggleEnabled();
 	    lock();
@@ -116,6 +133,41 @@ public class ChessBoard extends PlayableBoard {
     public void playSquare(PointBehaviour c) {
 	playSquare(c, true);
     }
+
+    @Override
+    protected void promote(AbstractSquare as, boolean white) {
+	assert !promotions.isEmpty();
+	promotionSquare = as;
+	promotionWhite = white;
+	lock();
+	if(getAILevel() > 0) {
+	    // The best of the available pieces
+	    as.setPiece(Pieces.getPiece("amazon", white));
+	    unlock();
+	    System.out.println(as);
+	} else if(isPlaying()) {
+
+	    // Promotion Box
+	    togglePlaying();
+	    box.launch(promotions);
+	} // Else the move is being loaded or replayed
+
+     }
+
+     /** Confirm the promotion piece
+      * @param piece the name of the piece that will be added on this board
+      */
+     public void validatePromotion(String piece) {
+	 assert !isPlaying();
+	 unlock();
+	 deactivateSquares();
+	 promotionSquare.setPiece(Pieces.getPiece(piece, promotionWhite));
+	 lastMove.resolveAmbiguity();
+	 togglePlaying();
+	 update();
+	 nextPlayer();
+    }
+
 
     /** Replay a list of moves in this board, starting from the beginning of the setup
      * @param moves the list of moves to load

@@ -414,16 +414,12 @@ public class Piece implements PieceBehaviour {
 
     @Override
 	public String toString() {
-	StringBuilder s = new StringBuilder();
-	s.append(name);
-	s.append("   _");
-	s.append(hashCode());
-	s.append("\n\timage = "+image);
-	s.append("\n\twhite = "+white);
-	s.append("\n\tking = "+king);
-	s.append("\n\trook = "+rook);
-	s.append("\n\tjoker = "+joker);
-	s.append("\n\tpawn = "+pawn);
+	StringBuilder s = new StringBuilder("piece:\t");
+	s.append(getMCSFormat());
+	if(king) s.append(" king");
+	if(rook) s.append(" rook");
+	if(joker)s.append(" joker");
+	if(pawn) s.append(" pawn");
 	return s.toString();
     }
 
