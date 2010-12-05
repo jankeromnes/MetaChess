@@ -50,7 +50,7 @@ public class ChessBoard extends PlayableBoard {
     public void launch() {
 	int AILevel = getAILevel();
 	if(AILevel > 0) {
-	    lock();
+	    toggleLocked();
 	    AIThread ait = new AIThread(this, AILevel);
 	    toggleEnabled();
 	    ait.start();
@@ -67,7 +67,7 @@ public class ChessBoard extends PlayableBoard {
     	int AILevel = getAILevel();
     	if(keep && AILevel > 0) {
 	    toggleEnabled();
-	    lock();
+	    toggleLocked();
 	    //update();
 	    AIThread ait = new AIThread(this, AILevel);
 	    ait.start();
@@ -112,11 +112,11 @@ public class ChessBoard extends PlayableBoard {
      */
     public void playAIMove(Move m) {
     	toggleEnabled();
-    	unlock();
+    	toggleLocked();
     	playSquare(m.getOldCoords(), true);
-    	lock();
+    	toggleLocked();
     	try { Thread.sleep(200); } catch (Exception e) { e.printStackTrace(); }
-    	unlock();
+    	toggleLocked();
     	playSquare(m.getNewCoords(), true);
     }
     
@@ -140,7 +140,7 @@ public class ChessBoard extends PlayableBoard {
 
 	promotionSquare = as;
 	promotionWhite = white;
-	lock();
+	toggleLocked();
 
 	if(getAILevel() > 0) {
 
@@ -155,9 +155,7 @@ public class ChessBoard extends PlayableBoard {
 		}
 	    }
 
-	    as.setPiece(Pieces.getPiece(piece, white));
-	    unlock();
-	    checkKingInRange();
+	    validatePromotion(piece);
 
 	} else if(isPlaying()) {
 
@@ -174,15 +172,19 @@ public class ChessBoard extends PlayableBoard {
       * @param piece the name of the piece that will be added on this board
       */
      public void validatePromotion(String piece) {
-	 assert !isPlaying();
-	 unlock();
-	 deactivateSquares();
-	 promotionSquare.setPiece(Pieces.getPiece(piece, promotionWhite));
-	 lastMove.resolveAmbiguity();
-	 checkKingInRange();
-	 togglePlaying();
+
+	 Piece p = Pieces.getPiece(piece, promotionWhite);
+	 promotionSquare.setPiece(p);
+	 lastMove.setPromotionPiece(p);
+	 toggleLocked();
+	 if(!isPlaying()) {
+	     togglePlaying();
+	     lastMove.resolveAmbiguity();
+	     checkKingInRange();
+	     deactivateSquares();
+	     nextPlayer();
+	 }
 	 update();
-	 nextPlayer();
     }
 
 

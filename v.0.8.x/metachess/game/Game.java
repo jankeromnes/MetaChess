@@ -1,6 +1,7 @@
 package metachess.game;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,7 +28,7 @@ import metachess.panel.MainPanel;
 
 /** Main Class of a Metachess Game and its window
  * @author Jan and Agbeladem (7DD)
- * @version 0.8.6
+ * @version 0.8.7
  */
 public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
@@ -45,20 +46,17 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     private final FileBox fileBox;
     private final BuilderBox builder;
 
-    /** Create a new game
-     * @param setup the file name of the desired setup (without the extension)
-     */
-    public Game(String setup) {
+    /** Create a new game window.
+     * No setup will be loaded into the game
+     * and it will not be launched */
+    public Game() {
     	super("MetaChess");
 
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	this.setup = setup;
-
 	atomic = false;
 	whiteAILevel = 0;
 	blackAILevel = 3;
-
 
 	gmBox = new GameModeBox(this);
 	fileBox = new FileBox(this);
@@ -67,20 +65,31 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	setJMenuBar(menu);
 
 	builder = new BuilderBox();
-
 	board = new ChessBoard(this);
-	board.init(setup, atomic);
 
 	gb = new GraphicalBoard(board);
-	gb.init();
-	gb.update();
-	add(gb, BorderLayout.CENTER);
+	gb.setPreferredSize(new Dimension(550, 450));
 
 	panel = new MainPanel(this);
+
+	add(gb, BorderLayout.CENTER);
 	add(panel, BorderLayout.EAST);
 	
 	pack();
 	setVisible(true);
+
+    }
+
+    /** Create a new game window.
+     * It will have to be launched to be properlly shown
+     * @param setup the file name of the desired setup (without the extension)
+     */
+    public Game(String setup) {
+	this();
+	this.setup = setup;
+	board.init(setup, atomic);
+	gb.init();
+	gb.update();
 
     }
 
@@ -96,7 +105,6 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     }
 
  
-
     /** Ask for a new game with the gamebox dialog box*/
     public void askNewGame() {
     	if(!board.isLocked() && gmBox.launch()) newGame();
@@ -143,8 +151,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      */
     public void saveGame(File file) {
 	try {
-	    new SavedGame(setup, atomic, whiteAILevel, blackAILevel,
-			  panel.getMoves()).save(file);
+	    new SavedGame(setup, atomic,
+			  whiteAILevel, blackAILevel, panel.getMoves()).save(file);
 	} catch(MetachessException e) {
 	    new ErrorDialog(e);
 	}
@@ -199,9 +207,18 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
 	ArrayList<Move> moves = sg.getMoves();
 	int n = moves.size();
-	for(int i = 0 ; i < n ; i++)
-	    board.playMove(moves.get(i));
 
+	for(int i = 0 ; i < n ; i++) {
+	    Move m = moves.get(i);
+	    if(m.isPromotion()) {
+		board.togglePlaying(); // the order is
+		board.toggleEnabled(); // important here
+		board.playMove(m);
+		board.validatePromotion(m.getPromotionPiece().getName());
+		// togglePlaying is done in validatePromotion
+	    } else
+		board.playMove(m);
+	}
 	whiteAILevel = sg.getWhiteAILevel();
 	blackAILevel = sg.getBlackAILevel();
 
@@ -246,9 +263,13 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     }
 
 
-
+    public void launch() {
+	assert board != null;
+	board.launch();
+    }
 
     public void launchBuilder() {
+	assert builder != null;
 	builder.launch();
     }
 
@@ -257,12 +278,25 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public boolean isBoardLocked() { return board.isLocked(); }
 
     public static void main(String[] argv) {
+
 	DataExtractor.checkDataVersion();
+
 	try {
 	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 	} catch(Exception e) {}
-			
-	new Game(argv.length == 1 ? argv[0] : "classic").board.launch();
+
+	if(argv.length == 1) {
+	    String w = argv[0];
+	    if(w.indexOf('.') == -1)
+		new Game(w).launch();
+	    else {
+		File f = new File(w);
+		if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
+		new Game().loadGame(f);
+	    }
+
+	} else new Game();
+
     }
 
 

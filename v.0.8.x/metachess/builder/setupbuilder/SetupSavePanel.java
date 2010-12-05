@@ -1,5 +1,7 @@
 package metachess.builder.setupbuilder;
 
+import java.util.ArrayList;
+
 import metachess.boards.EditableBoard;
 import metachess.builder.SavePanel;
 import metachess.game.Piece;
@@ -21,18 +23,33 @@ public class SetupSavePanel extends SavePanel {
     public SetupSavePanel(SetupBuilderBox b) {
 	super(Resource.SETUPS);
 	parent = b;
-	
 	loader.pack();
     }
 
     @Override
     public void write() {
 	println("# Metachess=v.0.8.0/MCS=v.4");
-	println("# Generated from builder");
+	;	println("# Generated from builder");
 	println("\nwidth\t= "+parent.getCols());
 	println("height\t= "+parent.getRows());
-	println("\n\t{BEGIN}\n");
+
 	EditableBoard board = parent.getBoard();
+
+	ArrayList<String> promotions = board.getPromotionList();
+	if(!promotions.isEmpty()) {
+	    print("promotion\t=\t");
+	    StringBuilder s = new StringBuilder(promotions.get(0));
+	    int n = promotions.size();
+	    for(int i = 0 ; i < n ; i++) {
+		s.append(", ");
+		s.append(promotions.get(i));
+	    }
+	    s.append("\n");
+	    print(s);
+	}
+
+	println("\n\t{BEGIN}\n");
+
 
 
 	Piece p;

@@ -26,7 +26,6 @@ public class GraphicalBoard extends JPanel {
     public GraphicalBoard(AbstractBoard a) {
     	super();
     	ab = a;
- 	init();
     }
     
     /** Set the dimension of the sides of all the squares in this graphical board
@@ -86,8 +85,9 @@ public class GraphicalBoard extends JPanel {
     /** Update all the graphical squares of this graphical board */
     public void update() {
     	for(int j = ab.getRows()-1 ; j >= 0 ; j--)
-    	    for(int i = 0 ; i < ab.getCols() ; i++)
+    	    for(int i = 0 ; i < ab.getCols() ; i++) {
     	    	graphicalSquares[i][j].update();
+	    }
     }
 
     /** Get the number of columns of the board

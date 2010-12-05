@@ -46,11 +46,13 @@ public class GameLoader extends VariableLoader {
 	    StreamTokenizer st = new StreamTokenizer(br);
 	    st.eolIsSignificant(true);
 	    st.wordChars('0', '9');
+	    st.wordChars('_', '_');
 	    int next = st.nextToken();
 	    while(next != StreamTokenizer.TT_EOF) {
 		if(next == StreamTokenizer.TT_WORD) {
 		    String move = st.sval;
-		    if(move.length() == 4) {
+		    if(move.length() >= 4) {
+			boolean promotion = move.length() > 4;
 			char a = move.charAt(0);
 			char b = move.charAt(1);
 			char c = move.charAt(2);
@@ -59,8 +61,15 @@ public class GameLoader extends VariableLoader {
 			    throw new FileContentException("Bad Coords format : "+a+b, file);
 			else if(!Coords.isValid(c, d))
 			    throw new FileContentException("Bad Coords format : "+c+d, file);
-			else
-			    sg.addMove(new Move(new Coords(a, b), new Coords(c, d), board));
+			else {
+			    Move m = new Move(new Coords(a, b), new Coords(c, d), board);
+			    if(promotion)
+				if(move.charAt(4) != '_')
+				    throw new FileContentException ("Bad BCG format : "+move, file);
+				else
+				    m.setPromotionPiece(move.substring(5, move.length()));
+			    sg.addMove(m);
+			}
 		    } else throw new FileContentException("Bad Move Format : "+move, file);
 		} else if(next != StreamTokenizer.TT_EOL)
 		    throw new FileContentException("Invalid token value : "+next, file);

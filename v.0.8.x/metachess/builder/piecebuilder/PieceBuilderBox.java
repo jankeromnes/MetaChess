@@ -40,7 +40,8 @@ public class PieceBuilderBox extends JPanel {
 	gb = new GraphicalBoard(bs);
 	isp = new IconSelectPanel(this);
 	mp = new MovesPanel(frame, this);
-
+	gb.init();
+	
 	add(new PieceSavePanel(this), BorderLayout.NORTH);
 	add(gb , BorderLayout.CENTER);
 	add(mp, BorderLayout.EAST);
@@ -50,8 +51,8 @@ public class PieceBuilderBox extends JPanel {
     
     /** (Re)initialize this Builderbox and all its contained panels */
     public void init() {
-	update(new ArrayList<MoveType>());
 	isp.init();
+	update(new ArrayList<MoveType>());
     }
 
     /** Load a given piece in this panel
