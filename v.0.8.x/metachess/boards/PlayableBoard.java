@@ -271,7 +271,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     @Override
     public void playSquare(PointBehaviour c) {
-	assert(!isLocked());
 	int i = c.getColumn();
 	int j = c.getRow();
     	AbstractSquare theSquare = getSquare(i, j);
