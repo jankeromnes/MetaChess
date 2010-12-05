@@ -36,16 +36,13 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     protected ArrayList<String> promotions;
     protected HashMap<String, Area> areas;
 
-    private boolean locked;
     private int lastBlank;
     protected Piece jokerPiece;
 
     /** Create an empty abstract board */
     public AbstractBoard() {
-    	unlock();
     	jokerPiece = null;
-    	areas = new HashMap<String, Area>();
-	promotions = new ArrayList<String>();
+	init();
     }
     
     /** Associate the graphic board representation of this abstract board
@@ -56,7 +53,6 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
     
     /** Update the graphic board's appearance */
-    
     public void update() {
     	if(gb != null) gb.update();
     }
@@ -77,6 +73,13 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      */
     public void addPromotionPiece(String piece) {
 	promotions.add(piece);
+    }
+
+    /** Get the list of pieces available for promotion
+     * @return the list of pieces as an array of strings
+     */
+    public ArrayList<String> getPromotionList() {
+	return promotions;
     }
 
     // ITERATOR
@@ -144,7 +147,13 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @param setup the setup's name
      */
     public void init(String setup) {
+	init();
     	SetupLoader.load(this, setup);
+    }
+
+    private void init() {
+    	areas = new HashMap<String, Area>();
+	promotions = new ArrayList<String>();
     }
 
     /** Automatically launched after the setup's been loaded with init method */
@@ -296,6 +305,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     @Override
 	public String toString() {
+	assert width > 0 && height > 0;
 	StringBuilder s = new StringBuilder();
 	boolean[] line1 = new boolean[width+1];
 	StringBuilder line2;
@@ -334,24 +344,5 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return s.toString();
     }
 
-    // LOCK
-
-    /** Lock the board */
-    public void lock() {
-	locked = true;
-    }
-
-    /** Unlock the board */
-    public void unlock() {
-	locked = false;
-    }
-
-    /** Check if the board is locked
-     * @return true if locked
-     */
-    public boolean isLocked() {
-	return locked;
-    }
-    
 }
 

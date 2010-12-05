@@ -62,6 +62,7 @@ public class SetupBuilderBox extends JPanel {
 	tsp.init();
 	cols = gb.getCols();
 	rows = gb.getRows();
+
 	ssp.setBoardDimensions(cols, rows);
 
 	gb.update();

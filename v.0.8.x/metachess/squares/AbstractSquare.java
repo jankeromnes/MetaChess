@@ -126,6 +126,7 @@ public class AbstractSquare implements Cloneable, PointBehaviour {
 	public String toString() {
 	StringBuilder s = new StringBuilder("abstract square (");
 	s.append(getCoords());
+	s.append(hashCode());
 	if(hasPiece()) {
 	    s.append(" ; hasPiece(\t");
 	    s.append(piece);

@@ -70,7 +70,7 @@ public class LogPanel extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 		    if(!game.isBoardLocked()) {
 		    	game.jump(list.getMoves(listcomp.getSelectedIndex()));
-			    update();
+			update();
 		    }
 		}
 		public void mouseEntered(MouseEvent e) {}
@@ -143,15 +143,15 @@ public class LogPanel extends JPanel {
     /** Undo the last move, called by the back button's listener */
     public void undo() {
     	assert(list.isBackable()): "undo : Action forbidden";
-		game.jump(list.back());
+	game.jump(list.back());
 		update();
     }
 
     /** Undo the last move, called by the forward button's listener */
     public void redo() {
     	assert(list.isForwardable()): "redo: Action forbidden";
-		game.jump(list.forward());
-		update();
+	game.jump(list.forward());
+	update();
     }
 
     /** Update the buttons and the list */

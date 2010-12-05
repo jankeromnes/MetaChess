@@ -17,15 +17,17 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
     protected Move lastMove;    // Used for the joker movetype determination
     protected boolean foreseer; // Whether to forbid illegal moves in nextPlayer
+
     private boolean enabled;    // Tell whether the actual game is being played
     private boolean playing;    // When doing the calculations, the AI is calculating too
+    private boolean locked;
 
     protected boolean whitePlaying;
     protected boolean atomic;
     protected boolean gameOver;
     private boolean kingInRange;
 
-    // Used to start atomic death-match
+    // Used for atomic death-match support
     protected boolean deathMatch;
     protected boolean whiteKingDead;
     protected boolean blackKingDead;
@@ -42,13 +44,24 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     public PlayableBoard(PlayableBoard parent) {
 	this();
 	lastMove = parent.lastMove;
+	foreseer = parent.foreseer;
+
 	enabled = parent.enabled;
 	playing = parent.playing;
-    	whitePlaying = parent.isWhitePlaying();
-        atomic = parent.iAtomic();
-	foreseer = parent.foreseer;
-    	width = parent.getCols();
-    	height = parent.getRows();
+	locked = parent.locked;
+
+	whitePlaying = parent.whitePlaying;
+        atomic = parent.atomic;
+	kingInRange = parent.kingInRange;
+	gameOver = parent.gameOver;
+
+	deathMatch = parent.deathMatch;
+	whiteKingDead = parent.whiteKingDead;
+	blackKingDead = parent.blackKingDead;
+
+    	width = parent.width;
+    	height = parent.height;
+
         jokerPiece = parent.getJokerPiece();
 	areas = parent.areas;
 	promotions = parent.promotions;
@@ -56,6 +69,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
 		squares[i][j] = (AbstractSquare)(parent.squares[i][j].clone());
+
     }
     
     @Override
@@ -217,11 +231,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     }
 
     public void deactivateSquares() {
-    	for(int i = 0 ; i < width ; i++)
-    		for(int j = 0 ; j < height ; j++)
-    			squares[i][j].setGreen(false);
-    	activeSquareX=-1;
-    	activeSquareY=-1;
+	for(int i = 0 ; i < width ; i++)
+	    for(int j = 0 ; j < height ; j++)
+		squares[i][j].setGreen(false);
+	activeSquareX=-1;
+	activeSquareY=-1;
     }
 
     
@@ -257,60 +271,72 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     @Override
     public void playSquare(PointBehaviour c) {
-	assert !isLocked();
+	assert(!isLocked());
 	int i = c.getColumn();
 	int j = c.getRow();
     	AbstractSquare theSquare = getSquare(i, j);
 	boolean capture = false;
-	PlayableBoard board = enabled ? new PlayableBoard(this) : null;
+       	PlayableBoard board = enabled ? new PlayableBoard(this) : null;
     	if(isSquareActive())  {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
 		lastPiece.setMoved(true);
+		lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
-		if(theSquare == getActiveSquare()) ;
-		else if(atomic && theSquare.hasPiece()) {
-		    capture = true;
-		    explode(i, j);
-		    getActiveSquare().removePiece();
-		} else {
-		    capture = theSquare.hasPiece();
-		    removePiece(theSquare);
+		if(theSquare != getActiveSquare()) {
+		    if(atomic && theSquare.hasPiece()) {
+			capture = true;
+			explode(i, j);
+			getActiveSquare().removePiece();
+		    } else {
+			capture = theSquare.hasPiece();
+			removePiece(theSquare);
 
-		    // Promotion
-		    if(lastPiece.isPawn() && !promotions.isEmpty() &&
-		       ( ( lastPiece.isWhite() && theSquare.getRow() == getRows()-1)
-		       || (!lastPiece.isWhite() && theSquare.getRow() == 0)))
-			promote(theSquare, lastPiece.isWhite());
-		    else {
-			theSquare.setPiece(lastPiece);
-			// Castle
-			if(lastPiece.isKing()){
-			    int diff = theSquare.getColumn() - getActiveSquare().getColumn();
-			    if(diff==2 || diff==-2) {
-				// TO BE DONE
-				// squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
-				removePiece((getCols()-1)*((diff+2)/4), theSquare.getRow());
+			// Promotion
+			if(lastPiece.isPawn() && !promotions.isEmpty() &&
+			   ( ( lastPiece.isWhite() && theSquare.getRow() == getRows()-1)
+			     || (!lastPiece.isWhite() && theSquare.getRow() == 0)))
+			    promote(theSquare, lastPiece.isWhite());
+			else {
+			    theSquare.setPiece(lastPiece);
+			    // Castle
+			    if(lastPiece.isKing()){
+				int diff = theSquare.getColumn() - getActiveSquare().getColumn();
+				if(diff==2 || diff==-2) {
+				    // TO BE DONE
+				    // squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
+				    removePiece((getCols()-1)*((diff+2)/4), theSquare.getRow());
+				}
 			    }
 			}
+			getActiveSquare().setPiece(null);
 		    }
-		    getActiveSquare().setPiece(null);
 		}
-		lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
+
 		lastMove.setCapture(capture);
 		if(enabled) {
 		    lastMove.resolveAmbiguity();
 		    deactivateSquares();
 		    checkKingInRange();
 		}
+		update();
 		if(playing)
 		    nextPlayer(); 
-	    } else if(enabled) deactivateSquares();
+	    } else if(enabled)
+		deactivateSquares();
     	}
-    	else if(!gameOver) activateSquare(i, j);
+    	else if(!gameOver)
+	    activateSquare(i, j);
 
-    	if(enabled) update();
+	update();
+	 
+    }
 
+    @Override
+    public void update() {
+	// Eliminates many useless updates
+	if(enabled)
+	    super.update();
     }
 
     /** Check whether the last move put the opponent's king in check */
@@ -329,6 +355,10 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	// QUEENING BY DEFAULT
 	as.setPiece(Pieces.getPiece("queen", white));
     }
+
+
+
+    // STATES
 
     /** Toggle the playing value which decribes whether moves are being played.
      * <br/> Note that this value is true in AIBoardTree (while enabled is not).
@@ -349,6 +379,18 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * whether the game is actually being played */
     public void toggleEnabled() {
 	enabled = !enabled;
+    }
+
+    /** Toggle the locked value */
+    public void toggleLocked() {
+	locked = !locked;
+    }
+
+    /** Check if the board is locked
+     * @return true if it is
+     */
+    public boolean isLocked() {
+	return locked;
     }
 
     // GETTERS

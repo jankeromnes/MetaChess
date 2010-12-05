@@ -1,8 +1,7 @@
 package metachess.game;
 
-import java.io.Serializable;
-
 import metachess.boards.PlayableBoard;
+import metachess.library.Pieces;
 import metachess.model.PointBehaviour;
 import metachess.squares.AbstractSquare;
 
@@ -10,7 +9,7 @@ import metachess.squares.AbstractSquare;
  * @author Agbeladem (7DD)
  * @version 0.8.6
  */
-public class Move implements Serializable {
+public class Move {
 
     private static final long serialVersionUID = 1L;
     private int oldx;
@@ -19,16 +18,19 @@ public class Move implements Serializable {
     private int newy;
     private boolean capture;
     private boolean kingInRange;
+
     private Piece piece;
-    private transient PlayableBoard board;
-    private transient boolean horizontalAmbiguity;
-    private transient boolean verticalAmbiguity;
+    private Piece promotionPiece;
+
+    private PlayableBoard board;
+    private boolean promotion;
+    private boolean resolved;
+    private boolean horizontalAmbiguity;
+    private boolean verticalAmbiguity;
+
+
 
     // CONSTRUCTORS
-
-    /** Create an empty move.
-     * The move's properties should have to be defined using methods */
-    public Move() {}
 
     /** Creation of a move
      * @param oldxarg the column (X Coord) of the moved piece before the move
@@ -41,9 +43,11 @@ public class Move implements Serializable {
 		int newxarg, int newyarg,
 		PlayableBoard abstractBoard) {
 
+	promotion = false;
 	board = abstractBoard;
 	capture = false;
 	kingInRange = false;
+	resolved = false;
 	verticalAmbiguity = false;
 	horizontalAmbiguity = false;
 
@@ -51,6 +55,7 @@ public class Move implements Serializable {
 	oldy = oldyarg;
 	newx = newxarg;
 	newy = newyarg;
+
     }
 
     /** Creation of a move
@@ -62,33 +67,44 @@ public class Move implements Serializable {
 	this(a.getColumn(), a.getRow(), b.getColumn(), b.getRow(), ab);
     }
 
+
+
     // ALGEABRIC CHESS NOTATION SUPPORT
+    /** Resolve ambiguity problems in the algeabric chess notation */
     public void resolveAmbiguity() {
-	board.togglePlaying();
-	piece = board.getSquare(oldx, oldy).getPiece();
-	board.removePiece(oldx, oldy);
-	for(AbstractSquare s : board)
-	    if(s.hasPiece()) {
-		Piece p = s.getPiece();
-		if(p.isWhite() == piece.isWhite() && p.getLetter() == piece.getLetter()) {
-		    PlayableBoard b = new PlayableBoard(board);
-		    b.deactivateSquares();
-		    b.playSquare(s.getCoords());
-		    if(b.getSquare(newx, newy).isGreen()) {
-			horizontalAmbiguity = s.getCoords().getColumn() == oldx;
-			verticalAmbiguity = s.getCoords().getRow() == oldy;
+	assert board != null;
+	if(!resolved) {
+	    board.togglePlaying();
+	    piece = board.getSquare(oldx, oldy).getPiece();
+	    board.removePiece(oldx, oldy);
+	    for(AbstractSquare s : board)
+		if(s.hasPiece()) {
+		    Piece p = s.getPiece();
+		    if(p.isWhite() == piece.isWhite() && p.getLetter() == piece.getLetter()) {
+			PlayableBoard b = new PlayableBoard(board);
+			b.deactivateSquares();
+			b.playSquare(s.getCoords());
+			if(b.getSquare(newx, newy).isGreen()) {
+			    horizontalAmbiguity = s.getCoords().getColumn() == oldx;
+			    verticalAmbiguity = s.getCoords().getRow() == oldy;
+			}
 		    }
 		}
-	    }
-	board.resetIterator();
+	    board.resetIterator();
+	    resolved = true;
+	}
     }
+
+
+
+    // GAME STATE
 
     /** Set whether a piece is captured in this move
      * @param c true if one actually gets captured (or exploded)
      */
     public void setCapture(boolean c) {
 	capture = c;
-    } 
+    }
 
     /** Set whether this move has put the opponent's king in danger
      * @param k true if it has
@@ -97,6 +113,37 @@ public class Move implements Serializable {
 	kingInRange = k;
     }
     
+
+
+    // PROMOTION PIECE
+
+    /** Specify that this move has lead to a piece promotion
+     * @param piece the promotion piece
+     */
+    public void setPromotionPiece(Piece piece) {
+	promotion = true;
+	promotionPiece = piece;
+    }
+
+    /** Specify that this loaded move will include a piece promotion
+     * @param piece the name of the promotion piece
+     */
+    public void setPromotionPiece(String piece) {
+	setPromotionPiece(Pieces.getPiece(piece));
+    }
+
+    public Piece getPromotionPiece() {
+	assert promotion;
+	return promotionPiece;
+    }
+
+    public boolean isPromotion() {
+	return promotion;
+    }
+
+
+
+
     // GETTERS
 
     /** Get the Coords of the moved piece before the move
@@ -117,7 +164,14 @@ public class Move implements Serializable {
      * @return the format as a string
      */
     public String getMCGFormat() {
-	return getOldCoords().toString() + getNewCoords().toString();
+	StringBuilder s = new StringBuilder();
+	s.append(getOldCoords());
+	s.append(getNewCoords());
+	if(promotion) {
+	    s.append('_');
+	    s.append(promotionPiece.getName());
+	}
+	return s.toString();
     }
 
     @Override
@@ -128,6 +182,10 @@ public class Move implements Serializable {
 	if(verticalAmbiguity) s.append(getOldCoords().getColumnChar());
 	else if(horizontalAmbiguity) s.append(getOldCoords().getRowChar());
 	s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
+	if(promotion) {
+	    s.append(':');
+	    s.append(promotionPiece.getLetter());
+	}
 	if(kingInRange) s.append('+');
 	return s.toString();
     }

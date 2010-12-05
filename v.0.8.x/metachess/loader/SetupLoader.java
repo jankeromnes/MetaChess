@@ -76,7 +76,7 @@ public class SetupLoader extends VariableLoader {
 	     // ------------- //
 
 	     StreamTokenizer st = new StreamTokenizer(br);
-	     st.wordChars('_', '_'+1);
+	     st.wordChars('_', '_');
 	     st.eolIsSignificant(true);
 	     int next = st.nextToken();
 	     Piece p = null;
