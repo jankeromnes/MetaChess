@@ -11,7 +11,7 @@ import metachess.squares.PlayableSquare;
 
 /** Class of a playable board
  * @author Jan (7DD) and Agbeladem (7DD)
- * @version 0.8.5
+ * @version 0.8.7
  */
 public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
@@ -108,13 +108,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	blackKingDead = true;
     	whiteKingDead = true;
     	for(int i = 0 ; i < getCols() ; i++)
-    		for(int j = 0 ; j < getRows() ; j++)
-		    if(isSquareValid(i,j) && hasPiece(i,j)) {
-    			Piece p = getSquare(i, j).getPiece();
-    			if(p.isKing()) {
-    				whiteKingDead &= !p.isWhite();
-    				blackKingDead &= p.isWhite();
-    			}
+	    for(int j = 0 ; j < getRows() ; j++)
+		if(isSquareValid(i,j) && hasPiece(i,j)) {
+		    Piece p = getSquare(i, j).getPiece();
+		    if(p.isKing()) {
+			whiteKingDead &= !p.isWhite();
+			blackKingDead &= p.isWhite();
+		    }
     		}
     }
 
@@ -149,12 +149,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    as: the square of the piece whose moves are being studied
 	     s: the square goal of a specific move
 	   as2: the square of the ennemy piece for which the range is being checked
-	*/	
+	*/
+	boolean hasChoice = false;
 	for(AbstractSquare as : this)
 	    if(as.hasPiece()) {
 		((PlayableSquare)as).clearChoiceList();
 		Piece p = as.getPiece();
 		if(p.isWhite() == whitePlaying) {
+
 		    for(AbstractSquare s : p.getChoiceList(as.getColumn(), as.getRow(), this)) {
 			PlayableBoard pb = new PlayableBoard(this);
 			pb.activeSquareX = as.getColumn();
@@ -172,13 +174,16 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			    }
 			}
 			pb.resetIterator();
-			if(!illegal)
+			if(!illegal) {
 			    ((PlayableSquare)as).addChoice(s.getCoords());
+			    hasChoice = true;
+			}
 		    }
 		    
 		}
 	    }
 	resetIterator();
+	gameOver |= !hasChoice && kingInRange;
     }
 
 
@@ -296,8 +301,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		if(enabled) {
 		    lastMove.resolveAmbiguity();
 		    deactivateSquares();
-		    kingInRange = getSquare(i, j).hasPiece() && getSquare(i,j).getPiece().checkKingInRange(i, j, this);
-		    lastMove.setKingInRange(kingInRange);
+		    checkKingInRange();
 		}
 		if(playing)
 		    nextPlayer(); 
@@ -309,6 +313,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     }
 
+    /** Check whether the last move put the opponent's king in check */
+    protected void checkKingInRange() {
+	Coords c = lastMove.getNewCoords();
+	AbstractSquare as = getSquare(c);
+	kingInRange = as.hasPiece() && as.getPiece().checkKingInRange(c.getColumn(), c.getRow(), this);
+	lastMove.setKingInRange(kingInRange);
+    }
 
     /** Promote a pawn, ie add a piece where the pawn was promoted
      * @param as the square where the pawn is being promoted
@@ -318,7 +329,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	// QUEENING BY DEFAULT
 	as.setPiece(Pieces.getPiece("queen", white));
     }
-
 
     /** Toggle the playing value which decribes whether moves are being played.
      * <br/> Note that this value is true in AIBoardTree (while enabled is not).

@@ -82,8 +82,6 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	pack();
 	setVisible(true);
 
-	board.launch();
-	    
     }
 
     /** Jump to a given position of the game's logger
@@ -123,8 +121,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     /** End the last game, meaning one player has won or that it is a draw */
     public void endGame() {
     	// to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
-	    AIBoardTree aiboard = new AIBoardTree(board, 1);
-		System.out.println("\nGAME OVER! (Final score : " + aiboard.getBestMoveSequence().getScore() + ")");
+	AIBoardTree aiboard = new AIBoardTree(board, 1);
+	System.out.println("\nGAME OVER!");
     }
 
     /** Update the menu to enable/disable the Undo or Redo items
@@ -264,7 +262,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 	} catch(Exception e) {}
 			
-	new Game(argv.length == 1 ? argv[0] : "classic");
+	new Game(argv.length == 1 ? argv[0] : "classic").board.launch();
     }
 
 
