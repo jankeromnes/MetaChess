@@ -5,7 +5,7 @@ import metachess.model.PointBehaviour;
 
 /** Class of the string representation of coordinates
  * @author Agbeladem (7DD)
- * @version 0.8.4
+ * @version 0.8.8
  */
 public final class Coords implements PointBehaviour {
 
@@ -48,6 +48,13 @@ public final class Coords implements PointBehaviour {
 	return new Coords(board.getCols()-i-1,  board.getRows()-j-1);
     }
 
+    /** Get the difference between two sets of coordinates
+     * @param c the coordinates to substract to these
+     */
+    public Coords substract(Coords c) {
+	return new Coords(i-c.i, c.j);
+    }
+
 
     @Override
     public Coords getCoords() { return this; }
@@ -73,7 +80,7 @@ public final class Coords implements PointBehaviour {
 	return (char)( j > 8 ? 'a'-9+j : '1'+j);
     }
 
-    
+
     @Override
     public String toString() {
 	return Character.toString(getColumnChar())+getRowChar();

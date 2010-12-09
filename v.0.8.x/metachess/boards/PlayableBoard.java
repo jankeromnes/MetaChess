@@ -11,7 +11,7 @@ import metachess.squares.PlayableSquare;
 
 /** Class of a playable board
  * @author Jan (7DD) and Agbeladem (7DD)
- * @version 0.8.7
+ * @version 0.8.8
  */
 public class PlayableBoard extends AbstractBoard implements Cloneable {
 	
@@ -26,6 +26,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     protected boolean atomic;
     protected boolean gameOver;
     private boolean kingInRange;
+    private boolean hasMoves;
 
     // Used for atomic death-match support
     protected boolean deathMatch;
@@ -102,6 +103,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	whitePlaying = true;
         deathMatch = false;
         gameOver = false;
+	hasMoves = true;
 	kingInRange = false;
         whiteKingDead = false;
         blackKingDead = false; 
@@ -164,13 +166,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	     s: the square goal of a specific move
 	   as2: the square of the ennemy piece for which the range is being checked
 	*/
-	boolean hasChoice = false;
+	boolean hasMoves = false;
 	for(AbstractSquare as : this)
 	    if(as.hasPiece()) {
 		((PlayableSquare)as).clearChoiceList();
 		Piece p = as.getPiece();
 		if(p.isWhite() == whitePlaying) {
-
+		    boolean moved = p.hasMoved();
 		    for(AbstractSquare s : p.getChoiceList(as.getColumn(), as.getRow(), this)) {
 			PlayableBoard pb = new PlayableBoard(this);
 			pb.activeSquareX = as.getColumn();
@@ -187,17 +189,17 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 				break;
 			    }
 			}
-			pb.resetIterator();
+			//pb.resetIterator();
 			if(!illegal) {
 			    ((PlayableSquare)as).addChoice(s.getCoords());
-			    hasChoice = true;
+			    hasMoves = true;
 			}
 		    }
-		    
+		    p.setMoved(moved);
 		}
 	    }
 	resetIterator();
-	gameOver |= !hasChoice && kingInRange;
+	gameOver |= !hasMoves && kingInRange;
     }
 
 
@@ -301,10 +303,12 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			    // Castle
 			    if(lastPiece.isKing()){
 				int diff = theSquare.getColumn() - getActiveSquare().getColumn();
+				boolean right = diff > 0;
 				if(diff==2 || diff==-2) {
-				    // TO BE DONE
-				    // squares[theSquare.getColumn()-(diff/2)][theSquare.getRow()].setPiece(squares[(getCols()-1)*((diff+2)/4)][theSquare.getRow()].getPiece());
-				    removePiece((getCols()-1)*((diff+2)/4), theSquare.getRow());
+				    AbstractSquare rookSquare = getSquare(right? getCols()-1: 0, theSquare.getRow());
+				    setPiece(theSquare.getColumn()-(diff/2), theSquare.getRow(), rookSquare.getPiece());
+				    removePiece(rookSquare);
+				    lastMove.setCastling(true);
 				}
 			    }
 			}
