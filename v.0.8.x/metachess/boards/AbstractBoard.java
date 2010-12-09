@@ -248,6 +248,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      */
     public void setPiece(int i, int j, Piece p) {
 	//assert isSquareValid(i,j);
+	assert squareExists(i, j);
     	squares[i][j].setPiece(p);
     }
 
@@ -269,9 +270,19 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	squares[i][j].setPiece(null);
     }
 
-    public void setCols(int x) { width = x; }
+    /** Set the number of columns (width) of this board
+     * @param x the new number of columns
+     */
+    public void setCols(int x) {
+	width = x;
+    }
 
-    public void setRows(int y) { height = y; }
+    /** Set the number of rows (height) of this board
+     * @param y the new number of rows
+     */
+    public void setRows(int y) {
+	height = y;
+    }
 
     // GETTERS
 

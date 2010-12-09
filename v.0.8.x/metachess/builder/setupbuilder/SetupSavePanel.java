@@ -23,7 +23,6 @@ public class SetupSavePanel extends SavePanel {
     public SetupSavePanel(SetupBuilderBox b) {
 	super(Resource.SETUPS);
 	parent = b;
-	loader.pack();
     }
 
     @Override

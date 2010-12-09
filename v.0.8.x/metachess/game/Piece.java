@@ -13,7 +13,7 @@ import metachess.squares.AbstractSquare;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)
- * @version 0.8.5
+ * @version 0.8.8
  */
 public class Piece implements PieceBehaviour {
 
@@ -128,7 +128,7 @@ public class Piece implements PieceBehaviour {
 
      // BOARD BROWSING COMMANDS
 
-     private boolean setGreen(AbstractSquare c, AbstractBoard ab) {
+     private boolean setGreen(AbstractSquare c, PlayableBoard ab) {
 	 c.setGreen(true);
 	 return true;
      }
@@ -137,7 +137,7 @@ public class Piece implements PieceBehaviour {
 	 return c.hasPiece() && c.getPiece().isKing();
      }
 
-     private boolean browseSquare(AbstractSquare c, AbstractBoard b, BrowseType f) {
+     private boolean browseSquare(AbstractSquare c, PlayableBoard b, BrowseType f) {
 	 boolean ret;
 
 	 switch(f) {
@@ -161,7 +161,7 @@ public class Piece implements PieceBehaviour {
 	 return ret;
      }
 
-     private boolean checkSquare(int i, int j, AbstractBoard ab, BrowseType f, MoveType m) {
+     private boolean checkSquare(int i, int j, PlayableBoard ab, BrowseType f, MoveType m) {
 	 boolean b = ab.isSquareValid(i,j) && ((m.isAttackType() 
 						&& ab.hasPiece(i, j)
 						&& ab.getPiece(i, j).isWhite() != white)
@@ -171,21 +171,22 @@ public class Piece implements PieceBehaviour {
      }
 
 
-     private boolean browseBoard(int i, int j, AbstractBoard ab, BrowseType f) {
+     private boolean browseBoard(int i, int j, PlayableBoard ab, BrowseType f) {
 
 	 boolean movable = false;
 	 if(king && !moved) 
 	     // CASTLE
 	     for(int dir = -1 ; dir < 2 ; dir += 2) {
-		 int xx = (ab.getCols()-1)*((dir+1)/2);
+		 int xx = dir > 0 ? ab.getCols()-1 : 0;
 		 if(ab.isSquareValid(xx, j) && ab.hasPiece(xx, j)) {
 		     Piece p = ab.getSquare(xx, j).getPiece();
 		     if(p.isRook() && !p.hasMoved()) {
-			 boolean possible = true;
-			 for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
-			     possible &= !(ab.getSquare(xx, j).hasPiece());
-			 if(possible && f == BrowseType.GREEN_SQUARES)
-			     movable |= setGreen(ab.getSquare(i+(2*dir), j), ab);
+			 boolean possible = !ab.isKingInRange();
+			 if(possible)
+			     for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
+				 possible &= !(ab.isSquareValid(xx, j) && ab.getSquare(xx, j).hasPiece());
+			 if(possible)
+			     movable |= browseSquare(ab.getSquare(i+(2*dir), j), ab, f);
 		     }
 		 }
 	     }
@@ -240,7 +241,7 @@ public class Piece implements PieceBehaviour {
 			if(m.isWalkType())
 			    // WALKS
 			    while(b && !c.hasPiece() && m.isInRange(s)) {
-				if(/*f == BrowseType.GREEN_SQUARES &&*/ ! m.isHopperType())
+				if(! m.isHopperType())
 				    movable |= browseSquare(c, ab, f);
 				s += k;
 				b = ab.isSquareValid(i+s*x, j+s*y);
@@ -284,11 +285,11 @@ public class Piece implements PieceBehaviour {
      */
     public boolean setGreenSquares(int i, int j, PlayableBoard board) {
 	return board.isForeseer()
-	    ?board.getSquare(i, j).setGreenSquares(board)
+	    ? board.getSquare(i, j).setGreenSquares(board)
 	    : browseBoard(i, j, board, BrowseType.GREEN_SQUARES);
     }
 
-    public ArrayList<AbstractSquare> getChoiceList(int i, int j, AbstractBoard board) {
+    public ArrayList<AbstractSquare> getChoiceList(int i, int j, PlayableBoard board) {
 	choices.clear();
 	browseBoard(i, j, board, BrowseType.CHOICE_LIST);
 	return choices;
@@ -300,7 +301,7 @@ public class Piece implements PieceBehaviour {
      * @param board the abstract board of the piece
      * @return true if it has
      */
-    public boolean checkKingInRange(int i, int j, AbstractBoard ab) {
+    public boolean checkKingInRange(int i, int j, PlayableBoard ab) {
 	return browseBoard(i, j, ab, BrowseType.CHECK_KING);
     }
 
@@ -311,7 +312,7 @@ public class Piece implements PieceBehaviour {
      * @param board the abstract board of the piece
      * @return true if it has
      */
-    public boolean checkSquareInRange(Coords oldc, Coords newc, AbstractBoard ab) {
+    public boolean checkSquareInRange(Coords oldc, Coords newc, PlayableBoard ab) {
 	newCoords = newc;
 	return browseBoard(oldc.getColumn(), oldc.getRow(), ab, BrowseType.CHECK_RANGE);
     }

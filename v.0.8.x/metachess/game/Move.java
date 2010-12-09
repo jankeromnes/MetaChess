@@ -16,14 +16,16 @@ public class Move {
     private int oldy;
     private int newx;
     private int newy;
+
     private boolean capture;
     private boolean kingInRange;
+    private boolean castling;
+    private boolean promotion;
 
+    private PlayableBoard board;
     private Piece piece;
     private Piece promotionPiece;
 
-    private PlayableBoard board;
-    private boolean promotion;
     private boolean resolved;
     private boolean horizontalAmbiguity;
     private boolean verticalAmbiguity;
@@ -43,6 +45,7 @@ public class Move {
 		int newxarg, int newyarg,
 		PlayableBoard abstractBoard) {
 
+	castling = false;
 	promotion = false;
 	board = abstractBoard;
 	capture = false;
@@ -114,6 +117,15 @@ public class Move {
     }
     
 
+    // CASTLING
+
+    /** Set whether this move is a castling
+     * @param c true if it is
+     */
+    public void setCastling(boolean c) {
+	castling = c;
+    }
+
 
     // PROMOTION PIECE
 
@@ -132,11 +144,17 @@ public class Move {
 	setPromotionPiece(Pieces.getPiece(piece));
     }
 
+    /** Get the promotion piece that was chosen in this move
+     * @return the promotion piece
+     */
     public Piece getPromotionPiece() {
 	assert promotion;
 	return promotionPiece;
     }
 
+    /** Tell whether this move has lead to a promotion
+     * @return true if it has
+     */
     public boolean isPromotion() {
 	return promotion;
     }
@@ -177,16 +195,26 @@ public class Move {
     @Override
     public String toString() {
 	StringBuilder s = new StringBuilder();
-	if(!piece.isPawn()) s.append(piece.getLetter());
-	if(capture) s.append('x');
-	if(verticalAmbiguity) s.append(getOldCoords().getColumnChar());
-	else if(horizontalAmbiguity) s.append(getOldCoords().getRowChar());
-	s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
-	if(promotion) {
-	    s.append(':');
-	    s.append(promotionPiece.getLetter());
+	if(castling) {
+	    boolean kingside = newx - oldx > 0;
+	    int nb = kingside ? board.getCols() - 1 - oldx : oldx;
+	    nb -= 2;
+	    for(int i = 0 ; i < nb ; i++)
+		s.append("0-");
+	    s.append('0');
+	} else {
+	    if(!piece.isPawn()) s.append(piece.getLetter());
+	    if(capture) s.append('x');
+	    if(verticalAmbiguity) s.append(getOldCoords().getColumnChar());
+	    else if(horizontalAmbiguity) s.append(getOldCoords().getRowChar());
+	    s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
+	    if(promotion) {
+		s.append(':');
+		s.append(promotionPiece.getLetter());
+	    }
+	    if(kingInRange) s.append('+');
+
 	}
-	if(kingInRange) s.append('+');
 	return s.toString();
     }
 
