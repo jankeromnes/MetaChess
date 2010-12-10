@@ -1,6 +1,5 @@
-package metachess.boards;
+package metachess.board;
 
-import metachess.game.Coords;
 import metachess.model.PointBehaviour;
 
 /** Class of a sample board <br/>.

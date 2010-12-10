@@ -5,11 +5,10 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import metachess.boards.AbstractBoard;
-import metachess.boards.PlayableBoard;
+import metachess.board.PlayableBoard;
 import metachess.library.PieceImages;
 import metachess.model.PieceBehaviour;
-import metachess.squares.AbstractSquare;
+import metachess.square.AbstractSquare;
 
 /** Class of an Abstract Piece
  * @author Agbeladem and Jan (7DD)

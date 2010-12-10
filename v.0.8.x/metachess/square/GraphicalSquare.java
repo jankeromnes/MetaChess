@@ -1,4 +1,4 @@
-package metachess.squares;
+package metachess.square;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import metachess.boards.GraphicalBoard;
+import metachess.board.GraphicalBoard;
 import metachess.library.Colour;
 
 /** Class of graphical squares

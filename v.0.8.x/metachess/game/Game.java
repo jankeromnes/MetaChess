@@ -3,23 +3,18 @@ package metachess.game;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import metachess.ai.AIBoardTree;
-import metachess.boards.ChessBoard;
-import metachess.boards.GraphicalBoard;
+import metachess.board.ChessBoard;
+import metachess.board.GraphicalBoard;
 import metachess.builder.BuilderBox;
 import metachess.dialog.ErrorDialog;
 import metachess.dialog.FileBox;
 import metachess.dialog.GameModeBox;
-import metachess.exceptions.MetachessException;
+import metachess.exception.MetachessException;
 import metachess.library.DataExtractor;
 import metachess.loader.GameLoader;
 import metachess.model.GameBehaviour;
@@ -128,9 +123,9 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
     /** End the last game, meaning one player has won or that it is a draw */
     public void endGame() {
-    	// to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
-	AIBoardTree aiboard = new AIBoardTree(board, 1);
-	System.out.println("\nGAME OVER!");
+    	// TODO to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
+		// AIBoardTree aiboard = new AIBoardTree(board, 1);
+		System.out.println("\nGAME OVER!");
     }
 
     /** Update the menu to enable/disable the Undo or Redo items

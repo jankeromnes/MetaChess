@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import metachess.boards.EditableBoard;
-import metachess.boards.GraphicalBoard;
+import metachess.board.EditableBoard;
+import metachess.board.GraphicalBoard;
 import metachess.game.Piece;
 import metachess.loader.SetupLoader;
 

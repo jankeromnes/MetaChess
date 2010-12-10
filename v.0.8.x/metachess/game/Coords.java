@@ -1,6 +1,6 @@
 package metachess.game;
 
-import metachess.boards.AbstractBoard;
+import metachess.board.AbstractBoard;
 import metachess.model.PointBehaviour;
 
 /** Class of the string representation of coordinates

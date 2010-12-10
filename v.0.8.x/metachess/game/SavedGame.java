@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import metachess.exceptions.WriteException;
+import metachess.exception.WriteException;
 import metachess.model.GameBehaviour;
 
 /** Class of a saved metachess game model

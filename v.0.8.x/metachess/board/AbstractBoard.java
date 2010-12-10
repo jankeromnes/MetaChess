@@ -1,4 +1,4 @@
-package metachess.boards;
+package metachess.board;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,8 @@ import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.loader.SetupLoader;
 import metachess.model.PointBehaviour;
-import metachess.squares.AbstractSquare;
-import metachess.squares.EmptySquare;
+import metachess.square.AbstractSquare;
+import metachess.square.EmptySquare;
 
 /** Class of an Abstract Board.
  * This is a board that can be loaded from a MCS (setup) file.

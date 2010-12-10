@@ -1,6 +1,6 @@
 package metachess.loader;
 
-import metachess.exceptions.LoadException;
+import metachess.exception.LoadException;
 
 /** Interface of a resource loader
  * @author Agbeladem (7DD)

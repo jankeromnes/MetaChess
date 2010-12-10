@@ -16,9 +16,9 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 import metachess.dialog.ErrorDialog;
-import metachess.exceptions.ExtractException;
-import metachess.exceptions.FilesExtractException;
-import metachess.exceptions.JarExtractException;
+import metachess.exception.ExtractException;
+import metachess.exception.FilesExtractException;
+import metachess.exception.JarExtractException;
 
 /* Data extractor, installing MetaChess' resources on the Operating System
  * @author Jan (7DD)

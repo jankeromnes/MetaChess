@@ -1,13 +1,13 @@
-package metachess.boards;
+package metachess.board;
 
 import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.model.PointBehaviour;
-import metachess.squares.AbstractSquare;
-import metachess.squares.EmptySquare;
-import metachess.squares.PlayableSquare;
+import metachess.square.AbstractSquare;
+import metachess.square.EmptySquare;
+import metachess.square.PlayableSquare;
 
 /** Class of a playable board
  * @author Jan (7DD) and Agbeladem (7DD)
@@ -166,7 +166,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	     s: the square goal of a specific move
 	   as2: the square of the ennemy piece for which the range is being checked
 	*/
-	boolean hasMoves = false;
+	hasMoves = false;
 	for(AbstractSquare as : this)
 	    if(as.hasPiece()) {
 		((PlayableSquare)as).clearChoiceList();

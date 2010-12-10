@@ -1,16 +1,15 @@
-package metachess.boards;
+package metachess.board;
 
 import java.util.ArrayList;
 
 import metachess.ai.AIThread;
 import metachess.dialog.PromotionBox;
-import metachess.game.Coords;
 import metachess.game.Game;
 import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.library.Pieces;
 import metachess.model.PointBehaviour;
-import metachess.squares.AbstractSquare;
+import metachess.square.AbstractSquare;
 
 /** Class of the real Chess Board.
  * It is a playable board which has support for artificial intelligence.

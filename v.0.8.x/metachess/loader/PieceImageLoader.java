@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import metachess.dialog.ErrorDialog;
-import metachess.exceptions.FileAccessException;
-import metachess.exceptions.LoadException;
+import metachess.exception.FileAccessException;
+import metachess.exception.LoadException;
 import metachess.library.PieceImages;
 import metachess.library.Resource;
 

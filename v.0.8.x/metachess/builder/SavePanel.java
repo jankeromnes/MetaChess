@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 import metachess.dialog.ConfirmDialog;
 import metachess.dialog.ErrorDialog;
 import metachess.dialog.MessageDialog;
-import metachess.exceptions.WriteException;
+import metachess.exception.WriteException;
 import metachess.library.Resource;
 import metachess.library.ResourceList;
 

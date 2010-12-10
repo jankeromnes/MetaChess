@@ -1,4 +1,4 @@
-package metachess.squares;
+package metachess.square;
 
 
 /** Class of a removed square

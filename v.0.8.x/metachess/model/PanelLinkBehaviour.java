@@ -2,8 +2,8 @@ package metachess.model;
 
 import java.util.ArrayList;
 
-import metachess.game.SavedGame;
 import metachess.game.Move;
+import metachess.game.SavedGame;
 
 /** Interface for all the links to the panel components
  * @author Agbeladem

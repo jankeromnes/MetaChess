@@ -15,8 +15,6 @@ public class FileBox extends JFileChooser {
 
     private static final long serialVersionUID = 1L;
     private Game game;
-    private boolean saving;
-
     /** Create a file box associated with a given game
      * @param g the game
      */
@@ -30,7 +28,6 @@ public class FileBox extends JFileChooser {
      * @param s whether it was called to save (true) or to load (false)
      */
     public void launch(boolean s) {
-	saving = s;
 	int ret;
 	if(s) {
 	    ret = showSaveDialog(game);

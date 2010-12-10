@@ -1,17 +1,17 @@
 package metachess.dialog;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
-import metachess.boards.ChessBoard;
+import metachess.board.ChessBoard;
 import metachess.library.PiecesList;
 
 /** Class of the Promotion Box
@@ -20,7 +20,8 @@ import metachess.library.PiecesList;
  */
 public class PromotionBox extends JDialog {
 
-    private final ChessBoard board;
+	private static final long serialVersionUID = 1L;
+	private final ChessBoard board;
     private final PiecesList list;
 
     /** Create a promotion box
