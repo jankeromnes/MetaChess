@@ -2,11 +2,11 @@ package metachess.builder.setupbuilder;
 
 import java.util.ArrayList;
 
-import metachess.boards.EditableBoard;
+import metachess.board.EditableBoard;
 import metachess.builder.SavePanel;
 import metachess.game.Piece;
 import metachess.library.Resource;
-import metachess.squares.AbstractSquare;
+import metachess.square.AbstractSquare;
 
 /** Class of the Setup Builderbox save panel
  * @author Agbeladem

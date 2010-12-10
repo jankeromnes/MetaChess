@@ -5,9 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 
-import metachess.exceptions.FileAccessException;
-import metachess.exceptions.FileContentException;
-import metachess.exceptions.LoadException;
+import metachess.exception.FileAccessException;
+import metachess.exception.FileContentException;
+import metachess.exception.LoadException;
 import metachess.game.MoveType;
 import metachess.game.Piece;
 import metachess.library.Pieces;

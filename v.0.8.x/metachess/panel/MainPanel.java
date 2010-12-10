@@ -1,6 +1,7 @@
 package metachess.panel;
 
 import java.util.ArrayList;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -18,7 +19,8 @@ import metachess.panel.logger.LogPanel;
  */
 public class MainPanel extends JPanel implements PanelLinkBehaviour {
 
-    private final CountPanel countPanel;
+	private static final long serialVersionUID = 1L;
+	private final CountPanel countPanel;
     private final LogPanel histo;
 
     /** Create a right panel 

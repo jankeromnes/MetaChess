@@ -1,10 +1,10 @@
-package metachess.boards;
+package metachess.board;
 
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import metachess.squares.GraphicalSquare;
+import metachess.square.GraphicalSquare;
 
 /** Class of graphical boards
  * @author Jan (7DD) [0.7.5], Agbeladem (7DD) [0.8.0]

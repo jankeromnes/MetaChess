@@ -1,4 +1,4 @@
-package metachess.boards;
+package metachess.board;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
@@ -6,8 +6,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import metachess.squares.AbstractSquare;
-import metachess.squares.SquareArea;
+import metachess.square.AbstractSquare;
+import metachess.square.SquareArea;
 
 /** Class of a board specific Area
  * @author Agbeladem (7DD)

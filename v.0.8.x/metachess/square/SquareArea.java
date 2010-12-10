@@ -1,6 +1,6 @@
-package metachess.squares;
+package metachess.square;
 
-import metachess.boards.AbstractBoard;
+import metachess.board.AbstractBoard;
 import metachess.game.Coords;
 
 /** Class of a Square Area.

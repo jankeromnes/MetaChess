@@ -6,10 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 
-import metachess.boards.PlayableBoard;
-import metachess.exceptions.FileAccessException;
-import metachess.exceptions.FileContentException;
-import metachess.exceptions.LoadException;
+import metachess.board.PlayableBoard;
+import metachess.exception.FileAccessException;
+import metachess.exception.FileContentException;
+import metachess.exception.LoadException;
 import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.SavedGame;
@@ -25,10 +25,11 @@ public class GameLoader extends VariableLoader {
     private PlayableBoard board;
     private SavedGame sg;
 
+    /* TODO unused variables
     private boolean atomic;
     private String setup;
     private int whiteAILevel;
-    private int blackAILevel;
+    private int blackAILevel; */
 
     @Override
     public void loadResource(String file) throws LoadException {

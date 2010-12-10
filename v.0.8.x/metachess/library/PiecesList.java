@@ -1,12 +1,10 @@
 package metachess.library;
 
 import java.awt.Component;
-import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-
-import java.util.ArrayList; 
 
 /** Class of the Pieces List
  * @author Agbeladem (7DD)

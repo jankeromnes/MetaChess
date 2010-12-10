@@ -1,10 +1,9 @@
-package metachess.boards;
+package metachess.board;
 
 import metachess.builder.setupbuilder.SetupBuilderBox;
-import metachess.game.Coords;
 import metachess.model.PointBehaviour;
-import metachess.squares.AbstractSquare;
-import metachess.squares.GraphicalSquare;
+import metachess.square.AbstractSquare;
+import metachess.square.GraphicalSquare;
 
 /** Class of the editable board in the Setup Builderbox
  * @author Agbeladem (7DD)

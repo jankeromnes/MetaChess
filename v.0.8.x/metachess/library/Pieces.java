@@ -3,7 +3,7 @@ package metachess.library;
 import java.util.HashMap;
 
 import metachess.dialog.ErrorDialog;
-import metachess.exceptions.LoadException;
+import metachess.exception.LoadException;
 import metachess.game.Piece;
 import metachess.loader.PieceLoader;
 

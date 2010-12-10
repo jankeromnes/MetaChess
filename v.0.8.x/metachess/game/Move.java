@@ -1,9 +1,9 @@
 package metachess.game;
 
-import metachess.boards.PlayableBoard;
+import metachess.board.PlayableBoard;
 import metachess.library.Pieces;
 import metachess.model.PointBehaviour;
-import metachess.squares.AbstractSquare;
+import metachess.square.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)

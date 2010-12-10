@@ -1,4 +1,4 @@
-package metachess.exceptions;
+package metachess.exception;
 
 /** Exception for any problems that may occur from the loader
  * @author Agbeladem (7DD)
@@ -6,7 +6,9 @@ package metachess.exceptions;
  */
 public abstract class LoadException extends MetachessException {
 
-    /** Create a load exception
+	private static final long serialVersionUID = 1L;
+
+	/** Create a load exception
      * @param msg the explanation about the exception
      */
     public LoadException(String msg) {

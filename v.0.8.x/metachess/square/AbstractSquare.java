@@ -1,4 +1,4 @@
-package metachess.squares;
+package metachess.square;
 
 import metachess.game.Coords;
 import metachess.game.Piece;

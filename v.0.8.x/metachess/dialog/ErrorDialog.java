@@ -2,7 +2,7 @@ package metachess.dialog;
 
 import javax.swing.JOptionPane;
 
-import metachess.exceptions.MetachessException;
+import metachess.exception.MetachessException;
 
 /** Class of the Error Dialog Box
  * @author Agbeladem

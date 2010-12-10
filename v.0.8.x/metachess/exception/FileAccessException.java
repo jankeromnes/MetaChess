@@ -1,4 +1,4 @@
-package metachess.exceptions;
+package metachess.exception;
 
 import metachess.library.Resource;
 
@@ -8,7 +8,9 @@ import metachess.library.Resource;
  */
 public class FileAccessException extends LoadException {
 
-    /** Create a file load exception
+	private static final long serialVersionUID = 1L;
+
+	/** Create a file load exception
      * @param file the name of the file
      */
     public FileAccessException(String file) {

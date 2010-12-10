@@ -1,6 +1,6 @@
 package metachess.ai;
 
-import metachess.boards.ChessBoard;
+import metachess.board.ChessBoard;
 
 /** Class of an Artificial Intelligence Thread
  * @author Jan (7DD)

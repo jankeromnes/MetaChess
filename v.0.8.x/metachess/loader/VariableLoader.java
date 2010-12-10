@@ -1,7 +1,7 @@
 package metachess.loader;
 
-import metachess.exceptions.FileContentException;
-import metachess.exceptions.LoadException;
+import metachess.exception.FileContentException;
+import metachess.exception.LoadException;
 
 /** Class of a loader that, among other things, load variables
  * @author Agbeladem (7DD)

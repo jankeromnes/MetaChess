@@ -1,8 +1,8 @@
-package metachess.squares;
+package metachess.square;
 
 import java.util.ArrayList;
 
-import metachess.boards.PlayableBoard;
+import metachess.board.PlayableBoard;
 import metachess.game.Coords;
 
 /** Class of a playable square

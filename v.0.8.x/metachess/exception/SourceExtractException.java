@@ -1,4 +1,4 @@
-package metachess.exceptions;
+package metachess.exception;
 
 
 /** Exception while extracting from a source
@@ -7,7 +7,9 @@ package metachess.exceptions;
  */
 public class SourceExtractException extends JarExtractException {
 
-    /** Create a file load exception
+	private static final long serialVersionUID = 1L;
+
+	/** Create a file load exception
      * @param file the name of the file
      */
     public SourceExtractException(String source) {

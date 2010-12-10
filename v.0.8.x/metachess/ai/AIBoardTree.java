@@ -1,9 +1,9 @@
 package metachess.ai;
 
-import metachess.boards.PlayableBoard;
+import metachess.board.PlayableBoard;
 import metachess.game.Move;
 import metachess.game.Piece;
-import metachess.squares.AbstractSquare;
+import metachess.square.AbstractSquare;
 
 /** Class of an AI Board Tree, child of another Playable Board, with progeny
  * @author Jan (7DD)
