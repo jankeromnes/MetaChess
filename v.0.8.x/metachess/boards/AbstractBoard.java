@@ -253,10 +253,13 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
 
 
-    /** Remove the piece contained by a given square
+    /** Remove the piece contained by a given square.
+     * Note that this is overriden in ChessBoard to add the removed piece
+     * in the countlist. If one wishes to avoid that, one should rather
+     * call theSquare.removePiece()
      * @param s the square
      */
-    public void removePiece(AbstractSquare s) {
+    public void removePiece(PointBehaviour s) {
 	removePiece(s.getColumn(), s.getRow());
     }
 
