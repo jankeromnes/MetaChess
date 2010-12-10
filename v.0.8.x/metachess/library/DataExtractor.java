@@ -53,10 +53,7 @@ public class DataExtractor {
 	    	File file1 = new File(Resource.RESOURCES.getPath(true)+"version");
 	    	File file2 = new File(Resource.RESOURCES.getPath()+"version");
 	    	
-	    	if( !file1.exists() ) {
-	    		throw new ExtractException("no version file found in MetaChess!");
-	    	}
-	    	else if( !file2.exists() || !getContent(file1).equals(getContent(file2)) ) {
+	    	if( !file2.exists() || !getContent(file1).equals(getContent(file2)) ) {
 		    	// If resources inexistent or out of date, extract resources.
 	    		extract();
 	    	}
@@ -68,7 +65,7 @@ public class DataExtractor {
 	}
 	
 	private static String getContent(File file) throws ExtractException {
-		Scanner scanner = null;
+		Scanner scanner;
 		StringBuilder text = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
 	    try {
@@ -76,11 +73,9 @@ public class DataExtractor {
 		    while (scanner.hasNextLine()){
 		        text.append(scanner.nextLine() + newLine);
 		    }
+		    scanner.close();
 	    }
-	    catch (FileNotFoundException e) { throw new ExtractException(e.getMessage()); }
-	    finally{
-	      scanner.close();
-	    }
+	    catch (FileNotFoundException e) { /* do nothing, the content will be void */ }
 		return text.toString();
 	}
 	
