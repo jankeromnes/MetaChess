@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.Scanner;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -18,11 +19,10 @@ import metachess.dialog.ErrorDialog;
 import metachess.exceptions.ExtractException;
 import metachess.exceptions.FilesExtractException;
 import metachess.exceptions.JarExtractException;
-import metachess.exceptions.SourceExtractException;
 
 /* Data extractor, installing MetaChess' resources on the Operating System
  * @author Jan (7DD)
- * @version 0.8.7
+ * @version 0.8.8
  */
 public class DataExtractor {
 	
@@ -50,9 +50,14 @@ public class DataExtractor {
 	    		throw new ExtractException("ERROR Resource folder could not be created!");
 	    	}
 	
-	    	// If resources inexistent or out of date, copy from Jar.
-	    	File dataVersionFile = new File(Resource.RESOURCES.getPath()+"version");
-	    	if(!dataVersionFile.exists() || ( dataVersionFile.compareTo(new File(Resource.RESOURCES.getPath(true)+"version"))) == 0 ) {
+	    	File file1 = new File(Resource.RESOURCES.getPath(true)+"version");
+	    	File file2 = new File(Resource.RESOURCES.getPath()+"version");
+	    	
+	    	if( !file1.exists() ) {
+	    		throw new ExtractException("no version file found in MetaChess!");
+	    	}
+	    	else if( !file2.exists() || !getContent(file1).equals(getContent(file2)) ) {
+		    	// If resources inexistent or out of date, extract resources.
 	    		extract();
 	    	}
     	}
@@ -60,6 +65,23 @@ public class DataExtractor {
 	    	new ErrorDialog(e);
 	    }
 		
+	}
+	
+	private static String getContent(File file) throws ExtractException {
+		Scanner scanner = null;
+		StringBuilder text = new StringBuilder();
+		String newLine = System.getProperty("line.separator");
+	    try {
+	    	scanner = new Scanner(new FileInputStream(file));
+		    while (scanner.hasNextLine()){
+		        text.append(scanner.nextLine() + newLine);
+		    }
+	    }
+	    catch (FileNotFoundException e) { throw new ExtractException(e.getMessage()); }
+	    finally{
+	      scanner.close();
+	    }
+		return text.toString();
 	}
 	
 	/**
