@@ -177,11 +177,12 @@ public class Piece implements PieceBehaviour {
 	 if(king && !moved) 
 	     // CASTLE
 	     for(int dir = -1 ; dir < 2 ; dir += 2) {
-		 int xx = dir > 0 ? ab.getCols()-1 : 0;
+		 int xx = dir > 0 ? ab.getCols()-1 : 0; // X coord of the rook
 		 if(ab.isSquareValid(xx, j) && ab.hasPiece(xx, j)) {
 		     Piece p = ab.getSquare(xx, j).getPiece();
 		     if(p.isRook() && !p.hasMoved()) {
-			 boolean possible = !ab.isKingInRange();
+			 int diff = dir > 0 ? xx - i :  i - xx; // Distance between king and rook
+			 boolean possible = !ab.isKingInRange() && diff > 2;
 			 if(possible)
 			     for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
 				 possible &= !(ab.isSquareValid(xx, j) && ab.getSquare(xx, j).hasPiece());

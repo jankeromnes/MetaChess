@@ -56,7 +56,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
 	atomic = false;
 	whiteAILevel = 0;
-	blackAILevel = 3;
+	blackAILevel = 0;
 
 	gmBox = new GameModeBox(this);
 	fileBox = new FileBox(this);

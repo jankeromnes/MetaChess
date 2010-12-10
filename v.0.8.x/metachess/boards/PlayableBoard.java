@@ -249,7 +249,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
    	removePiece(i, j);
     	if(i+1 < getCols()){
 	    removePiece(i+1, j);
-    		if(j+1<getRows()){
+    		if(j+1 < getRows()){
 		    removePiece(i, j+1);
 		    removePiece(i+1, j+1);
     		}
@@ -260,7 +260,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	}
     	if(i-1 >= 0){
 	    removePiece(i-1, j);
-    		if(j+1<getRows()){
+    		if(j+1 < getRows()){
 		    removePiece(i, j+1);
 		    removePiece(i-1, j+1);
     		}
@@ -281,7 +281,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	if(isSquareActive())  {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
-
 		lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
 		if(theSquare != getActiveSquare()) {
@@ -301,18 +300,18 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			else {
 			    theSquare.setPiece(lastPiece);
 			    // Castle
-			    if(lastPiece.isKing()){
+			    if(lastPiece.isKing()) {
 				int diff = theSquare.getColumn() - getActiveSquare().getColumn();
 				boolean right = diff > 0;
-				if(diff==2 || diff==-2) {
+				if(diff == 2 || diff == -2) {
 				    AbstractSquare rookSquare = getSquare(right? getCols()-1: 0, theSquare.getRow());
 				    setPiece(theSquare.getColumn()-(diff/2), theSquare.getRow(), rookSquare.getPiece());
-				    removePiece(rookSquare);
+				    rookSquare.removePiece();
 				    lastMove.setCastling(true);
 				}
 			    }
 			}
-			getActiveSquare().setPiece(null);
+			getActiveSquare().removePiece();
 		    }
 		}
 
@@ -321,12 +320,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		    lastMove.resolveAmbiguity();
 		    deactivateSquares();
 		    checkKingInRange();
-		}
-		if(enabled)
 		    lastPiece.setMoved(true);
+		}
+
 		update();
+
 		if(playing)
 		    nextPlayer(); 
+
 	    } else if(enabled)
 		deactivateSquares();
     	}
@@ -398,6 +399,9 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	return locked;
     }
 
+
+
+
     // GETTERS
 
     /**  Tells whether the white player is playing
@@ -434,5 +438,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	return new PlayableBoard(this);
     }
  
+
 }
 
