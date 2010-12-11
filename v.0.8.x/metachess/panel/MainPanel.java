@@ -12,6 +12,7 @@ import metachess.game.SavedGame;
 import metachess.model.PanelLinkBehaviour;
 import metachess.panel.count.CountPanel;
 import metachess.panel.logger.LogPanel;
+import metachess.panel.state.StatePanel;
 
 /** Class of the right panel
  * @author Agbeladem (7DD)
@@ -19,9 +20,11 @@ import metachess.panel.logger.LogPanel;
  */
 public class MainPanel extends JPanel implements PanelLinkBehaviour {
 
-	private static final long serialVersionUID = 1L;
-	private final CountPanel countPanel;
+    private static final long serialVersionUID = 1L;
+    private final CountPanel countPanel;
+    private final StatePanel state;
     private final LogPanel histo;
+
 
     /** Create a right panel 
      * @param g the current Game
@@ -30,8 +33,11 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
 
 	countPanel = new CountPanel();
 	histo = new LogPanel(g);
+	state = new StatePanel(g);
 
 	add(countPanel);
+	add(Box.createVerticalGlue());
+	add(state);
 	add(Box.createVerticalGlue());
 	add(histo);
 	add(Box.createVerticalGlue());
