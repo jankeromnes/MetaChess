@@ -12,8 +12,8 @@ import javax.swing.JScrollPane;
  */
 public class CountPanel extends JScrollPane {
 
-	private static final long serialVersionUID = 1L;
-	private final JPanel panel;
+    private static final long serialVersionUID = 1L;
+    private final JPanel panel;
     private final CountView white;
     private final CountView black;
     private CountList list;
