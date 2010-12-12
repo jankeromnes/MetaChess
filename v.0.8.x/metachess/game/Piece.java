@@ -36,7 +36,9 @@ public class Piece implements PieceBehaviour {
     
     private float price;
     private boolean priceCalculated;
+
     private Coords newCoords;
+    private MoveType mt;
 
     /** Create a new empty piece */
     public Piece() {
@@ -71,10 +73,10 @@ public class Piece implements PieceBehaviour {
      */
     public float getPrice() {
     	if(!priceCalculated) {
-    		price = 0;
-    		for(MoveType m : moves)
-		    price+=m.getPrice();
-    		if(pawn) price += 20;
+	    price = 0;
+	    for(MoveType m : moves)
+		price+=m.getPrice();
+	    if(pawn) price += 20;
     		price/=83.4;
     		priceCalculated = true;
     	}
@@ -114,15 +116,21 @@ public class Piece implements PieceBehaviour {
 	
     }
 
-    /** Reset the available move types with a given list
-     * @param m the list
+    /** Reset the available move types for this piece with a given list
+     * @param m the new list of move types in this piece
      */
     public void setMoves(ArrayList<MoveType> m) {
 	 moves.clear();
 	 for(MoveType mt : m)
 	     addMoveType(mt);
      }
-     public ArrayList<MoveType> getMoveTypes() { return moves; }
+    
+    /** Get the list of all the move types
+     * @param the list of move types for this piece
+     */
+     public ArrayList<MoveType> getMoveTypes() {
+	 return moves;
+     }
 
 
      // BOARD BROWSING COMMANDS
@@ -170,40 +178,45 @@ public class Piece implements PieceBehaviour {
      }
 
 
-     private boolean browseBoard(int i, int j, PlayableBoard ab, BrowseType f) {
+     private boolean browseBoard(int i, int j, PlayableBoard board, BrowseType f) {
+
 
 	 boolean movable = false;
 	 if(king && !moved) 
 	     // CASTLE
 	     for(int dir = -1 ; dir < 2 ; dir += 2) {
-		 int xx = dir > 0 ? ab.getCols()-1 : 0; // X coord of the rook
-		 if(ab.isSquareValid(xx, j) && ab.hasPiece(xx, j)) {
-		     Piece p = ab.getSquare(xx, j).getPiece();
+		 int xx = dir > 0 ? board.getCols()-1 : 0; // X coord of the rook
+		 if(board.isSquareValid(xx, j) && board.hasPiece(xx, j)) {
+		     Piece p = board.getSquare(xx, j).getPiece();
 		     if(p.isRook() && !p.hasMoved()) {
 			 int diff = dir > 0 ? xx - i :  i - xx; // Distance between king and rook
-			 boolean possible = !ab.isKingInRange() && diff > 2;
+			 boolean possible = !board.isKingInRange() && diff > 2;
 			 if(possible)
-			     for(xx = i+dir ; xx > 0 && xx < (ab.getCols()-1) ; xx += dir)
-				 possible &= !(ab.isSquareValid(xx, j) && ab.getSquare(xx, j).hasPiece());
+			     for(xx = i+dir ; xx > 0 && xx < (board.getCols()-1) ; xx += dir)
+				 possible &= !(board.isSquareValid(xx, j) && board.getSquare(xx, j).hasPiece());
 			 if(possible)
-			     movable |= browseSquare(ab.getSquare(i+(2*dir), j), ab, f);
+			     movable |= browseSquare(board.getSquare(i+(2*dir), j), board, f);
 		     }
 		 }
 	     }
 
 	 // JOKER
 	 if(joker) {
-	     Piece jokerPiece = ab.getJokerPiece();
+	     Piece jokerPiece = board.getJokerPiece();
 	     if(jokerPiece != null) {
 		 boolean wasWhite = jokerPiece.isWhite();
 		 jokerPiece.setWhite(white);
-		 movable |= jokerPiece.browseBoard(i, j, ab, f);
+		 movable |= jokerPiece.browseBoard(i, j, board, f);
 		 jokerPiece.setWhite(wasWhite);
 	     }
 	 }
+	 
+	 Move lastMove = board.getLastMove();
+	 boolean pawnType = lastMove == null ? false: lastMove.isPawnType();
 
 	 for(MoveType m : moves) {
 
+	     mt = m;
 	     int s = m.getOffset();
 	     int k = m.getStep();
 	     int x = m.getXDiff();
@@ -215,59 +228,65 @@ public class Piece implements PieceBehaviour {
 	     }
 
 	     if(s == 0 && m.isWalkType()) {
-		 movable |= browseSquare(ab.getSquare(i,j), ab, f);
+		 movable |= browseSquare(board.getSquare(i,j), board, f);
 		 s+=k;
 	    }
 	    
-	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == ab.getRows() && !white) ) {
+	    if(!m.isPawnType() || (j == 1 && white) || (j+2 == board.getRows() && !white) ) {
 
 		// MIDDLE DIRECTION
 		if(m.isSquare()) {
-		    int max = ab.getMaxDistance();
+		    int max = board.getMaxDistance();
 		    for(;m.isInRange(s) && s < max;s+=k)
 			for(int kk = 0 ; kk < s*2 ; kk ++) {
-			    movable |= checkSquare(i-s, j-s+kk, ab, f, m);
-			    movable |= checkSquare(i-s+kk+1, j-s, ab, f, m);
-			    movable |= checkSquare(i+s, j-s+kk+1, ab, f, m);
-			    movable |= checkSquare(i-s+kk, j+s, ab, f, m);
+			    movable |= checkSquare(i-s, j-s+kk, board, f, m);
+			    movable |= checkSquare(i-s+kk+1, j-s, board, f, m);
+			    movable |= checkSquare(i+s, j-s+kk+1, board, f, m);
+			    movable |= checkSquare(i-s+kk, j+s, board, f, m);
 			}
 		    
 		} else {
 
 		    AbstractSquare c = null;
-		    boolean b = ab.isSquareValid(i+s*x, j+s*y);
+		    boolean b = board.isSquareValid(i+s*x, j+s*y);
 		    if(b) {
-			c = ab.getSquare(i+s*x, j+s*y);
+			c = board.getSquare(i+s*x, j+s*y);
 			if(m.isWalkType())
 			    // WALKS
 			    while(b && !c.hasPiece() && m.isInRange(s)) {
 				if(! m.isHopperType())
-				    movable |= browseSquare(c, ab, f);
+				    movable |= browseSquare(c, board, f);
 				s += k;
-				b = ab.isSquareValid(i+s*x, j+s*y);
+				b = board.isSquareValid(i+s*x, j+s*y);
 				if(b)
-				    c = ab.getSquare(i+s*x, j+s*y);
+				    c = board.getSquare(i+s*x, j+s*y);
 			    }
 			else while(b && !c.hasPiece() && m.isInRange(s)) {
 				s+=k;
-				b = ab.isSquareValid(i+s*x, j+s*y);
+				b = board.isSquareValid(i+s*x, j+s*y);
 				if(b)
-				    c = ab.getSquare(i+s*x, j+s*y);
+				    c = board.getSquare(i+s*x, j+s*y);
 			    }
-			    
+
+			boolean enPassant = pawnType && isPawn() && lastMove.getOldCoords().getCoords().add(lastMove.getNewCoords()).divide(2).equals(c.getCoords().substract(new Coords(x, y)));
+			if(enPassant) {
+			    c = board.getSquare(c.getCoords().substract(new Coords(x, y)));
+			    s--;
+			}
+
 			// ATTACKS
-			if(m.isInRange(s) && c.hasPiece()) {
-			    if(m.isHopperType()) {
+			if(m.isInRange(s) && (c.hasPiece() || enPassant)) {
+			    if(!enPassant && m.isHopperType()) {
 				s += k;
-				if(ab.isSquareValid(i+s*x, j+s*y)) {
-				    c = ab.getSquare(i+s*x, j+s*y);
+				if(board.isSquareValid(i+s*x, j+s*y)) {
+				    c = board.getSquare(i+s*x, j+s*y);
 				    if(((c.hasPiece() && m.isAttackType()
 					 && c.getPiece().isWhite() != white)
 					|| !c.hasPiece() && m.isWalkType()) )
-					movable |= browseSquare(c, ab, f);
+					movable |= browseSquare(c, board, f);
 				}
-			    } else if(m.isAttackType() && c.getPiece().isWhite() != white)
-				movable |= browseSquare(c, ab, f);
+			    } else if(m.isAttackType() && (enPassant || c.getPiece().isWhite() != white))
+				movable |= browseSquare(c, board, f);
 			}
 		    }
 		}

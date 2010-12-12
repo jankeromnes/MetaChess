@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import metachess.board.PlayableBoard;
 import metachess.game.Coords;
+import metachess.game.MoveType;
 
 /** Class of a playable square
  * @author Agbeladem (7DD)
@@ -13,6 +14,7 @@ public class PlayableSquare extends AbstractSquare {
 
     private boolean empty;
     private ArrayList<Coords> choices;
+    private MoveType mt;
 
     /** Create a playable square
      * @param x this square's column (X Coord)
@@ -22,6 +24,7 @@ public class PlayableSquare extends AbstractSquare {
 	super(i, j);
 	choices = new ArrayList<Coords>();
 	empty = false;
+	mt = null;
     }
 
     /** Create a copy of a playable square
@@ -31,6 +34,7 @@ public class PlayableSquare extends AbstractSquare {
 	super(s);
 	choices = new ArrayList<Coords>(s.choices);
 	empty = false;
+	mt = null;
     }
 
     /** Create a playable square twin of an empty square.
@@ -41,7 +45,9 @@ public class PlayableSquare extends AbstractSquare {
 	super(s);
 	choices = null;
 	empty = true;
+	mt = null;
     }
+
 
     // METHODS CONCERNING THE LIST
 
@@ -71,6 +77,18 @@ public class PlayableSquare extends AbstractSquare {
 	return !choices.isEmpty();
     }
 
+
+    public void setMoveType(MoveType m) {
+	System.out.println(m);
+	mt = m;
+    }
+
+    public MoveType getMoveType() {
+	return mt;
+    }
+
+
+    @Override
     public boolean isNull() {
 	return empty;
     }
@@ -81,3 +99,4 @@ public class PlayableSquare extends AbstractSquare {
     }
 
 }
+

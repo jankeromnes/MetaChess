@@ -48,11 +48,22 @@ public final class Coords implements PointBehaviour {
 	return new Coords(board.getCols()-i-1,  board.getRows()-j-1);
     }
 
+    public Coords divide(int i) {
+	return new Coords(this.i/i,j/i); 
+    }
+
+    /** Get the sum between two sets of coordinates
+     * @param c the coordinates to add to these
+     */
+    public Coords add(Coords c) {
+	return new Coords(i+c.i, j+c.j);
+    }
+
     /** Get the difference between two sets of coordinates
      * @param c the coordinates to substract to these
      */
     public Coords substract(Coords c) {
-	return new Coords(i-c.i, c.j);
+	return new Coords(i-c.i, j-c.j);
     }
 
 
