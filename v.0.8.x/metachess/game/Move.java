@@ -1,5 +1,7 @@
 package metachess.game;
 
+import java.util.ArrayList;
+
 import metachess.board.PlayableBoard;
 import metachess.library.Pieces;
 import metachess.model.PointBehaviour;
@@ -7,7 +9,7 @@ import metachess.square.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)
- * @version 0.8.6
+ * @version 0.8.8
  */
 public class Move {
 
@@ -29,6 +31,13 @@ public class Move {
     private boolean resolved;
     private boolean horizontalAmbiguity;
     private boolean verticalAmbiguity;
+
+
+
+    private enum Type { PAWN, ATTACK };
+
+    private boolean pawnType;
+    private boolean attackType;
 
 
 
@@ -58,6 +67,9 @@ public class Move {
 	oldy = oldyarg;
 	newx = newxarg;
 	newy = newyarg;
+
+	pawnType = false;
+	attackType = false;
 
     }
 
@@ -94,11 +106,76 @@ public class Move {
 		    }
 		}
 	    board.resetIterator();
+	    board.setPiece(oldx, oldy, piece);
 	    resolved = true;
 	}
     }
 
 
+    // EN PASSANT SUPPORT
+
+    /** Tell whether this move involved a 'Pawnline' move type.
+     * It must be resolved first.
+     * @return true if it is and has been resolved
+     */
+    public boolean isPawnType() {
+	return pawnType;
+    }
+
+    /** Tell whether this move involved an 'Attack' move type.
+     * It must be resolved first.
+     * @return true if it is and has been resolved
+     */
+    public boolean isAttackType() {
+	return attackType;
+    }
+
+
+    private boolean resolve(MoveType mt, Type t) {
+	switch(t) {
+	case PAWN:
+	    return mt.isPawnType();
+	case ATTACK:
+	    return mt.isAttackType();
+	}
+	return false;
+    }
+
+    private void resolve(Type t) {
+	assert board != null;
+	Piece p = board.getSquare(oldx, oldy).getPiece();
+	ArrayList<MoveType> l = p.getMoveTypes();
+	ArrayList<MoveType> oldl = new ArrayList<MoveType>();
+	ArrayList<MoveType> newl = new ArrayList<MoveType>();
+	for(MoveType mt : l) {
+	    oldl.add(mt);
+	    if(! resolve(mt, t))
+		newl.add(mt);
+	}
+	p.setMoves(newl);
+
+	boolean b = !p.checkSquareInRange(getOldCoords(), getNewCoords(), board); 
+	switch(t) {
+	case PAWN:
+	    pawnType = b;
+	    break;
+	case ATTACK:
+	    attackType = b;
+	    break;
+	}
+
+	p.setMoves(oldl);
+    }
+
+    /** Check if the last move had a 'Pawnline' move type */
+    public void resolvePawnType() {
+	resolve(Type.PAWN);
+    }
+
+    /** Check if the last move had an 'Attack' move type */
+    public void resolveAttackType() {
+	resolve(Type.ATTACK);
+    }
 
     // GAME STATE
 
@@ -194,6 +271,7 @@ public class Move {
 
     @Override
     public String toString() {
+	assert resolved;
 	StringBuilder s = new StringBuilder();
 	if(castling) {
 	    boolean kingside = newx - oldx > 0;

@@ -242,6 +242,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     
     /** Set explosion to given coordinates
+     * @param c the coordinates of the explosion
+     */
+    public void explode(Coords c) {
+	explode(c.getColumn(), c.getRow());
+    }
+
+    /** Set explosion to given coordinates
      * @param i the exploding square's column (X Coord)
      * @param j the exploding square's row (Y Coord)
      */
@@ -278,10 +285,12 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	AbstractSquare theSquare = getSquare(i, j);
 	boolean capture = false;
        	PlayableBoard board = enabled ? new PlayableBoard(this) : null;
+	Move oldMove = lastMove;
     	if(isSquareActive())  {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
-		lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
+		if(playing || enabled)
+		    lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
 		if(theSquare != getActiveSquare()) {
 		    if(atomic && theSquare.hasPiece()) {
@@ -290,7 +299,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			getActiveSquare().removePiece();
 		    } else {
 			capture = theSquare.hasPiece();
-			removePiece(theSquare);
+			if(capture)
+			    removePiece(theSquare);
 
 			// Promotion
 			if(lastPiece.isPawn() && !promotions.isEmpty() &&
@@ -299,7 +309,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			    promote(theSquare, lastPiece.isWhite());
 			else {
 			    theSquare.setPiece(lastPiece);
-			    // Castle
+			    // Castling
 			    if(lastPiece.isKing()) {
 				int diff = theSquare.getColumn() - getActiveSquare().getColumn();
 				boolean right = diff > 0;
@@ -307,7 +317,20 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 				    AbstractSquare rookSquare = getSquare(right? getCols()-1: 0, theSquare.getRow());
 				    setPiece(theSquare.getColumn()-(diff/2), theSquare.getRow(), rookSquare.getPiece());
 				    rookSquare.removePiece();
-				    lastMove.setCastling(true);
+				    if(playing || enabled)
+					lastMove.setCastling(true);
+				}
+			    }
+			    // En Passant
+			    else if(enabled && lastPiece.isPawn() && oldMove != null && oldMove.isPawnType()) {
+				lastMove.resolveAttackType();
+				if(lastMove.isAttackType()) {
+				    capture = true;
+				    Coords co = oldMove.getNewCoords();
+				    if(atomic) {
+					explode(co);
+					getActiveSquare().removePiece();
+				    } else removePiece(co);
 				}
 			    }
 			}
@@ -315,9 +338,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		    }
 		}
 
-		lastMove.setCapture(capture);
+		if(playing || enabled)
+		    lastMove.setCapture(capture);
 		if(enabled) {
 		    lastMove.resolveAmbiguity();
+		    lastMove.resolvePawnType();
 		    deactivateSquares();
 		    checkKingInRange();
 		    lastPiece.setMoved(true);
@@ -431,6 +456,13 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      */
     public boolean isKingInRange() {
 	return kingInRange;
+    }
+
+    /** Get the last move actually played in this board
+     * @return the last move played by either the human player or the AI
+     */
+    public Move getLastMove() {
+	return lastMove;
     }
 
     @Override

@@ -43,14 +43,15 @@ public class SetupLoader extends VariableLoader {
 	     // ----------------- //
 
 	     String line = br.readLine();
-	     boolean area = line.indexOf("{AREA}") != -1;
-	     while(line.indexOf("{BEGIN}") == -1
-		   && !area
-		   && line != null) {
+	     boolean area = line == null ? false : line.indexOf("{AREA}") != -1;
+	     while(line != null
+		   && line.indexOf("{BEGIN}") == -1
+		   && !area) {
 		 readVariable(line);
 		 line = br.readLine();
-		 area = line.indexOf("{AREA}") != -1;
+		 area = line == null ? false : line.indexOf("{AREA}") != -1;
 	     }
+
 
 	     // ------------- //
 	     // Loading areas //
