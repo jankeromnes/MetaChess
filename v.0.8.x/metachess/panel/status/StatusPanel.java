@@ -50,4 +50,10 @@ public class StatusPanel extends JPanel {
     	}
     }
 
+	public void clear() {
+		for(PlayerStatus status : statii) {
+    		status.clear();
+    	}
+	}
+
 }
