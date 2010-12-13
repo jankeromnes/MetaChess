@@ -20,9 +20,10 @@ public class StatusPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Vector<PlayerView> players;
+	// I know the correct word is 'statuses'. Now let's get a little creative... Jan ;)
+	private Vector<PlayerStatus> statii;
 
-    /** Create a state panel
+    /** Create a status panel
      * @param g the current game
      */
     public StatusPanel(Game g) {
@@ -30,19 +31,23 @@ public class StatusPanel extends JPanel {
     	
     	setPreferredSize(new Dimension(250, 30));
     	
-    	players = new Vector<PlayerView>();
+    	statii = new Vector<PlayerStatus>();
     	
-    	players.add(new PlayerView(true));
-    	players.add(new PlayerView(false));
+    	statii.add(new PlayerStatus(true));
+    	statii.add(new PlayerStatus(false));
     	
-    	for(PlayerView player : players) {
-    		add(player);
+    	for(PlayerStatus status : statii) {
+    		add(status);
         	add(Box.createHorizontalGlue());
     	}
     	
     	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     }
     
-    
+    public void setActivePlayer(boolean white) {
+    	for(PlayerStatus status : statii) {
+    		status.setActivePlayer(white);
+    	}
+    }
 
 }

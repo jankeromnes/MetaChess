@@ -49,9 +49,9 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	atomic = true;
+	atomic = false;
 	whiteAILevel = 0;
-	blackAILevel = 0;
+	blackAILevel = 3;
 
 	gmBox = new GameModeBox(this);
 	fileBox = new FileBox(this);
