@@ -66,6 +66,14 @@ public class PlayableSquare extends AbstractSquare {
 	choices.add(choice);
     }
 
+    /** Get the number of reachable squares by this square's piece (providing there is one !)
+     * @return the number of squares that will be green if one activates this square
+     */
+    public int getChoiceListSize() {
+	assert hasPiece();
+	return choices.size();
+    }
+
     /** Set all the squares reachable by this square's piece green
      * @param b the board in which the squares are to be set green
      * @return true if square are indeed reachable
@@ -76,17 +84,6 @@ public class PlayableSquare extends AbstractSquare {
 	    b.getSquare(c).setGreen(true);
 	return !choices.isEmpty();
     }
-
-
-    public void setMoveType(MoveType m) {
-	System.out.println(m);
-	mt = m;
-    }
-
-    public MoveType getMoveType() {
-	return mt;
-    }
-
 
     @Override
     public boolean isNull() {

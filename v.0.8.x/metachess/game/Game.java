@@ -266,6 +266,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public void launch() {
 	assert board != null;
 	board.launch();
+
     }
 
     public void launchBuilder() {

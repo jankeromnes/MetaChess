@@ -103,6 +103,17 @@ public class GraphicalBoard extends JPanel {
 	return height;
     }
 
+
+    /** Test this graphical board in a separate window */
+    public void test() {
+	java.awt.Frame f = new javax.swing.JFrame("Graphical Board test");
+	f.setSize(new java.awt.Dimension(500, 500));
+	init();
+	f.add(this);
+	f.pack();
+	f.setVisible(true);
+    }
+
 }
 
 

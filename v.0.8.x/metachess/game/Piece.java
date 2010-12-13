@@ -37,6 +37,7 @@ public class Piece implements PieceBehaviour {
     private float price;
     private boolean priceCalculated;
 
+    // Temporary fields
     private Coords newCoords;
     private MoveType mt;
 
@@ -156,7 +157,8 @@ public class Piece implements PieceBehaviour {
 	     break;
 	 case CHOICE_LIST:
 	     ret = true;
-	     choices.add(c);
+	     if(!choices.contains(c))
+		 choices.add(c);
 	     break;
 	 case CHECK_RANGE:
 	     ret = c.getCoords().equals(newCoords);
@@ -324,10 +326,17 @@ public class Piece implements PieceBehaviour {
 	return browseBoard(i, j, ab, BrowseType.CHECK_KING);
     }
 
+    public int getChoiceCount(int i, int j, PlayableBoard board) {
+	
+	return board.isForeseer()
+	    ? board.getSquare(i, j).getChoiceListSize()
+	    : getChoiceList(i, j, board).size();
+    }
+
     /** Check whether this piece can reach a given square,
      * ie whether this move would be legal or not
-     * @param i this piece's square's column (X Coord)
-     * @param j this piece's square's row (Y Coord)
+     * @param oldc the current coordinates of the piece
+     * @param newc the coordinates that have to be tested
      * @param board the abstract board of the piece
      * @return true if it has
      */

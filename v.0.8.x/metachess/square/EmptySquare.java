@@ -1,6 +1,5 @@
 package metachess.square;
 
-
 /** Class of a removed square
  * @author Agbeladem (7DD)
  * @version 0.8.3
