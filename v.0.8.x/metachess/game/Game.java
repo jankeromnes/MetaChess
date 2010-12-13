@@ -226,8 +226,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     }
     
     @Override
-    public void setCurrentPlayer(boolean white) {
-    	// TODO
+    public void setActivePlayer(boolean white) {
+    	panel.setActivePlayer(white);
     }
 
 
