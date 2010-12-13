@@ -322,7 +322,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 				}
 			    }
 			    // En Passant
-			    else if(enabled && lastPiece.isPawn() && oldMove != null && oldMove.isPawnType()) {
+			    else if(!capture && enabled && lastPiece.isPawn() && oldMove != null && oldMove.isPawnType()) {
 				lastMove.resolveAttackType();
 				if(lastMove.isAttackType()) {
 				    capture = true;
@@ -387,7 +387,19 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	as.setPiece(Pieces.getPiece("queen", white));
     }
 
-
+    
+    /** Get the number of squares that can be played by the player (i.e. playable)
+     * Beware that if two pieces can reach the same square, it will be counted twice
+     * @return the number of squares that can be played in this board
+     */
+    public int getChoiceCount() { 
+	int total = 0; 	  
+	for(AbstractSquare s : this)
+	    if(s.hasPiece() && s.getPiece().isWhite() == whitePlaying)
+		total += s.getPiece().getChoiceCount(s.getColumn(), s.getRow(), this);
+	resetIterator();
+  	return total; 
+    }
 
     // STATES
 
@@ -423,8 +435,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     public boolean isLocked() {
 	return locked;
     }
-
-
 
 
     // GETTERS

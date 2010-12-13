@@ -1,5 +1,5 @@
 # metachess image dictionary
-
+#	v.0.8.9
 
 ## classic
 king:Wking.png:Bking.png
@@ -25,10 +25,16 @@ metamorph:Wmetamorph.png:Bmetamorph.png
 # Generated from builder
 archbishop:Warchbishop.png:Barchbishop.png
 
+
+#	Shatranj support
+
 # v.0.8.0 adds the following
-alfil:Wbishop.png:Bbishop.png
-dabbaba:Wrook.png:Brook.png
-alibaba:Wking.png:Bking.png
+alfil:Walfil.png:Balfil.png
+dabbaba:Wdabbaba.png:Bdabbaba.png
+alibaba:Walibaba.png:Balibaba.png
 zero:Wzero.png:Bzero.png
 
-
+# v.0.8.9
+baidaq:Wpawn.png:Bpawn.png
+ruhk:Wrook.png:Brook.png
+fers:Wfers.png:Bfers.png

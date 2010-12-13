@@ -59,13 +59,6 @@ public class GraphicalSquare extends JButton {
 	    setBackground((as.isGreen()? Colour.GREEN : as.getColor()).getColor());
 	}
     	setText(as.hasPiece()? null : as.getCoords().toString());
-
-	if(as instanceof PlayableSquare) {
-	    PlayableSquare ps = (PlayableSquare)as;
-	    if(ps.getMoveType() != null)
-		setText(ps.getMoveType().toString());
-	}
-
     }
 
     /** Set the dimension of the side of this square

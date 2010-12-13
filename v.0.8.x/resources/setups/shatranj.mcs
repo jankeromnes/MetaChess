@@ -1,0 +1,10 @@
+# Metachess=v.0.8.0/MCS=v.4
+# Generated from builder
+
+width	= 8
+height	= 8
+promotion = fers
+
+	{BEGIN}
+
+Wruhk	Wknight	Walfil	Wfers	Wking	Walfil	Wknight	Wruhk	Wbaidaq	R7	32	Bbaidaq	R7	Bruhk	Bknight	Balfil	Bfers	Bking	Balfil	Bknight	Bruhk	
