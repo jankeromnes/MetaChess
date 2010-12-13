@@ -12,7 +12,7 @@ import metachess.game.SavedGame;
 import metachess.model.PanelLinkBehaviour;
 import metachess.panel.count.CountPanel;
 import metachess.panel.logger.LogPanel;
-import metachess.panel.state.StatePanel;
+import metachess.panel.status.StatusPanel;
 
 /** Class of the right panel
  * @author Agbeladem (7DD)
@@ -22,7 +22,7 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
 
     private static final long serialVersionUID = 1L;
     private final CountPanel countPanel;
-    private final StatePanel state;
+    private final StatusPanel status;
     private final LogPanel histo;
 
 
@@ -33,11 +33,11 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
 
 	countPanel = new CountPanel();
 	histo = new LogPanel(g);
-	state = new StatePanel(g);
+	status = new StatusPanel(g);
 
-	add(countPanel);
+	add(status);
 	add(Box.createVerticalGlue());
-	add(state);
+	add(countPanel);
 	add(Box.createVerticalGlue());
 	add(histo);
 	add(Box.createVerticalGlue());
@@ -85,6 +85,11 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
     public void count(String pieceName, boolean isWhite) {
     	countPanel.add(pieceName, isWhite);
     }
+
+	@Override
+	public void setCurrentPlayer(boolean white) {
+		// TODO
+	}
 
 
 

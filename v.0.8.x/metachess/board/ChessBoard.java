@@ -59,17 +59,15 @@ public class ChessBoard extends PlayableBoard {
     @Override
     public void nextPlayer() {
     	super.nextPlayer();
-    	if(keep)
-	    game.addMove(lastMove);
-    	if(gameOver)
-    	    game.endGame();
+    	if(keep) game.addMove(lastMove);
+    	if(gameOver) game.endGame();
     	int AILevel = getAILevel();
     	if(keep && AILevel > 0) {
-	    toggleEnabled();
-	    toggleLocked();
-	    //update();
-	    AIThread ait = new AIThread(this, AILevel);
-	    ait.start();
+		    toggleEnabled();
+		    toggleLocked();
+		    //update();
+		    AIThread ait = new AIThread(this, AILevel);
+		    ait.start();
     	}
     }
 

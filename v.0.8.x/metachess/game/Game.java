@@ -224,6 +224,11 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public void count(String pieceName, boolean isWhite) {
     	panel.count(pieceName, isWhite);
     }
+    
+    @Override
+    public void setCurrentPlayer(boolean white) {
+    	// TODO
+    }
 
 
     // GAME BEHAVIOUR
