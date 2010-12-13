@@ -20,6 +20,9 @@ public class AIBoardTree extends PlayableBoard {
     private long complexity;
     private float score;
     private boolean scoreSet;
+    private int total;
+    private int complete;
+    private boolean trace;
     
     /** Create a new AI Board Tree, child of a Playable Board, with progeny
      * @param pb the Playable Board
@@ -35,6 +38,9 @@ public class AIBoardTree extends PlayableBoard {
     	complexity = 0;
     	score = 0;
     	scoreSet = false;
+    	total = 0;
+    	complete = 0;
+    	trace = true;
     	
         activeSquareX=-1;
         activeSquareY=-1;
@@ -46,7 +52,7 @@ public class AIBoardTree extends PlayableBoard {
     
     public AIBoardTree(PlayableBoard pb, Move m, int treeDepth) {
     	super(pb);
-	foreseer = false;
+    	foreseer = false;
     	sequence = null;
     	candidate = null;
     	move = m;    	
@@ -54,11 +60,14 @@ public class AIBoardTree extends PlayableBoard {
     	complexity = 0;
     	score = 0;
     	scoreSet = false;
+    	total = 0;
+    	complete = 0;
+    	trace = false;
     	
         activeSquareX=-1;
         activeSquareY=-1;
 
-	playMove(m);
+        playMove(m);
     	
     	computeBestCandidate();
     	
@@ -68,37 +77,43 @@ public class AIBoardTree extends PlayableBoard {
     }
     
     public void computeBestCandidate() {
-
-	resetIterator();
-	AIBoardTree child;
-    	if(depth>0 && !gameOver) {
-	    for(AbstractSquare s : this) {
-		deactivateSquares();
-		// optimization idea: if reached maximum final score, don't search for other options (complexity gets a little bit better)
-		if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying) && ( candidate == null || ( !whitePlaying && candidate.getScore() > -9999 ) || ( whitePlaying && candidate.getScore() < 9999 ) ) ) {
-		    activateSquare(s);
-		    if(isSquareActive()) {
-			for(int i = 0 ; i < width ; i++) {
-			    for(int j = 0 ; j < width ; j++) {
-				if(getSquare(i,j).isGreen()) {
-				    Move m = new Move(activeSquareX,activeSquareY, i, j, this);
-				    child = new AIBoardTree(this, m, depth-1);
-				    BestMoveSequence newCandidate = child.getBestMoveSequence();
-				    // check if candidate was beaten
-				    if (candidate == null
-					|| ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
-					|| ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
-					) candidate = newCandidate;
-				    complexity += child.getComplexity();
-				}
-			    }
-			}
-		    }
-		}
-	    }
-	    resetIterator();
+    	if(trace) {
+    		total = getChoiceCount();
+    		complete = 0;
     	}
-	
+		resetIterator();
+		AIBoardTree child;
+    	if(depth>0 && !gameOver) {
+		    for(AbstractSquare s : this) {
+				deactivateSquares();
+				// optimization idea: if reached maximum final score, don't search for other options (complexity gets a little bit better)
+				if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying) && ( candidate == null || ( !whitePlaying && candidate.getScore() > -9999 ) || ( whitePlaying && candidate.getScore() < 9999 ) ) ) {
+				    activateSquare(s);
+				    if(isSquareActive()) {
+						for(int i = 0 ; i < width ; i++) {
+						    for(int j = 0 ; j < width ; j++) {
+								if(getSquare(i,j).isGreen()) {
+								    Move m = new Move(activeSquareX,activeSquareY, i, j, this);
+								    child = new AIBoardTree(this, m, depth-1);
+								    BestMoveSequence newCandidate = child.getBestMoveSequence();
+								    // check if candidate was beaten
+								    if (candidate == null
+									|| ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
+									|| ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
+									) candidate = newCandidate;
+								    complexity += child.getComplexity();
+								    if(trace) {
+								    	complete++;
+								    	System.out.println((100*complete/total)+"%"); // TODO Jan: send to status panel
+								    }
+								}
+						    }
+						}
+				    }
+				}
+		    }
+		    resetIterator();
+	    }
     }
     
     public BestMoveSequence getBestMoveSequence() {

@@ -60,6 +60,7 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
     @Override
     public void clear(boolean clear) {
 	countPanel.clear();
+	status.clear();
 	if(clear) {
 	    histo.clearMoves();
 	    histo.update();
