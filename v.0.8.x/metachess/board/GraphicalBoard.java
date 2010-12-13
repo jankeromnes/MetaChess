@@ -80,7 +80,6 @@ public class GraphicalBoard extends JPanel {
 	return i >= 0 && i < width
 	    && j >= 0 && j < height;
     }
-    
 
     /** Update all the graphical squares of this graphical board */
     public void update() {

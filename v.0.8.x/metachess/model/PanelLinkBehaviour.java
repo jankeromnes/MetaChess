@@ -37,11 +37,16 @@ public interface PanelLinkBehaviour {
     /** Redo last undone move */
     public void redo();
 
-    /**  Add a piece to the count list when it's been taken
+    /** Add a piece to the count list when it's been taken
      * @param pieceName the name of the taken piece
      * @param isWhite whether the piece's color is white
      */
     public void count(String pieceName, boolean isWhite);
+    
+    /** Update 
+     * @param white whether the current player is white
+     */
+    public void setCurrentPlayer(boolean white);
 
 }
 
