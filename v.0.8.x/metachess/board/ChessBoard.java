@@ -47,18 +47,20 @@ public class ChessBoard extends PlayableBoard {
 
     /** Launch the game, to be sent after init */
     public void launch() {
-	int AILevel = getAILevel();
-	if(AILevel > 0) {
-	    toggleLocked();
-	    AIThread ait = new AIThread(this, AILevel);
-	    toggleEnabled();
-	    ait.start();
+    	game.setActivePlayer(whitePlaying);
+		int AILevel = getAILevel();
+		if(AILevel > 0) {
+		    toggleLocked();
+		    AIThread ait = new AIThread(this, AILevel);
+		    toggleEnabled();
+		    ait.start();
     	}
     }
     
     @Override
     public void nextPlayer() {
     	super.nextPlayer();
+    	game.setActivePlayer(whitePlaying);
     	if(keep) game.addMove(lastMove);
     	if(gameOver) game.endGame();
     	int AILevel = getAILevel();

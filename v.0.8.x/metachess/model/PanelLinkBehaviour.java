@@ -46,7 +46,7 @@ public interface PanelLinkBehaviour {
     /** Update 
      * @param white whether the current player is white
      */
-    public void setCurrentPlayer(boolean white);
+    public void setActivePlayer(boolean white);
 
 }
 

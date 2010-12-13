@@ -87,8 +87,8 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
     }
 
 	@Override
-	public void setCurrentPlayer(boolean white) {
-		// TODO
+	public void setActivePlayer(boolean white) {
+		status.setActivePlayer(white);
 	}
 
 
