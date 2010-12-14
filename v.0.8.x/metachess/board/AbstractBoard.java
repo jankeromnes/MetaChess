@@ -82,6 +82,10 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	return promotions;
     }
 
+
+
+
+
     // ITERATOR
     
     /** Iterator of the pieces in the board */
@@ -91,10 +95,17 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	    reset();
     	}
     	public void reset() { i=0; j=0; blank=0; }
+
+	private boolean squareIterable(int i, int j) {
+	    return isNull(i, j) || hasPiece(i, j);
+	}
+
+	@Override
     	public boolean hasNext() {
-	    boolean ret = squareExists(i,j) && (squares[i][j].isNull() || hasPiece(i,j));
+	    boolean ret = squareExists(i,j) && squareIterable(i, j);
+
 	    while( j < height && ! ret) {
-		if(hasPiece(i,j))
+		if(squareIterable(i, j))
 		    ret = true;
 		else {
 		    blank++;
@@ -103,6 +114,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	    }
 	    return ret;
     	}
+
+	@Override
     	public AbstractSquare next() {
 	    AbstractSquare sq = null;
 	    if(hasNext()) {
@@ -113,6 +126,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 	    }
 	    return sq;
     	}
+
+	@Override
     	public void remove() {}
     }
 
@@ -128,9 +143,13 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public int getIteratorLastBlank() { return lastBlank; }
 
 
+
+
+
+
     // INITIATION
 
-    /** Initiate a given abstract square of the board. Automatically called a creation.
+    /** Initiate a given abstract square of the board. Automatically called at creation.
      * @param i the square's column (X Coord)
      * @param j the square's row (Y Coord)
      */
@@ -138,6 +157,10 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     	squares[i][j] = new AbstractSquare(i, j);
     }
 
+    /** Remove a square in this board. It will be locked and cannot contain pieces.
+     * @param i the square's column (X Coord)
+     * @param j the square's row (Y Coord)
+     */
     public void removeSquare(int i, int j) {
 	assert squareExists(i, j);
 	squares[i][j] = new EmptySquare(i, j);
@@ -182,17 +205,17 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      */
     public abstract void playSquare(PointBehaviour c);
 
-    /** Tells whether given coordinates match a valid square of the board or not
+    /** Tells whether given coordinates match a valid square of this board or not
      * <br/> A square is valid if it exists and if it was not removed
      * @param x the square's column (X Coord)
      * @param y the square's row (Y Coord)
      * @return true if it is valid
      */
     public boolean isSquareValid(int x, int y) {
-	return squareExists(x, y) && !squares[x][y].isNull() ; 	
+	return squareExists(x, y) && !isNull(x, y) ; 	
     }
 
-    /** Tells whether given coordinates match an existing square of the board
+    /** Tells whether given coordinates match an existing square of this board
      * @param x the square's column (X Coord)
      * @param y the square's row (Y Coord)
      * @return true if it exists
@@ -200,6 +223,16 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     public boolean squareExists(int x, int y) {
 	return x >= 0 && x < width
 	    && y >= 0 && y < height;
+    }
+
+    /** Tells whether given coordinates match a square that has been removed from this board
+     * @param x the square's column (X Coord)
+     * @param y the square's row (Y Coord)
+     * @return true if it has
+     */
+    public boolean isNull(int x, int y) {
+	assert squareExists(x, y);
+	return squares[x][y].isNull();
     }
 
     /** Get the abstract square with the given coordinates
@@ -313,6 +346,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * @return the piece
      */
     public Piece getJokerPiece() { return jokerPiece; }
+
+
 
 
     // TERMINAL FORMAT / TOSTRING

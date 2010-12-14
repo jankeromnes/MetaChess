@@ -10,7 +10,7 @@ import metachess.square.AbstractSquare;
 
 /** Class of the Setup Builderbox save panel
  * @author Agbeladem
- * @version 0.8.5
+ * @version 0.8.8
  */
 public class SetupSavePanel extends SavePanel {
 
@@ -60,9 +60,7 @@ public class SetupSavePanel extends SavePanel {
 	for(AbstractSquare sq : board) {
 
 	    int n = board.getIteratorLastBlank();
-
-	    p = sq.getPiece();
-	    String name = p.getMCSFormat();
+	    String name = sq.hasPiece()? sq.getPiece().getMCSFormat(): null;
 
 	    // If empty squares have to be added or a piece to be repeated
 	    if(n > 0 || sq.isNull() != isNull

@@ -50,7 +50,6 @@ public class EditableBoard extends AbstractBoard {
 	    update();
 	    break;
 	case TOGGLING_SQUARE:
-	    
 	    if(getSquare(i, j).isNull())
 		squares[i][j] = new AbstractSquare(i, j);
 	    else
