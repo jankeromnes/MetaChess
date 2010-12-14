@@ -36,8 +36,11 @@ public class AIThread extends Thread {
 	System.out.println("complexity ..... "+tree.getComplexity());
 	System.out.println("timing(ms) ..... "+(stop-start));
 
-	cb.playAIMove(bms.getFirstMove());
-		    
+	try {
+	    cb.playAIMove(bms.getFirstMove());
+	} catch(NullPointerException e) {
+	    e.printStackTrace();
+	}
     }
 }
 

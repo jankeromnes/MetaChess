@@ -62,15 +62,18 @@ public class ChessBoard extends PlayableBoard {
     	super.nextPlayer();
     	game.setActivePlayer(whitePlaying);
     	if(keep) game.addMove(lastMove);
-    	if(gameOver) game.endGame();
-    	int AILevel = getAILevel();
-    	if(keep && AILevel > 0) {
-		    toggleEnabled();
-		    toggleLocked();
-		    //update();
-		    AIThread ait = new AIThread(this, AILevel);
-		    ait.start();
-    	}
+    	if(gameOver)
+	    game.endGame();
+	else {
+	    int AILevel = getAILevel();
+	    if(keep && AILevel > 0) {
+		toggleEnabled();
+		toggleLocked();
+		//update();
+		AIThread ait = new AIThread(this, AILevel);
+		ait.start();
+	    }
+	}
     }
 
     /** Remove the piece at the given coordinates
