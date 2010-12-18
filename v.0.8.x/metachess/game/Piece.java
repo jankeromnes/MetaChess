@@ -39,8 +39,6 @@ public class Piece implements PieceBehaviour {
 
     // Temporary fields
     private Coords newCoords;
-    private MoveType mt;
-
     /** Create a new empty piece */
     public Piece() {
 
@@ -218,7 +216,6 @@ public class Piece implements PieceBehaviour {
 
 	 for(MoveType m : moves) {
 
-	     mt = m;
 	     int s = m.getOffset();
 	     int k = m.getStep();
 	     int x = m.getXDiff();

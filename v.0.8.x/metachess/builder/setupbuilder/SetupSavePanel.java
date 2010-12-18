@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import metachess.board.EditableBoard;
 import metachess.builder.SavePanel;
-import metachess.game.Piece;
 import metachess.library.Resource;
 import metachess.square.AbstractSquare;
 
@@ -51,7 +50,6 @@ public class SetupSavePanel extends SavePanel {
 
 
 
-	Piece p;
 	int count = 0;
 	boolean isNull = true;
 	String lastName = null;
@@ -83,8 +81,8 @@ public class SetupSavePanel extends SavePanel {
 	    }
 
 	    if(sq.isNull()) {
-		count++;
-		isNull = true;
+			count++;
+			isNull = true;
 	    } else {
 
 		// if another piece has to be added
@@ -96,7 +94,7 @@ public class SetupSavePanel extends SavePanel {
 		// if the same piece has been added
 		else
 		    count++;
-		isNull = false;
+			isNull = false;
 
 	    }
 	}

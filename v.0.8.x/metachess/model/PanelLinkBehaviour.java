@@ -43,10 +43,15 @@ public interface PanelLinkBehaviour {
      */
     public void count(String pieceName, boolean isWhite);
     
-    /** Update 
-     * @param white whether the current player is white
+    /** Tell the panels which is the current player
+     * @param white the color of the current player
      */
     public void setActivePlayer(boolean white);
+    
+    /** Tell the panels which is the current player
+     * @param white the color of the current player
+     */
+    public void updateAIPercentage(float percent);
 
 }
 

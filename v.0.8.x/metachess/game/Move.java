@@ -14,6 +14,7 @@ import metachess.square.AbstractSquare;
 public class Move {
 
     private static final long serialVersionUID = 1L;
+
     private int oldx;
     private int oldy;
     private int newx;

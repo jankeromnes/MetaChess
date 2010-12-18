@@ -1,5 +1,6 @@
 package metachess.ai;
 
+import metachess.board.ChessBoard;
 import metachess.board.PlayableBoard;
 import metachess.game.Move;
 import metachess.game.Piece;
@@ -9,10 +10,10 @@ import metachess.square.AbstractSquare;
  * @author Jan (7DD)
  * @version 0.8.0
  */
-public class AIBoardTree extends PlayableBoard {
+public class AITree extends PlayableBoard {
 
     private static final long serialVersionUID = 1L;
-    
+    private ChessBoard cb;
     private BestMoveSequence sequence;
     private BestMoveSequence candidate;
     private Move move;
@@ -20,17 +21,19 @@ public class AIBoardTree extends PlayableBoard {
     private long complexity;
     private float score;
     private boolean scoreSet;
-    private int total;
-    private int complete;
+    private int children;
+    private float percent;
     private boolean trace;
     
-    /** Create a new AI Board Tree, child of a Playable Board, with progeny
-     * @param pb the Playable Board
-     * @param treeDepth the depth of the progeny tree
+    /** Create the root node of the AITree from a given ChessBoard with a given depth
+     * @param pb the ChessBoard
+     * @param treeDepth the depth of the tree
      */
-    public AIBoardTree(PlayableBoard pb, int treeDepth) {
-    	super(pb);
-	
+    public AITree(ChessBoard cb, int treeDepth) {
+    	super(cb);
+    	this.cb = cb;
+    	
+    	foreseer = true;
     	sequence = null;
     	candidate = null;
     	move = null;    	
@@ -38,8 +41,8 @@ public class AIBoardTree extends PlayableBoard {
     	complexity = 0;
     	score = 0;
     	scoreSet = false;
-    	total = 0;
-    	complete = 0;
+    	children = 0;
+    	percent = 0;
     	trace = true;
     	
         activeSquareX=-1;
@@ -50,8 +53,15 @@ public class AIBoardTree extends PlayableBoard {
     	sequence = candidate;
     }
     
-    public AIBoardTree(PlayableBoard pb, Move m, int treeDepth) {
+    /** Create the child nodes of the AITree from a given PlayableBoard with a given depth
+     * @param pb the PlayableBoard
+     * @param m the move that lead to that position
+     * @param treeDepth the depth of the tree
+     */
+    public AITree(PlayableBoard pb, Move m, int treeDepth) {
     	super(pb);
+    	this.cb = null;
+    	
     	foreseer = false;
     	sequence = null;
     	candidate = null;
@@ -60,8 +70,8 @@ public class AIBoardTree extends PlayableBoard {
     	complexity = 0;
     	score = 0;
     	scoreSet = false;
-    	total = 0;
-    	complete = 0;
+    	children = 0;
+    	percent = 0;
     	trace = false;
     	
         activeSquareX=-1;
@@ -76,13 +86,15 @@ public class AIBoardTree extends PlayableBoard {
     	
     }
     
+    /** Compute the best move to play from the actual position
+     */
     public void computeBestCandidate() {
     	if(trace) {
-    		total = getChoiceCount();
-    		complete = 0;
+    		children = getChoiceCount();
+    		percent = 0;
     	}
 		resetIterator();
-		AIBoardTree child;
+		AITree child;
     	if(depth>0 && !gameOver) {
 		    for(AbstractSquare s : this) {
 				deactivateSquares();
@@ -94,7 +106,7 @@ public class AIBoardTree extends PlayableBoard {
 						    for(int j = 0 ; j < width ; j++) {
 								if(getSquare(i,j).isGreen()) {
 								    Move m = new Move(activeSquareX,activeSquareY, i, j, this);
-								    child = new AIBoardTree(this, m, depth-1);
+								    child = new AITree(this, m, depth-1);
 								    BestMoveSequence newCandidate = child.getBestMoveSequence();
 								    // check if candidate was beaten
 								    if (candidate == null
@@ -103,8 +115,8 @@ public class AIBoardTree extends PlayableBoard {
 									) candidate = newCandidate;
 								    complexity += child.getComplexity();
 								    if(trace) {
-								    	complete++;
-								    	System.out.println((100*complete/total)+"%"); // TODO Jan: send to status panel
+								    	percent += 100./(float)children;
+								    	cb.updateAIPercentage(percent);
 								    }
 								}
 						    }

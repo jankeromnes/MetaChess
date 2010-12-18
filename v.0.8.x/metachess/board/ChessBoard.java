@@ -37,12 +37,12 @@ public class ChessBoard extends PlayableBoard {
     public ChessBoard(Game g) {
     	super();
     	game = g;
-	box = new PromotionBox(g, this);
+    	box = new PromotionBox(g, this);
     }
 
-
+    /** Get the AI level of the current player */
     private int getAILevel() {
-	return whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
+    	return whitePlaying? game.getWhiteAILevel(): game.getBlackAILevel();
     }
 
     /** Launch the game, to be sent after init */
@@ -100,7 +100,7 @@ public class ChessBoard extends PlayableBoard {
     	playSquare(m.getNewCoords(), true);
     }
 
-    /** Replay a move, and prevent the AI from playing if needed
+    /** Replay a move, and prevent the AI from playing
      * @param m the move to play
      */
     public void replayMove(Move m) {
@@ -108,7 +108,7 @@ public class ChessBoard extends PlayableBoard {
     	playSquare(m.getNewCoords(), false);
     }
 
-    /** Make the AI play a move.
+    /** Play an AI move.
      *  This is used when the AIThread has chosen its best move
      * @param m the move to play
      */
@@ -128,44 +128,44 @@ public class ChessBoard extends PlayableBoard {
      */
     public void playSquare(PointBehaviour c, boolean keep) {
     	this.keep = keep;
-	if(!isLocked()) super.playSquare(c);
+    	if(!isLocked()) super.playSquare(c);
     }
     
     @Override
     public void playSquare(PointBehaviour c) {
-	playSquare(c, true);
+    	playSquare(c, true);
     }
 
     @Override
     protected void promote(AbstractSquare as, boolean white) {
-	assert !promotions.isEmpty();
-
-	promotionSquare = as;
-	promotionWhite = white;
-	toggleLocked();
-
-	if(getAILevel() > 0) {
-
-	    // The best of the available pieces
-	    float price = 0f;
-	    String piece = null;
-	    for(String s: promotions) {
-		float p = Pieces.getPiece(s).getPrice();
-		if(p > price) {
-		    piece = s;
-		    price = p;
-		}
-	    }
-
-	    validatePromotion(piece);
-
-	} else if(isPlaying()) {
-
-	    // Promotion Box
-	    togglePlaying();
-	    box.launch(promotions);
-
-	} // Else the move is being loaded or replayed
+		assert !promotions.isEmpty();
+	
+		promotionSquare = as;
+		promotionWhite = white;
+		toggleLocked();
+	
+		if(getAILevel() > 0) {
+	
+		    // The best of the available pieces
+		    float price = 0f;
+		    String piece = null;
+		    for(String s: promotions) {
+			float p = Pieces.getPiece(s).getPrice();
+			if(p > price) {
+			    piece = s;
+			    price = p;
+			}
+		    }
+	
+		    validatePromotion(piece);
+	
+		} else if(isPlaying()) {
+	
+		    // Promotion Box
+		    togglePlaying();
+		    box.launch(promotions);
+	
+		} // Else the move is being loaded or replayed
 
      }
 
@@ -198,6 +198,13 @@ public class ChessBoard extends PlayableBoard {
 	int n = moves.size();
 	for(int i = 0 ; i < n ; i++)
 	    replayMove(moves.get(i));
+    }
+    
+    /** Update the AI's "calculation complete" percentage 
+     * @param percent 
+     */
+    public void updateAIPercentage(float percent) {
+    	game.updateAIPercentage(percent);
     }
 
 }
