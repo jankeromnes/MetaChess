@@ -33,7 +33,6 @@ public class AITree extends PlayableBoard {
     	super(cb);
     	this.cb = cb;
     	
-    	foreseer = true;
     	sequence = null;
     	candidate = null;
     	move = null;    	
