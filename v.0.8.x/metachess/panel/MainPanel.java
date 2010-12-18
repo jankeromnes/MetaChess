@@ -92,7 +92,10 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
 		status.setActivePlayer(white);
 	}
 
-
+	@Override
+	public void updateAIPercentage(float percent) {
+		status.updateAIPercentage(percent);
+	}
 
 }
 

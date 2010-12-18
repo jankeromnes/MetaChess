@@ -16,8 +16,8 @@ public class AIThread extends Thread {
      * @param AILevel the depth of the recursive study
      */
     public AIThread(ChessBoard board, int AILevel) {
-	cb = board;
-	treeDepth = AILevel;
+		cb = board;
+		treeDepth = AILevel;
     }
 	
     /** Launch the Thread and print some info about the best-move-sequence found
@@ -25,22 +25,19 @@ public class AIThread extends Thread {
     @Override
     public void run() {
 		
-	long start = System.currentTimeMillis();
-	AIBoardTree tree = new AIBoardTree(cb, treeDepth);
-	long stop = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
+		AITree tree = new AITree(cb, treeDepth);
+		long stop = System.currentTimeMillis();
+			
+		BestMoveSequence bms = tree.getBestMoveSequence();
+			
+		System.out.println("\nsequence ....... "+bms);
+		System.out.println("depth .......... "+treeDepth);
+		System.out.println("complexity ..... "+tree.getComplexity());
+		System.out.println("timing(ms) ..... "+(stop-start));
+	
+		cb.playAIMove(bms.getFirstMove());
 		
-	BestMoveSequence bms = tree.getBestMoveSequence();
-		
-	System.out.println("\nsequence ....... "+bms);
-	System.out.println("depth .......... "+treeDepth);
-	System.out.println("complexity ..... "+tree.getComplexity());
-	System.out.println("timing(ms) ..... "+(stop-start));
-
-	try {
-	    cb.playAIMove(bms.getFirstMove());
-	} catch(NullPointerException e) {
-	    e.printStackTrace();
-	}
     }
 }
 

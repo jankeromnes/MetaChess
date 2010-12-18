@@ -15,6 +15,7 @@ import metachess.dialog.ErrorDialog;
 import metachess.dialog.FileBox;
 import metachess.dialog.GameModeBox;
 import metachess.exception.MetachessException;
+import metachess.library.Clock;
 import metachess.library.DataExtractor;
 import metachess.loader.GameLoader;
 import metachess.model.GameBehaviour;
@@ -47,31 +48,31 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public Game() {
     	super("MetaChess");
 
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	atomic = false;
-	whiteAILevel = 0;
-	blackAILevel = 3;
-
-	gmBox = new GameModeBox(this);
-	fileBox = new FileBox(this);
-
-	menu = new Menu(this);
-	setJMenuBar(menu);
-
-	builder = new BuilderBox();
-	board = new ChessBoard(this);
-
-	gb = new GraphicalBoard(board);
-	gb.setPreferredSize(new Dimension(550, 450));
-
-	panel = new MainPanel(this);
-
-	add(gb, BorderLayout.CENTER);
-	add(panel, BorderLayout.EAST);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
-	pack();
-	setVisible(true);
+		atomic = false;
+		whiteAILevel = 0;
+		blackAILevel = 3;
+	
+		gmBox = new GameModeBox(this);
+		fileBox = new FileBox(this);
+	
+		menu = new Menu(this);
+		setJMenuBar(menu);
+	
+		builder = new BuilderBox();
+		board = new ChessBoard(this);
+	
+		gb = new GraphicalBoard(board);
+		gb.setPreferredSize(new Dimension(550, 450));
+	
+		panel = new MainPanel(this);
+	
+		add(gb, BorderLayout.CENTER);
+		add(panel, BorderLayout.EAST);
+		
+		pack();
+		setVisible(true);
 
     }
 
@@ -124,7 +125,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     /** End the last game, meaning one player has won or that it is a draw */
     public void endGame() {
     	// TODO to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
-		// AIBoardTree aiboard = new AIBoardTree(board, 1);
+		// AITree aiboard = new AITree(board, 1);
 		System.out.println("\nGAME OVER!");
     }
 
@@ -230,6 +231,11 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     	panel.setActivePlayer(white);
     }
 
+	@Override
+	public void updateAIPercentage(float percent) {
+		panel.updateAIPercentage(percent);
+	}
+
 
     // GAME BEHAVIOUR
 
@@ -275,31 +281,30 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     }
 
     public int getMaxAILevel() { return AILevels.length; }
+    
     public String[] getAILevels() { return AILevels; }
+    
     public boolean isBoardLocked() { return board.isLocked(); }
 
     public static void main(String[] argv) {
 
-	DataExtractor.checkDataVersion();
-
-	try {
-	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-	} catch(Exception e) {}
-
-	if(argv.length == 1) {
-	    String w = argv[0];
-	    if(w.indexOf('.') == -1)
-		new Game(w).launch();
-	    else {
-		File f = new File(w);
-		if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
-		new Game().loadGame(f);
-	    }
-
-	} else new Game();
-
+    	Clock.getInstance().start();
+		DataExtractor.checkDataVersion();
+	
+		try {
+		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch(Exception e) {}
+	
+		if(argv.length == 1) {
+		    String w = argv[0];
+		    if(w.indexOf('.') == -1) new Game(w).launch();
+		    else {
+				File f = new File(w);
+				if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
+				new Game().loadGame(f);
+		    }
+		}
+		else new Game();
     }
-
-
 }
 

@@ -1,6 +1,5 @@
 package metachess.panel.status;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Vector;
 
@@ -9,8 +8,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import metachess.game.Game;
-import metachess.library.Colour;
-import metachess.library.PieceImages;
 
 /** Class of the state panel
  * @author Jan
@@ -20,8 +17,8 @@ public class StatusPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	// I know the correct word is 'statuses'. Now let's get a little creative... Jan ;)
 	private Vector<PlayerStatus> statii;
+	// I know the correct word is 'statuses'. Now let's get a little creative... Jan ;)
 
     /** Create a status panel
      * @param g the current game
@@ -29,7 +26,7 @@ public class StatusPanel extends JPanel {
     public StatusPanel(Game g) {
     	super();
     	
-    	setPreferredSize(new Dimension(250, 30));
+    	setPreferredSize(new Dimension(250, 45));
     	
     	statii = new Vector<PlayerStatus>();
     	
@@ -53,6 +50,12 @@ public class StatusPanel extends JPanel {
 	public void clear() {
 		for(PlayerStatus status : statii) {
     		status.clear();
+    	}
+	}
+
+	public void updateAIPercentage(float percent) {
+		for(PlayerStatus status : statii) {
+    		status.updateAIPercentage(percent);
     	}
 	}
 

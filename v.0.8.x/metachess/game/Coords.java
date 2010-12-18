@@ -15,7 +15,7 @@ public final class Coords implements PointBehaviour {
      * @return true if they are
      */
     public static boolean isValid(char x, char y) {
-	return x >= 'A' && x <= 'P' && ((y >= '0' && y <= '9') || (y >= 'a' && y <= 'g'));
+    	return x >= 'A' && x <= 'P' && ((y >= '0' && y <= '9') || (y >= 'a' && y <= 'g'));
     }
 
     private int i;

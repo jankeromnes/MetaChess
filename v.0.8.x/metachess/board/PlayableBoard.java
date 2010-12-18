@@ -43,29 +43,30 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @param parent the playable board to clone
      */
     public PlayableBoard(PlayableBoard parent) {
-	this();
-	lastMove = parent.lastMove;
-	foreseer = parent.foreseer;
-
-	enabled = parent.enabled;
-	playing = parent.playing;
-	locked = parent.locked;
-
-	whitePlaying = parent.whitePlaying;
-        atomic = parent.atomic;
-	kingInRange = parent.kingInRange;
-	gameOver = parent.gameOver;
-
-	deathMatch = parent.deathMatch;
-	whiteKingDead = parent.whiteKingDead;
-	blackKingDead = parent.blackKingDead;
+    	
+		this();
+		lastMove = parent.lastMove;
+		foreseer = parent.foreseer;
+	
+		enabled = parent.enabled;
+		playing = parent.playing;
+		locked = parent.locked;
+	
+		whitePlaying = parent.whitePlaying;
+	    atomic = parent.atomic;
+		kingInRange = parent.kingInRange;
+		gameOver = parent.gameOver;
+	
+		deathMatch = parent.deathMatch;
+		whiteKingDead = parent.whiteKingDead;
+		blackKingDead = parent.blackKingDead;
 
     	width = parent.width;
     	height = parent.height;
 
         jokerPiece = parent.getJokerPiece();
-	areas = parent.areas;
-	promotions = parent.promotions;
+		areas = parent.areas;
+		promotions = parent.promotions;
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
@@ -404,7 +405,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     // STATES
 
     /** Toggle the playing value which decribes whether moves are being played.
-     * <br/> Note that this value is true in AIBoardTree (while enabled is not).
+     * <br/> Note that this value is true in AITree (while enabled is not).
      */
     public void togglePlaying() {
 	playing = !playing;

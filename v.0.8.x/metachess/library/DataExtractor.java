@@ -20,7 +20,7 @@ import metachess.exception.ExtractException;
 import metachess.exception.FilesExtractException;
 import metachess.exception.JarExtractException;
 
-/* Data extractor, installing MetaChess' resources on the Operating System
+/** Data extractor, installing resources on the Operating System
  * @author Jan (7DD)
  * @version 0.8.8
  */
