@@ -3,7 +3,7 @@ package metachess.game;
 /** Class of a specific move available for a piece
  * Do not confuse with Move which refers to a played move
  * @author Agbeladem (7DD)
- * @version 0.8.0
+ * @version 0.9.0
  */
 public class MoveType {
 
@@ -27,23 +27,22 @@ public class MoveType {
     private static boolean[] connectS = { true, false, false, false, false, false, false, true };
     private static boolean[] connectB = { false, false, true, false, false, true, false, false };
 
-    /** Given a combo direction character, returns the boolean matrix of all the available directions of this combo ; essentially used by the PieceBuilder to create new custom moves
+    /** Given a combo direction character.
+     * Essentially used by the PieceBuilder to create new custom moves.
      * @param c the combo direction character
-     * @return the matrix
+     * @return the boolean matrix of all the available directions of this combo 
      */
     public static boolean[] getDirectionConnectivityMatrixFromComboDirection(char c) {
-	boolean[] connect = {false, false, false, false, false, false, false, false};
-	if(c == 'A') connect = connectA;
-	else if(c == 'R') connect = connectR;
-	else if(c == 'V') connect = connectV;
-	else if(c == 'H') connect = connectH;
-	else if(c == 'D') connect = connectD;
-	else if(c == 'S') connect = connectS;
-	else if(c == 'B') connect = connectB;
-
-	return connect;
-	
-
+	switch(c) {
+	case 'A': return connectA;
+	case 'R': return connectR;
+	case 'V': return connectV;
+	case 'H': return connectH;
+	case 'D': return connectD;
+	case 'S': return connectS;
+	case 'B': return  connectB;
+	default: return new boolean[8];
+	}
     }
 
     /** Create a new sort of move
@@ -74,11 +73,13 @@ public class MoveType {
      */
     public float getPrice() {
 	assert(!isComboDirection()): "Not a valid combo direction";
-    	if(!priceCalculated){
+    	if(!priceCalculated) {
 	    double rangeModifier = 0;
 	    double typeModifier = 0;
 	    double dirModifier = 0;
 		
+	    priceCalculated = true;
+
 	    if(isWalkType()) typeModifier += 1;
 	    if(isAttackType()) typeModifier += 2;
 		

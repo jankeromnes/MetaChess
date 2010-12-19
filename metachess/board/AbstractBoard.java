@@ -30,8 +30,9 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
 
     protected GraphicalBoard gb;
     protected AbstractSquare[][] squares;
-    protected int activeSquareX;
-    protected int activeSquareY;
+
+    protected AbstractSquare activeSquare;
+    protected boolean squareActive;
 
     protected ArrayList<String> promotions;
     protected HashMap<String, Area> areas;

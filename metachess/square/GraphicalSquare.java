@@ -12,7 +12,7 @@ import metachess.library.Colour;
 
 /** Class of graphical squares
  * @author Jan (7DD) [v.0.7.5], Agbeladem (7DD) [v.0.8.0]
- * @version 0.8.0
+ * @version 0.9.0
  */
 public class GraphicalSquare extends JButton {
    
@@ -50,13 +50,13 @@ public class GraphicalSquare extends JButton {
 	setIcon(null); // THIS HAS TO DISAPPEAR !
 
 	if(as.isNull()) {
-	    setBackground(Colour.WHITE.getColor());
+	    setBackground(Colour.WHITE);
 	    setIcon(null);
 	} else {
 	    if(as.hasPiece())
 		setIcon(as.getPiece().getImage(dim));
 	    else setIcon(null);
-	    setBackground((as.isGreen()? Colour.GREEN : as.getColor()).getColor());
+	    setBackground(as.isGreen()? Colour.GREEN : as.getColor());
 	}
     	setText(as.hasPiece()? null : as.getCoords().toString());
     }
@@ -68,6 +68,13 @@ public class GraphicalSquare extends JButton {
 	dim = i;
 	board.setDim(i);
 	update();
+    }
+
+    /** Set this square's background color
+     * @param c the new background color of this graphical square
+     */
+    public void setBackground(Colour c) {
+	setBackground(c.getColor());
     }
 
     @Override

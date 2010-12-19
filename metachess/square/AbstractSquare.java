@@ -7,7 +7,7 @@ import metachess.model.PointBehaviour;
 
 /** Class of an Abstract Square
  * @author Jan (7DD)
- * @version 0.7.5
+ * @version 0.9.0
  */
 public class AbstractSquare implements Cloneable, PointBehaviour {
 

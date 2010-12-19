@@ -20,8 +20,7 @@ public class EditableBoard extends AbstractBoard {
     public EditableBoard(SetupBuilderBox arg) {
 	super();
 	parent = arg;
-	activeSquareX = -1;
-	activeSquareY = -1;
+	squareActive = false;
     }
 
     /** Initialize this board

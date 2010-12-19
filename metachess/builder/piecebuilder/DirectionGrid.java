@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import metachess.game.MoveType;
 import metachess.library.Colour;
 
-/** Class of the advanced Direction choice (as a grid of buttons)  in the Moves Builderbox
+/** Class of the advanced Direction choice (as a grid of buttons) in the Moves Builderbox
  * @author Agbeladem
- * @version 0.8.2
+ * @version 0.9.0
  */
 public class DirectionGrid extends JPanel {
 
@@ -60,7 +60,6 @@ public class DirectionGrid extends JPanel {
 
 	ActionListener listener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-
 		    Color d = Colour.BLUE.getColor();
 		    Color l = Colour.DARK_BLUE.getColor();
 		    JButton but = (JButton)e.getSource();
@@ -84,10 +83,8 @@ public class DirectionGrid extends JPanel {
      */
     public void fill(char c) {
 
-	Color activated = (able?Colour.DARK_BLUE.getColor()
-			   :Colour.BLUE.getColor());
-	Color desactivated = (able?Colour.BLUE.getColor()
-			      :Colour.WHITE.getColor());
+	Color activated =  Colour.DARK_BLUE.getColor();
+	Color desactivated = (able?Colour.BLUE:Colour.WHITE).getColor();
 
 	boolean[] connect = MoveType.getDirectionConnectivityMatrixFromComboDirection(c);
 	JButton[] right = walking ? walks : jumps;

@@ -48,31 +48,31 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public Game() {
     	super("MetaChess");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
-		atomic = false;
-		whiteAILevel = 0;
-		blackAILevel = 3;
+	atomic = false;
+	whiteAILevel = 0;
+	blackAILevel = 0;
 	
-		gmBox = new GameModeBox(this);
-		fileBox = new FileBox(this);
+	gmBox = new GameModeBox(this);
+	fileBox = new FileBox(this);
 	
-		menu = new Menu(this);
-		setJMenuBar(menu);
+	menu = new Menu(this);
+	setJMenuBar(menu);
 	
-		builder = new BuilderBox();
-		board = new ChessBoard(this);
+	builder = new BuilderBox();
+	board = new ChessBoard(this);
 	
-		gb = new GraphicalBoard(board);
-		gb.setPreferredSize(new Dimension(550, 450));
+	gb = new GraphicalBoard(board);
+	gb.setPreferredSize(new Dimension(550, 450));
 	
-		panel = new MainPanel(this);
+	panel = new MainPanel(this);
 	
-		add(gb, BorderLayout.CENTER);
-		add(panel, BorderLayout.EAST);
+	add(gb, BorderLayout.CENTER);
+	add(panel, BorderLayout.EAST);
 		
-		pack();
-		setVisible(true);
+	pack();
+	setVisible(true);
 
     }
 
@@ -289,22 +289,22 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public static void main(String[] argv) {
 
     	Clock.getInstance().start();
-		DataExtractor.checkDataVersion();
+	DataExtractor.checkDataVersion();
 	
-		try {
-		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch(Exception e) {}
+	try {
+	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+	} catch(Exception e) {}
 	
-		if(argv.length == 1) {
-		    String w = argv[0];
-		    if(w.indexOf('.') == -1) new Game(w).launch();
-		    else {
-				File f = new File(w);
-				if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
-				new Game().loadGame(f);
-		    }
-		}
-		else new Game();
+	if(argv.length == 1) {
+	    String w = argv[0];
+	    if(w.indexOf('.') == -1) new Game(w).launch();
+	    else {
+		File f = new File(w);
+		if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
+		new Game().loadGame(f);
+	    }
+	}
+	else new Game();
     }
 }
 
