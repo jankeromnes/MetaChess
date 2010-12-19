@@ -3,6 +3,7 @@ package metachess.panel.logger;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,7 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 
+import metachess.dialog.LoggerMovesBox;
 import metachess.game.Game;
 import metachess.game.Move;
 import metachess.library.Colour;
@@ -24,7 +27,7 @@ import metachess.library.ToolIcons;
 /** Class of the Panel that contains all the current game's moves history
  * and the associated buttons
  * @author Agbeladem (7DD)
- * @version 0.8.6
+ * @version 0.9.0
  */
 public class LogPanel extends JPanel {
 
@@ -35,8 +38,11 @@ public class LogPanel extends JPanel {
     private final JButton backButton;
     private final JButton forwardButton;
     private final JList listcomp;
+    private final JButton textFormatButton;
 
-    private JLabel lab;
+    private final JViewport view;
+    private final LoggerMovesBox box;
+    private final JLabel lab;
 
     /** Creation of a panel of the moves history
      * @param g the current Game
@@ -45,16 +51,17 @@ public class LogPanel extends JPanel {
 	super();
 
 	game = g;
+	box = new LoggerMovesBox();
 
 	setLayout(new GridBagLayout());
 	GridBagConstraints c = new GridBagConstraints();
 
 	backButton = new JButton();
 	forwardButton = new JButton();
-       
+	textFormatButton = new JButton("Text Format");       
+
 	backButton.setIcon(new ImageIcon(ToolIcons.LEFT_ARROW.getPath()));
 	forwardButton.setIcon(new ImageIcon(ToolIcons.RIGHT_ARROW.getPath()));
-
 
 	list = new LogList();
 	listcomp = new JList(list);
@@ -64,13 +71,16 @@ public class LogPanel extends JPanel {
 	listcomp.setCellRenderer(new LogRenderer());
 	listcomp.setSelectionBackground(Colour.DARK_BLUE.getColor());
 	JScrollPane comp = new JScrollPane(listcomp);
-	comp.setPreferredSize(new Dimension(100,200));
-	
+	comp.setMinimumSize(new Dimension(252,200));
+	view = comp.getViewport();
+
 	listcomp.addMouseListener(new MouseListener() {
 		public void mouseClicked(MouseEvent e) {
 		    if(!game.isBoardLocked()) {
-		    	game.jump(list.getMoves(listcomp.getSelectedIndex()));
-			update();
+			if(!listcomp.isSelectionEmpty()) {
+			    game.jump(list.getMoves(listcomp.getSelectedIndex()));
+			    update();
+			}
 		    }
 		}
 		public void mouseEntered(MouseEvent e) {}
@@ -79,8 +89,6 @@ public class LogPanel extends JPanel {
 		public void mouseReleased(MouseEvent e) {}
 	}
 	);
-
-
 
 	backButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -94,7 +102,12 @@ public class LogPanel extends JPanel {
 		}
 	    });
 
-        
+	textFormatButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+		    box.launch(list.getMoves());
+		}
+	    });
+
         c.gridy = 0;
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -119,9 +132,13 @@ public class LogPanel extends JPanel {
 	c.gridwidth = 3;
 	add(comp, c);
 
-	c.gridy=2;
+	c.gridy = 2;
 	lab = new JLabel();
 	add(lab,c);
+
+	c.gridy = 3;
+
+	add(textFormatButton, c);
 
 	update();
 
@@ -144,7 +161,7 @@ public class LogPanel extends JPanel {
     public void undo() {
     	assert(list.isBackable()): "undo : Action forbidden";
 	game.jump(list.back());
-		update();
+	update();
     }
 
     /** Undo the last move, called by the forward button's listener */
@@ -161,10 +178,15 @@ public class LogPanel extends JPanel {
     	int index = list.getLastIndex();
 	if(index >= 0) {
 	    listcomp.setSelectedIndex(index);
-	    listcomp.ensureIndexIsVisible(index);
-	} else listcomp.clearSelection();
 
-    	lab.setText(String.valueOf(list.getLastIndex()+1));
+	    // Ensure the index is visible in both the list and the viewport
+	    listcomp.ensureIndexIsVisible(index);
+	    int indexX = index*((int)LogRenderer.getSize().getHeight());
+	    int viewX = (int)(view.getViewPosition().getY());
+	    if(indexX < viewX || indexX > viewX + view.getSize().getHeight())
+	       view.setViewPosition(new Point(0, indexX));
+	} else listcomp.clearSelection();
+    	lab.setText("Move n° "+(list.getLastIndex()+1)+'/'+list.getSize());
     	game.updateMenu(list.isBackable(),list.isForwardable());
     }
 

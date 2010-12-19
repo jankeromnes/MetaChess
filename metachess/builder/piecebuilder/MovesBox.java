@@ -13,7 +13,7 @@ import metachess.builder.BuilderBox;
 
 /** Class of the Move Builderbox for the piece builder
  * @author Agbeladem (7DD)
- * @version 0.8.2
+ * @version 0.9.0
  */
 public class MovesBox extends JDialog {
 
@@ -30,7 +30,7 @@ public class MovesBox extends JDialog {
      */
     public MovesBox(BuilderBox frame, MovesPanel panel) {
 	super(frame, "New Move", true);
-	setMinimumSize(new Dimension(700, 500));
+	setMinimumSize(new Dimension(700, 530));
        	setLocationRelativeTo(frame);
 	setLayout(new BorderLayout());
 	this.panel = panel;

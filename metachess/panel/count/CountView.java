@@ -16,8 +16,8 @@ import metachess.loader.PieceImageLoader;
  */
 public class CountView extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private HashMap<String, JLabel> comp;
+    private static final long serialVersionUID = 1L;
+    private HashMap<String, JLabel> comp;
     private CountList list;
     private boolean white;
 
