@@ -19,9 +19,9 @@ import metachess.library.PiecesList;
  * @version 0.8.7
  */
 public class PromotionBox extends JDialog {
-
-	private static final long serialVersionUID = 1L;
-	private final ChessBoard board;
+    
+    private static final long serialVersionUID = 1L;
+    private final ChessBoard board;
     private final PiecesList list;
 
     /** Create a promotion box

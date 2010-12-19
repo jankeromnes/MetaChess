@@ -83,7 +83,9 @@ public class LogList extends AbstractListModel {
 	return ret;
     }
 
-    /** Go back by one move in this list's history */
+    /** Go back by one move in this list's history
+     * @return the list without the move
+     */
     public ArrayList<Move> back() {
 	assert isBackable();
 	return getMoves(lastIndex-1);

@@ -38,7 +38,7 @@ public class SetupSavePanel extends SavePanel {
 	    print("promotion\t=\t");
 	    StringBuilder s = new StringBuilder(promotions.get(0));
 	    int n = promotions.size();
-	    for(int i = 0 ; i < n ; i++) {
+	    for(int i = 1 ; i < n ; i++) {
 		s.append(", ");
 		s.append(promotions.get(i));
 	    }

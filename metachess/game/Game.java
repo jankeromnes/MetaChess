@@ -24,7 +24,7 @@ import metachess.panel.MainPanel;
 
 /** Main Class of a Metachess Game and its window
  * @author Jan and Agbeladem (7DD)
- * @version 0.8.7
+ * @version 0.9.0
  */
 public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 
@@ -70,7 +70,8 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	
 	add(gb, BorderLayout.CENTER);
 	add(panel, BorderLayout.EAST);
-		
+
+	setMinimumSize(new Dimension(700, 460));
 	pack();
 	setVisible(true);
 

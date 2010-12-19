@@ -23,6 +23,7 @@ public class CountPanel extends JScrollPane {
     public CountPanel() {
 	super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
 
+	setMinimumSize(new Dimension(250, 100));
 	setPreferredSize(new Dimension(250, 300));
 
 	list = new CountList();
