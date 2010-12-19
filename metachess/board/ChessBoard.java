@@ -138,34 +138,34 @@ public class ChessBoard extends PlayableBoard {
 
     @Override
     protected void promote(AbstractSquare as, boolean white) {
-		assert !promotions.isEmpty();
+	assert !promotions.isEmpty();
 	
-		promotionSquare = as;
-		promotionWhite = white;
-		toggleLocked();
+	promotionSquare = as;
+	promotionWhite = white;
+	toggleLocked();
 	
-		if(getAILevel() > 0) {
+	if(getAILevel() > 0) {
 	
-		    // The best of the available pieces
-		    float price = 0f;
-		    String piece = null;
-		    for(String s: promotions) {
-			float p = Pieces.getPiece(s).getPrice();
-			if(p > price) {
-			    piece = s;
-			    price = p;
-			}
-		    }
+	    // The best of the available pieces
+	    float price = 0f;
+	    String piece = null;
+	    for(String s: promotions) {
+		float p = Pieces.getPiece(s).getPrice();
+		if(p > price) {
+		    piece = s;
+		    price = p;
+		}
+	    }
 	
-		    validatePromotion(piece);
+	    validatePromotion(piece);
 	
-		} else if(isPlaying()) {
+	} else if(isPlaying()) {
 	
-		    // Promotion Box
-		    togglePlaying();
-		    box.launch(promotions);
+	    // Promotion Box
+	    togglePlaying();
+	    box.launch(promotions);
 	
-		} // Else the move is being loaded or replayed
+	} // Else the move is being loaded or replayed
 
      }
 

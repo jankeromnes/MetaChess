@@ -76,8 +76,10 @@ public class Piece implements PieceBehaviour {
 	    for(MoveType m : moves)
 		price+=m.getPrice();
 	    if(pawn) price += 20;
-    		price/=83.4;
-    		priceCalculated = true;
+	    if(rook) price += 10;
+	    price/=83.4;
+	    if(joker) price += 5;
+	    priceCalculated = true;
     	}
     	return price;
     }
@@ -200,15 +202,12 @@ public class Piece implements PieceBehaviour {
 		 }
 	     }
 
+	 ArrayList<MoveType> moves = new ArrayList<MoveType>(this.moves);
 	 // JOKER
 	 if(joker) {
 	     Piece jokerPiece = board.getJokerPiece();
-	     if(jokerPiece != null) {
-		 boolean wasWhite = jokerPiece.isWhite();
-		 jokerPiece.setWhite(white);
-		 movable |= jokerPiece.browseBoard(i, j, board, f);
-		 jokerPiece.setWhite(wasWhite);
-	     }
+	     if(jokerPiece != null) 
+		 moves.addAll(jokerPiece.getMoveTypes());
 	 }
 	 
 	 Move lastMove = board.getLastMove();
@@ -446,6 +445,9 @@ public class Piece implements PieceBehaviour {
 	if(rook) s.append(" rook");
 	if(joker)s.append(" joker");
 	if(pawn) s.append(" pawn");
+	s.append("( price = ");
+	s.append(getPrice());
+	s.append(" )");
 	return s.toString();
     }
 

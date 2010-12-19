@@ -44,29 +44,34 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      */
     public PlayableBoard(PlayableBoard parent) {
     	
-		this();
-		lastMove = parent.lastMove;
-		foreseer = parent.foreseer;
+	this();
+	lastMove = parent.lastMove;
+	foreseer = parent.foreseer;
 	
-		enabled = parent.enabled;
-		playing = parent.playing;
-		locked = parent.locked;
+	enabled = parent.enabled;
+	playing = parent.playing;
+	locked = parent.locked;
 	
-		whitePlaying = parent.whitePlaying;
-	    atomic = parent.atomic;
-		kingInRange = parent.kingInRange;
-		gameOver = parent.gameOver;
+	whitePlaying = parent.whitePlaying;
+	atomic = parent.atomic;
+	kingInRange = parent.kingInRange;
+	gameOver = parent.gameOver;
 	
-		deathMatch = parent.deathMatch;
-		whiteKingDead = parent.whiteKingDead;
-		blackKingDead = parent.blackKingDead;
+	deathMatch = parent.deathMatch;
+	whiteKingDead = parent.whiteKingDead;
+	blackKingDead = parent.blackKingDead;
+
+	squareActive = parent.squareActive;
+	activeSquare = parent.activeSquare;
 
     	width = parent.width;
     	height = parent.height;
 
+
+
         jokerPiece = parent.getJokerPiece();
-		areas = parent.areas;
-		promotions = parent.promotions;
+	areas = parent.areas;
+	promotions = parent.promotions;
     	squares = new AbstractSquare[width][height];
     	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
@@ -109,11 +114,10 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
         whiteKingDead = false;
         blackKingDead = false; 
 
+	squareActive = false;
     	atomic = isAtomic;
 	foreseer = !atomic;
 
-    	activeSquareX = -1;
-    	activeSquareY = -1;
     	jokerPiece = null;
     	lastMove = null;
 
@@ -176,8 +180,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		    //boolean moved = p.hasMoved();
 		    for(AbstractSquare s : p.getChoiceList(as.getColumn(), as.getRow(), this)) {
 			PlayableBoard pb = new PlayableBoard(this);
-			pb.activeSquareX = as.getColumn();
-			pb.activeSquareY = as.getRow();
 			pb.squares[s.getColumn()][s.getRow()].setGreen(true);
 			pb.togglePlaying();
 			pb.playSquare(s);
@@ -208,14 +210,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @return true if he has
      */
     public boolean isSquareActive() {
-	return isSquareValid(activeSquareX, activeSquareY);
+	return squareActive;
     }
 
     /** Get the abstract square that has been activated by the player
      * @return the abstract square
      */
     public AbstractSquare getActiveSquare() {
-	return getSquare(activeSquareX, activeSquareY);
+	return activeSquare;
     }
 
 
@@ -226,19 +228,18 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     
     public void activateSquare(AbstractSquare s) {
     	if(s.hasPiece() && s.getPiece().isWhite() == whitePlaying) {
-		    activeSquareX=s.getColumn();
-		    activeSquareY=s.getRow();
-		    if(!s.getPiece().setGreenSquares(activeSquareX, activeSquareY, this))
-		    	deactivateSquares();
-	    }
+	    squareActive = true;
+	    activeSquare = s;
+	    if(!s.getPiece().setGreenSquares(s.getColumn(), s.getRow(), this))
+		deactivateSquares();
+	}
     }
 
     public void deactivateSquares() {
 	for(int i = 0 ; i < width ; i++)
 	    for(int j = 0 ; j < height ; j++)
 		squares[i][j].setGreen(false);
-	activeSquareX=-1;
-	activeSquareY=-1;
+	squareActive = false;
     }
 
     
@@ -291,13 +292,14 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
 		if(playing || enabled)
-		    lastMove = new Move(activeSquareX, activeSquareY, i, j, board);
+		    lastMove = new Move(activeSquare, c, board);
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
 		if(theSquare != getActiveSquare()) {
+		    // Explosion
 		    if(atomic && theSquare.hasPiece()) {
 			capture = true;
 			explode(i, j);
-			getActiveSquare().removePiece();
+			removePiece(getActiveSquare());
 		    } else {
 			capture = theSquare.hasPiece();
 			if(capture)
@@ -339,7 +341,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		    }
 		}
 
-		if(playing || enabled)
+		if(playing || enabled) // if not in the illegal moves calculation loop
 		    lastMove.setCapture(capture);
 		if(enabled) {
 		    lastMove.resolveAmbiguity();

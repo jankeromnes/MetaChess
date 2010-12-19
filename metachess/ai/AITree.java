@@ -44,8 +44,7 @@ public class AITree extends PlayableBoard {
     	percent = 0;
     	trace = true;
     	
-        activeSquareX=-1;
-        activeSquareY=-1;
+	squareActive = false;
     	
     	computeBestCandidate();
     	
@@ -73,8 +72,7 @@ public class AITree extends PlayableBoard {
     	percent = 0;
     	trace = false;
     	
-        activeSquareX=-1;
-        activeSquareY=-1;
+	squareActive = false;
 
         playMove(m);
     	
@@ -89,42 +87,42 @@ public class AITree extends PlayableBoard {
      */
     public void computeBestCandidate() {
     	if(trace) {
-    		children = getChoiceCount();
-    		percent = 0;
+	    children = getChoiceCount();
+	    percent = 0;
     	}
-		resetIterator();
-		AITree child;
+	resetIterator();
+	AITree child;
     	if(depth>0 && !gameOver) {
-		    for(AbstractSquare s : this) {
-				deactivateSquares();
-				// optimization idea: if reached maximum final score, don't search for other options (complexity gets a little bit better)
-				if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying) && ( candidate == null || ( !whitePlaying && candidate.getScore() > -9999 ) || ( whitePlaying && candidate.getScore() < 9999 ) ) ) {
-				    activateSquare(s);
-				    if(isSquareActive()) {
-						for(int i = 0 ; i < width ; i++) {
-						    for(int j = 0 ; j < width ; j++) {
-								if(getSquare(i,j).isGreen()) {
-								    Move m = new Move(activeSquareX,activeSquareY, i, j, this);
-								    child = new AITree(this, m, depth-1);
-								    BestMoveSequence newCandidate = child.getBestMoveSequence();
-								    // check if candidate was beaten
-								    if (candidate == null
-									|| ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
-									|| ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
-									) candidate = newCandidate;
-								    complexity += child.getComplexity();
-								    if(trace) {
-								    	percent += 100./(float)children;
-								    	cb.updateAIPercentage(percent);
-								    }
-								}
-						    }
-						}
+	    for(AbstractSquare s : this) {
+		deactivateSquares();
+		// optimization idea: if reached maximum final score, don't search for other options (complexity gets a little bit better)
+		if (s.hasPiece() && (s.getPiece().isWhite() == whitePlaying) && ( candidate == null || ( !whitePlaying && candidate.getScore() > -9999 ) || ( whitePlaying && candidate.getScore() < 9999 ) ) ) {
+		    activateSquare(s);
+		    if(isSquareActive()) {
+			for(int i = 0 ; i < width ; i++) {
+			    for(int j = 0 ; j < width ; j++) {
+				if(getSquare(i,j).isGreen()) {
+				    Move m = new Move(activeSquare.getColumn(),activeSquare.getRow(), i, j, this);
+				    child = new AITree(this, m, depth-1);
+				    BestMoveSequence newCandidate = child.getBestMoveSequence();
+				    // check if candidate was beaten
+				    if (candidate == null
+					|| ( whitePlaying && ( candidate.getScore() < newCandidate.getScore() ) )
+					|| ( !whitePlaying && ( candidate.getScore() > newCandidate.getScore() ) )
+					) candidate = newCandidate;
+				    complexity += child.getComplexity();
+				    if(trace) {
+					percent += 100./(float)children;
+					cb.updateAIPercentage(percent);
 				    }
 				}
+			    }
+			}
 		    }
-		    resetIterator();
+		}
 	    }
+	    resetIterator();
+	}
     }
     
     public BestMoveSequence getBestMoveSequence() {
@@ -133,38 +131,38 @@ public class AITree extends PlayableBoard {
     
     public float getScore() {
     	if(!scoreSet) {
-    		complexity++;
-    		score = 0;
-    		Piece p;
-    		for(AbstractSquare sq : this) {
-		    if(sq.hasPiece()) {
-    			p = sq.getPiece();
-    			if (p.isWhite()) score+=p.getPrice();
-    			else score-=p.getPrice();
-		    }
-    		}
-    		if(!deathMatch){
-    			if(whiteKingDead) score=-10000;
-    			if(blackKingDead) score=10000;
-    		}
+	    complexity++;
+	    score = 0;
+	    Piece p;
+	    for(AbstractSquare sq : this) {
+		if(sq.hasPiece()) {
+		    p = sq.getPiece();
+		    if (p.isWhite()) score+=p.getPrice();
+		    else score-=p.getPrice();
+		}
+	    }
+	    if(!deathMatch){
+		if(whiteKingDead) score=-10000;
+		if(blackKingDead) score=10000;
+	    }
     	}
     	return score;
     }
     
-    /**
-     // DEPRECATED
-
-	public void freeMemory() {
-		Runtime r = Runtime.getRuntime();
-		long freeMemory = r.freeMemory();
-		long totalMemory = r.totalMemory();
-		if(freeMemory < (totalMemory*0.05)){
-			r.gc();
-			int freedPercentage = Math.round(((float)(r.freeMemory()-freeMemory))/((float)totalMemory)*100);
-			System.out.println("Freed "+freedPercentage+"% of memory!");
-		}
+    
+    /*
+    // DEPRECATED
+    public void freeMemory() {
+	Runtime r = Runtime.getRuntime();
+	long freeMemory = r.freeMemory();
+	long totalMemory = r.totalMemory();
+	if(freeMemory < (totalMemory*0.05)){
+	    r.gc();
+	    int freedPercentage = Math.round(((float)(r.freeMemory()-freeMemory))/((float)totalMemory)*100);
+	    System.out.println("Freed "+freedPercentage+"% of memory!");
 	}
-	*/
+    }
+    */
 	
     public long getComplexity() {
 	return complexity;
