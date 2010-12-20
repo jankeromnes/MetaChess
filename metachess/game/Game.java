@@ -11,7 +11,7 @@ import javax.swing.UIManager;
 import metachess.board.ChessBoard;
 import metachess.board.GraphicalBoard;
 import metachess.builder.BuilderBox;
-import metachess.dialog.ErrorDialog;
+import metachess.dialog.ErrorBox;
 import metachess.dialog.FileBox;
 import metachess.dialog.GameModeBox;
 import metachess.exception.MetachessException;
@@ -48,46 +48,45 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public Game() {
     	super("MetaChess");
 
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		atomic = false;
+		whiteAILevel = 0;
+		blackAILevel = 0;
+		
+		gmBox = new GameModeBox(this);
+		fileBox = new FileBox(this);
+		
+		menu = new Menu(this);
+		setJMenuBar(menu);
+		
+		builder = new BuilderBox();
+		board = new ChessBoard(this);
+		
+		gb = new GraphicalBoard(board);
+		gb.setPreferredSize(new Dimension(550, 450));
+		
+		panel = new MainPanel(this);
+		
+		add(gb, BorderLayout.CENTER);
+		add(panel, BorderLayout.EAST);
 	
-	atomic = false;
-	whiteAILevel = 0;
-	blackAILevel = 0;
-	
-	gmBox = new GameModeBox(this);
-	fileBox = new FileBox(this);
-	
-	menu = new Menu(this);
-	setJMenuBar(menu);
-	
-	builder = new BuilderBox();
-	board = new ChessBoard(this);
-	
-	gb = new GraphicalBoard(board);
-	gb.setPreferredSize(new Dimension(550, 450));
-	
-	panel = new MainPanel(this);
-	
-	add(gb, BorderLayout.CENTER);
-	add(panel, BorderLayout.EAST);
-
-	setMinimumSize(new Dimension(700, 460));
-	pack();
-	setVisible(true);
+		setMinimumSize(new Dimension(700, 460));
+		pack();
+		setVisible(true);
 
     }
 
     /** Create a new game window.
-     * It will have to be launched to be properlly shown
+     * It will have to be launched to be properly shown
      * @param setup the file name of the desired setup (without the extension)
      */
     public Game(String setup) {
-	this();
-	this.setup = setup;
-	board.init(setup, atomic);
-	gb.init();
-	gb.update();
-
+		this();
+		this.setup = setup;
+		board.init(setup, atomic);
+		gb.init();
+		gb.update();
     }
 
     /** Jump to a given position of the game's logger
@@ -114,12 +113,12 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param clear tells whether the logger should be cleared
      */
     private void newGame(boolean clear) {
-	board.init(setup, atomic);
-	gb.init();
-	gb.update();
-	clear(clear);
-	if(clear)
-	    board.launch();
+		board.init(setup, atomic);
+		gb.init();
+		gb.update();
+		clear(clear);
+		if(clear) board.launch();
+		Clock.getInstance().start();
     }
     
 
@@ -128,6 +127,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     	// TODO to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
 		// AITree aiboard = new AITree(board, 1);
 		System.out.println("\nGAME OVER!");
+		Clock.getInstance().interrupt();
     }
 
     /** Update the menu to enable/disable the Undo or Redo items
@@ -151,7 +151,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	    new SavedGame(setup, atomic,
 			  whiteAILevel, blackAILevel, panel.getMoves()).save(file);
 	} catch(MetachessException e) {
-	    new ErrorDialog(e);
+	    new ErrorBox(e);
 	}
     }
 
@@ -168,7 +168,7 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
 	try {
 	    GameLoader.load(file, board);
 	    loadGame(GameLoader.getSavedGame());
-	} catch(MetachessException e) { new ErrorDialog(e); }
+	} catch(MetachessException e) { new ErrorBox(e); }
 
     }
 
@@ -288,24 +288,26 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public boolean isBoardLocked() { return board.isLocked(); }
 
     public static void main(String[] argv) {
-
-    	Clock.getInstance().start();
-	DataExtractor.checkDataVersion();
+    	
+    	
+    	DataExtractor.checkDataVersion();
 	
-	try {
-	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-	} catch(Exception e) {}
-	
-	if(argv.length == 1) {
-	    String w = argv[0];
-	    if(w.indexOf('.') == -1) new Game(w).launch();
-	    else {
-		File f = new File(w);
-		if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
-		new Game().loadGame(f);
-	    }
-	}
-	else new Game();
+		try {
+		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch(Exception e) {}
+		
+		if(argv.length == 1) {
+		    String w = argv[0];
+		    if(w.indexOf('.') == -1) new Game(w).launch();
+		    else {
+				File f = new File(w);
+				if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
+				new Game().loadGame(f);
+		    }
+		}
+		else {
+			new Game();
+		}
     }
 }
 

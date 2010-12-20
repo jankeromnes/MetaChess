@@ -15,7 +15,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import metachess.dialog.ErrorDialog;
+import metachess.dialog.ErrorBox;
 import metachess.exception.ExtractException;
 import metachess.exception.FilesExtractException;
 import metachess.exception.JarExtractException;
@@ -59,7 +59,7 @@ public class DataExtractor {
 	    	}
     	}
 	    catch (ExtractException e) {
-	    	new ErrorDialog(e);
+	    	new ErrorBox(e);
 	    }
 		
 	}

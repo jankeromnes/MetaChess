@@ -19,9 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import metachess.dialog.ConfirmDialog;
-import metachess.dialog.ErrorDialog;
-import metachess.dialog.MessageDialog;
+import metachess.dialog.ConfirmBox;
+import metachess.dialog.ErrorBox;
+import metachess.dialog.MessageBox;
 import metachess.exception.WriteException;
 import metachess.library.Resource;
 import metachess.library.ResourceList;
@@ -126,16 +126,16 @@ public abstract class SavePanel extends JPanel {
 	    fileName.append('.');
 	    fileName.append(res.getExtension());
 	    File file = new File(fileName.toString());
-	    if(!file.exists() || new ConfirmDialog("Save a "+res.getName(),
+	    if(!file.exists() || new ConfirmBox("Save a "+res.getName(),
 						  "If you save this file, it will erase the existing file\n"
 						  + "Continue ?", false).launch()) {
 		pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 		write();
 		pw.close();
-		new MessageDialog(res.getName()+" file updated");
+		new MessageBox(res.getName()+" file updated");
 	    }
 	} catch(IOException e) {
-	    new ErrorDialog(new WriteException(res.getPath()));
+	    new ErrorBox(new WriteException(res.getPath()));
 	}
 
     }

@@ -70,6 +70,7 @@ public class MainPanel extends JPanel implements PanelLinkBehaviour {
     @Override
     public void addMove(Move m) {
     	histo.addMove(m);
+    	//status.addTime();
     }
 
     @Override

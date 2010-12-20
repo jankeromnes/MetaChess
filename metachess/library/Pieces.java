@@ -2,7 +2,7 @@ package metachess.library;
 
 import java.util.HashMap;
 
-import metachess.dialog.ErrorDialog;
+import metachess.dialog.ErrorBox;
 import metachess.exception.LoadException;
 import metachess.game.Piece;
 import metachess.loader.PieceLoader;
@@ -53,7 +53,7 @@ public class Pieces {
 	    if(!hasPiece(pieceName))
 		PieceLoader.load(pieceName);
 	} catch(LoadException e) {
-	    new ErrorDialog(e);
+	    new ErrorBox(e);
 	}
 
 	Piece piece = new Piece(instance.map.get(pieceName));

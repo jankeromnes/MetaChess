@@ -6,12 +6,12 @@ import javax.swing.JOptionPane;
  * @author Agbeladem
  * @version 0.8.5
  */
-public class MessageDialog {
+public class MessageBox {
 
     /** Show a message dialog box
      * @param message the message to be shown
      */
-    public MessageDialog(String message) {
+    public MessageBox(String message) {
 	JOptionPane.showMessageDialog(null, message);
     }
 

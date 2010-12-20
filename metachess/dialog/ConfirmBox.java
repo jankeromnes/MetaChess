@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
  * @author Agbeladem (7DD)
  * @version 0.8.5
  */
-public class ConfirmDialog {
+public class ConfirmBox {
 
     private String message;
     private boolean yesNo;
@@ -17,7 +17,7 @@ public class ConfirmDialog {
      * @param question the question that will be shown on this box
      * @param yesno whether this is a yes-no question (or a OK-Cancel question)
      */
-    public ConfirmDialog(String title, String question, boolean yesno) {
+    public ConfirmBox(String title, String question, boolean yesno) {
 	this.title = title;
 	message = question;
 	yesNo = yesno;

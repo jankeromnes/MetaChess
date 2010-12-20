@@ -102,7 +102,7 @@ public class AITree extends PlayableBoard {
 			for(int i = 0 ; i < width ; i++) {
 			    for(int j = 0 ; j < width ; j++) {
 				if(getSquare(i,j).isGreen()) {
-				    Move m = new Move(activeSquare.getColumn(),activeSquare.getRow(), i, j, this);
+				    Move m = new Move(activeSquare.getColumn(),activeSquare.getRow(), i, j, 0, this);
 				    child = new AITree(this, m, depth-1);
 				    BestMoveSequence newCandidate = child.getBestMoveSequence();
 				    // check if candidate was beaten
@@ -112,8 +112,8 @@ public class AITree extends PlayableBoard {
 					) candidate = newCandidate;
 				    complexity += child.getComplexity();
 				    if(trace) {
-					percent += 100./(float)children;
-					cb.updateAIPercentage(percent);
+						percent += 100./(float)children;
+						cb.updateAIPercentage(percent);
 				    }
 				}
 			    }
