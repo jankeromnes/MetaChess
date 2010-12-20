@@ -72,7 +72,7 @@ public class Move {
 		newx = newxarg;
 		newy = newyarg;
 		
-		time = timearg;
+		setTime(timearg);
 	
 		pawnType = false;
 		attackType = false;
@@ -90,8 +90,8 @@ public class Move {
 
 
 
-    // ALGEABRIC CHESS NOTATION SUPPORT
-    /** Resolve ambiguity problems in the algeabric chess notation */
+    // ALGEBRAIC CHESS NOTATION SUPPORT
+    /** Resolve ambiguity problems in the algebraic chess notation */
     public void resolveAmbiguity() {
 	assert board != null;
 	if(!resolved) {
@@ -182,6 +182,23 @@ public class Move {
     public void resolveAttackType() {
 	resolve(Type.ATTACK);
     }
+    
+    // TIMING
+    
+	/** Set the time the player took to make this move
+	 * @param time the time to set
+	 */
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+	/** Return the time the player took to make this move
+	 * @return the time
+	 */
+	public long getTime() {
+		return time;
+	}
+	
 
     // GAME STATE
 

@@ -15,7 +15,9 @@ import metachess.game.Move;
  */
 public class LoggerMovesBox extends JDialog {
 
-    private final JTextArea field;
+	private static final long serialVersionUID = 1L;
+	
+	private final JTextArea field;
 
     /** Create a logger moves box */
     public LoggerMovesBox() {
