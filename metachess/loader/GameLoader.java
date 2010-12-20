@@ -25,12 +25,6 @@ public class GameLoader extends VariableLoader {
     private PlayableBoard board;
     private SavedGame sg;
 
-    /* TODO unused variables
-    private boolean atomic;
-    private String setup;
-    private int whiteAILevel;
-    private int blackAILevel; */
-
     @Override
     public void loadResource(String file) throws LoadException {
 	sg = new SavedGame();
@@ -50,31 +44,27 @@ public class GameLoader extends VariableLoader {
 	    st.wordChars('_', '_');
 	    int next = st.nextToken();
 	    while(next != StreamTokenizer.TT_EOF) {
-		if(next == StreamTokenizer.TT_WORD) {
-		    String move = st.sval;
-		    if(move.length() >= 4) {
-			boolean promotion = move.length() > 4;
-			char a = move.charAt(0);
-			char b = move.charAt(1);
-			char c = move.charAt(2);
-			char d = move.charAt(3);
-			if(!Coords.isValid(a, b))
-			    throw new FileContentException("Bad Coords format : "+a+b, file);
-			else if(!Coords.isValid(c, d))
-			    throw new FileContentException("Bad Coords format : "+c+d, file);
-			else {
-			    Move m = new Move(new Coords(a, b), new Coords(c, d), board);
-			    if(promotion)
-				if(move.charAt(4) != '_')
-				    throw new FileContentException ("Bad BCG format : "+move, file);
-				else
-				    m.setPromotionPiece(move.substring(5, move.length()));
-			    sg.addMove(m);
-			}
-		    } else throw new FileContentException("Bad Move Format : "+move, file);
-		} else if(next != StreamTokenizer.TT_EOL)
-		    throw new FileContentException("Invalid token value : "+next, file);
-		next = st.nextToken();
+			if(next == StreamTokenizer.TT_WORD) {
+			    String move = st.sval;
+			    if(move.length() >= 4) {
+					boolean promotion = move.length() > 4;
+					char a = move.charAt(0);
+					char b = move.charAt(1);
+					char c = move.charAt(2);
+					char d = move.charAt(3);
+					if(!Coords.isValid(a, b))
+					    throw new FileContentException("Bad Coords format : "+a+b, file);
+					else if(!Coords.isValid(c, d))
+					    throw new FileContentException("Bad Coords format : "+c+d, file);
+					else {
+					    Move m = new Move(new Coords(a, b), new Coords(c, d), 0, board); // TODO read time from file (arbitrary zero)
+					    if(promotion) if(move.charAt(4) != '_') throw new FileContentException ("Bad BCG format : "+move, file);
+						else m.setPromotionPiece(move.substring(5, move.length()));
+					    sg.addMove(m);
+					}
+			    } else throw new FileContentException("Bad Move Format : "+move, file);
+			} else if(next != StreamTokenizer.TT_EOL) throw new FileContentException("Invalid token value : "+next, file);
+			next = st.nextToken();
 	    }
 	    br.close();
 	} catch(IOException e) {

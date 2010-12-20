@@ -9,7 +9,7 @@ import metachess.square.AbstractSquare;
 
 /** Class of a specific abstract move played by a player in the history
  * @author Agbeladem (7DD)
- * @version 0.8.8
+ * @version 0.9.0
  */
 public class Move {
 
@@ -19,6 +19,8 @@ public class Move {
     private int oldy;
     private int newx;
     private int newy;
+    
+    private long time;
 
     private boolean capture;
     private boolean kingInRange;
@@ -49,28 +51,31 @@ public class Move {
      * @param oldyarg the row (Y Coord) of the moved piece before the move
      * @param newxarg the column (X Coord) of the moved piece after the move
      * @param newyarg the row (Y Coord) of the moved piece after the move
+     * @param timearg the time the player took to play in milliseconds
      * @param abstractBoard the board in which this move is played
      */
     public Move(int oldxarg, int oldyarg,
-		int newxarg, int newyarg,
+		int newxarg, int newyarg, long timearg,
 		PlayableBoard abstractBoard) {
 
-	castling = false;
-	promotion = false;
-	board = abstractBoard;
-	capture = false;
-	kingInRange = false;
-	resolved = false;
-	verticalAmbiguity = false;
-	horizontalAmbiguity = false;
-
-	oldx = oldxarg;
-	oldy = oldyarg;
-	newx = newxarg;
-	newy = newyarg;
-
-	pawnType = false;
-	attackType = false;
+		castling = false;
+		promotion = false;
+		board = abstractBoard;
+		capture = false;
+		kingInRange = false;
+		resolved = false;
+		verticalAmbiguity = false;
+		horizontalAmbiguity = false;
+	
+		oldx = oldxarg;
+		oldy = oldyarg;
+		newx = newxarg;
+		newy = newyarg;
+		
+		time = timearg;
+	
+		pawnType = false;
+		attackType = false;
 
     }
 
@@ -79,8 +84,8 @@ public class Move {
      * @param b the position of the moved piece after the move
      * @param ab the board in which this move is played
      */
-    public Move(PointBehaviour a, PointBehaviour b, PlayableBoard ab) {
-	this(a.getColumn(), a.getRow(), b.getColumn(), b.getRow(), ab);
+    public Move(PointBehaviour a, PointBehaviour b, long timearg, PlayableBoard ab) {
+	this(a.getColumn(), a.getRow(), b.getColumn(), b.getRow(), timearg, ab);
     }
 
 

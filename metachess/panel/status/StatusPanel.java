@@ -41,6 +41,9 @@ public class StatusPanel extends JPanel {
     	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     }
     
+    /** Set the current active player
+     * @param white whether the player is white or black
+     */
     public void setActivePlayer(boolean white) {
     	for(PlayerStatus status : statii) {
     		status.setActivePlayer(white);

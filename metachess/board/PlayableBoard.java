@@ -287,12 +287,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     	AbstractSquare theSquare = getSquare(i, j);
 	boolean capture = false;
        	PlayableBoard board = enabled ? new PlayableBoard(this) : null;
-	Move oldMove = lastMove;
+       	Move oldMove = lastMove;
     	if(isSquareActive())  {
 	    if(theSquare.isGreen()) {
 		Piece lastPiece = getActiveSquare().getPiece();
-		if(playing || enabled)
-		    lastMove = new Move(activeSquare, c, board);
+		if(playing || enabled) lastMove = new Move(activeSquare, c, 0, board); // TODO verify if arbitrary zero is correct
 		if (!lastPiece.isJoker()) jokerPiece = lastPiece;
 		if(theSquare != getActiveSquare()) {
 		    // Explosion
@@ -328,11 +327,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 			    else if(!capture && enabled && lastPiece.isPawn() && oldMove != null && oldMove.isPawnType()) {
 				lastMove.resolveAttackType();
 				if(lastMove.isAttackType()) {
-				    capture = true;
-				    Coords co = oldMove.getNewCoords();
+					    capture = true;
+					    Coords co = oldMove.getNewCoords();
 				    if(atomic) {
-					explode(co);
-					getActiveSquare().removePiece();
+						explode(co);
+						getActiveSquare().removePiece();
 				    } else removePiece(co);
 				}
 			    }
@@ -353,14 +352,10 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
 		update();
 
-		if(playing)
-		    nextPlayer(); 
+		if(playing) nextPlayer(); 
 
-	    } else if(enabled)
-		deactivateSquares();
-    	}
-    	else if(!gameOver)
-	    activateSquare(i, j);
+	    } else if(enabled) deactivateSquares();
+    	} else if(!gameOver) activateSquare(i, j);
 
 	update();
 	 
@@ -368,9 +363,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     @Override
     public void update() {
-	// Eliminates many useless updates
-	if(enabled)
-	    super.update();
+		// Eliminates many useless updates
+		if(enabled) super.update();
     }
 
     /** Check whether the last move put the opponent's king in check */

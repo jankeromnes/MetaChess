@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import metachess.dialog.ErrorDialog;
+import metachess.dialog.ErrorBox;
 import metachess.exception.FileAccessException;
 import metachess.exception.LoadException;
 import metachess.library.PieceImages;
@@ -32,7 +32,7 @@ public class PieceImageLoader implements Loader {
 	    if(b)
 		instance.loadResource("pieces_images.mci");
 	} catch(LoadException e) {
-	    new ErrorDialog(e);
+	    new ErrorBox(e);
 	}
     }
 

@@ -21,30 +21,30 @@ public class CountPanel extends JScrollPane {
 
     /** Create a panel of the count views */
     public CountPanel() {
-	super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
-
-	setMinimumSize(new Dimension(250, 100));
-	setPreferredSize(new Dimension(250, 300));
-
-	list = new CountList();
+		super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
+	
+		setMinimumSize(new Dimension(250, 100));
+		setPreferredSize(new Dimension(250, 300));
+	
+		list = new CountList();
 
         white = new CountView(true, list);
-	black = new CountView(false, list);
-	panel = new JPanel();
-	panel.add(white);
-	panel.add(black);
-	panel.setLayout(new GridLayout(1, 2));
-
-	viewport.add(panel);
+		black = new CountView(false, list);
+		panel = new JPanel();
+		panel.add(black);
+		panel.add(white);
+		panel.setLayout(new GridLayout(1, 2));
+	
+		viewport.add(panel);
 
     }
 
     /** Clear this count list */
     public void clear() {
-	list.clear();
-	black.update();
-	white.update();
-	repaint();
+		list.clear();
+		black.update();
+		white.update();
+		repaint();
     }
 
 

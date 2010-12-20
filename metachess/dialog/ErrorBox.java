@@ -8,12 +8,12 @@ import metachess.exception.MetachessException;
  * @author Agbeladem
  * @version 0.8.5
  */
-public class ErrorDialog {
+public class ErrorBox {
 
     /** Show a critical error dialog box
      * @param e the exception that was encountered
      */
-    public ErrorDialog(MetachessException e) {
+    public ErrorBox(MetachessException e) {
 	JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	//System.exit(1);
     }

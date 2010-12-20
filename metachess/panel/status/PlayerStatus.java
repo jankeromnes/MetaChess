@@ -31,6 +31,7 @@ public class PlayerStatus extends JPanel implements Synchron {
 		
 		setPreferredSize(new Dimension(125, 45));
 		PieceImageLoader.load();
+		Clock.susbscribe(this);
 
 		white = isWhite;
 		clear();
@@ -63,24 +64,24 @@ public class PlayerStatus extends JPanel implements Synchron {
 		if (white == isWhite) {
 			start = System.currentTimeMillis();
 			playing = true;
-			Clock.susbscribe(this);
 			setBackground(Colour.GREEN.getColor());
 		}
 		else {
 			playing = false;
-			Clock.unsubscribe(this);
 			setBackground((white ? Colour.WHITE_BG : Colour.BLACK_BG).getColor());
 		}
 	}
 
 	@Override
 	public void synchronize() {
-		total += System.currentTimeMillis() - start;
+		if(playing) {
+			total += System.currentTimeMillis() - start;
+			int sec = (int)((total)/1000);
+			int s = (sec%60);
+			int mn = (sec/60)%60;
+			time.setText((mn<10?"0":"")+mn+":"+(s<10?"0":"")+s);
+		}
 		start = System.currentTimeMillis();
-		int sec = (int)((total)/1000);
-		int s = (sec%60);
-		int mn = (sec/60)%60;
-		time.setText((mn<10?"0"+mn:mn)+":"+(s<10?"0"+s:s));
 	}
 
 	public void updateAIPercentage(float percentage) {

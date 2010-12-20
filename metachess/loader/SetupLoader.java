@@ -7,7 +7,7 @@ import java.io.StreamTokenizer;
 
 import metachess.board.AbstractBoard;
 import metachess.board.Area;
-import metachess.dialog.ErrorDialog;
+import metachess.dialog.ErrorBox;
 import metachess.exception.FileAccessException;
 import metachess.exception.FileContentException;
 import metachess.exception.LoadException;
@@ -150,7 +150,7 @@ public class SetupLoader extends VariableLoader {
 	    instance.board = abstractBoard;
 	    instance.loadResource(file);
 	} catch(LoadException e) {
-	    new ErrorDialog(e);
+	    new ErrorBox(e);
 	}
     }
 
