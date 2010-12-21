@@ -8,7 +8,8 @@ import java.awt.Component;
  */
 public interface ResourceList {
 
-    /** (Re)initialize this resource list (required) */
+    /** (Re)initialize this resource list (required)
+     * with all the resources available */
     public void init();
 
     /** Get the name of the selected resource

@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import metachess.board.ChessBoard;
-import metachess.library.PiecesList;
+import metachess.library.PieceList;
 
 /** Class of the Promotion Box
  * @author Agbeladem (7DD)
@@ -22,7 +22,7 @@ public class PromotionBox extends JDialog {
     
     private static final long serialVersionUID = 1L;
     private final ChessBoard board;
-    private final PiecesList list;
+    private final PieceList list;
 
     /** Create a promotion box
      * @param f the window (most likely Game) to which this dialog is modal
@@ -34,9 +34,9 @@ public class PromotionBox extends JDialog {
 
 	board = cb;
 
-	list = new PiecesList(30);
+	list = new PieceList(30);
 	Component scroll = list.getComponent();
-	scroll.setPreferredSize(new Dimension(120, 220));
+	scroll.setPreferredSize(new Dimension(150, 220));
 
 	JButton but = new JButton("Validate");
 	but.addActionListener(new ActionListener() {

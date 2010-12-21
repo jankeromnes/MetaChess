@@ -9,7 +9,7 @@ import metachess.square.AbstractSquare;
 
 /** Class of the Setup Builderbox save panel
  * @author Agbeladem
- * @version 0.8.8
+ * @version 0.9.0
  */
 public class SetupSavePanel extends SavePanel {
 
@@ -27,13 +27,13 @@ public class SetupSavePanel extends SavePanel {
     @Override
     public void write() {
 	println("# Metachess=v.0.8.0/MCS=v.4");
-	;	println("# Generated from builder");
+	println("# Generated from builder");
 	println("\nwidth\t= "+parent.getCols());
 	println("height\t= "+parent.getRows());
 
 	EditableBoard board = parent.getBoard();
 
-	ArrayList<String> promotions = board.getPromotionList();
+	ArrayList<String> promotions = parent.getPromotionListModel().getPieces();
 	if(!promotions.isEmpty()) {
 	    print("promotion\t=\t");
 	    StringBuilder s = new StringBuilder(promotions.get(0));

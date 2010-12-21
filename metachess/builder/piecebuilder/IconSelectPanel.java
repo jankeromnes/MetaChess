@@ -2,6 +2,7 @@ package metachess.builder.piecebuilder;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -38,7 +39,7 @@ public class IconSelectPanel extends JPanel {
 	    };
 
 	add(new PanelTitle("Model Icon"));
-	add(images);
+	add(new JScrollPane(images));
 
     }
 

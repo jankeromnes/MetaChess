@@ -18,7 +18,7 @@ import javax.swing.event.ListSelectionListener;
 
 import metachess.library.Colour;
 import metachess.library.Pieces;
-import metachess.library.PiecesList;
+import metachess.library.PieceList;
 
 /** Class of the tool selection panel
  * @author Agbeladem (7DD)
@@ -30,7 +30,7 @@ public class ToolSelectPanel extends JPanel {
     private final SetupBuilderBox parent;
     private final ListSelectionListener listEv;
 
-    private final PiecesList images;
+    private final PieceList images;
     private final JRadioButton squareToggler;
     private final JRadioButton pieceEraser;
     private final JRadioButton piece;
@@ -78,7 +78,7 @@ public class ToolSelectPanel extends JPanel {
 
 	// PIECES LIST
 
-	images = new PiecesList();
+	images = new PieceList();
 	images.setLayoutOrientation(JList.VERTICAL_WRAP);
 
 	listEv = new ListSelectionListener() {

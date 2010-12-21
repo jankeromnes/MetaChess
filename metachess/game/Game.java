@@ -48,32 +48,32 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     public Game() {
     	super("MetaChess");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		atomic = false;
-		whiteAILevel = 0;
-		blackAILevel = 0;
+	atomic = false;
+	whiteAILevel = 0;
+	blackAILevel = 3;
 		
-		gmBox = new GameModeBox(this);
-		fileBox = new FileBox(this);
+	gmBox = new GameModeBox(this);
+	fileBox = new FileBox(this);
 		
-		menu = new Menu(this);
-		setJMenuBar(menu);
+	menu = new Menu(this);
+	setJMenuBar(menu);
 		
-		builder = new BuilderBox();
-		board = new ChessBoard(this);
+	builder = new BuilderBox();
+	board = new ChessBoard(this);
 		
-		gb = new GraphicalBoard(board);
-		gb.setPreferredSize(new Dimension(550, 450));
+	gb = new GraphicalBoard(board);
+	gb.setPreferredSize(new Dimension(550, 450));
 		
-		panel = new MainPanel(this);
+	panel = new MainPanel(this);
 		
-		add(gb, BorderLayout.CENTER);
-		add(panel, BorderLayout.EAST);
+	add(gb, BorderLayout.CENTER);
+	add(panel, BorderLayout.EAST);
 	
-		setMinimumSize(new Dimension(700, 460));
-		pack();
-		setVisible(true);
+	setMinimumSize(new Dimension(700, 460));
+	pack();
+	setVisible(true);
 
     }
 
@@ -82,11 +82,11 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param setup the file name of the desired setup (without the extension)
      */
     public Game(String setup) {
-		this();
-		this.setup = setup;
-		board.init(setup, atomic);
-		gb.init();
-		gb.update();
+	this();
+	this.setup = setup;
+	board.init(setup, atomic);
+	gb.init();
+	gb.update();
     }
 
     /** Jump to a given position of the game's logger
@@ -113,21 +113,21 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
      * @param clear tells whether the logger should be cleared
      */
     private void newGame(boolean clear) {
-		board.init(setup, atomic);
-		gb.init();
-		gb.update();
-		clear(clear);
-		if(clear) board.launch();
-		Clock.getInstance().start();
+	board.init(setup, atomic);
+	gb.init();
+	gb.update();
+	clear(clear);
+	if(clear) board.launch();
+	Clock.getInstance().start();
     }
     
 
     /** End the last game, meaning one player has won or that it is a draw */
     public void endGame() {
     	// TODO to replace with EndGameDialog("winner is : " + board.getWinner()); (pseudo-code)
-		// AITree aiboard = new AITree(board, 1);
-		System.out.println("\nGAME OVER!");
-		Clock.getInstance().interrupt();
+	// AITree aiboard = new AITree(board, 1);
+	System.out.println("\nGAME OVER!");
+	Clock.getInstance().interrupt();
     }
 
     /** Update the menu to enable/disable the Undo or Redo items
@@ -176,19 +176,19 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     // PANEL LINK BEHAVIOUR
 
     @Override
-    public void addMove(Move m) { panel.addMove(m); }
+	public void addMove(Move m) { panel.addMove(m); }
 
     @Override
-    public void undo() { panel.undo(); }
+	public void undo() { panel.undo(); }
 
     @Override
-    public void redo() { panel.redo(); }
+	public void redo() { panel.redo(); }
 
     @Override
-    public void clear(boolean b) { panel.clear(b); }
+	public void clear(boolean b) { panel.clear(b); }
 
     @Override
-    public void loadGame(SavedGame sg){
+	public void loadGame(SavedGame sg){
 
 	clear(true);
 
@@ -223,49 +223,49 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     }
 
     @Override
-    public void count(String pieceName, boolean isWhite) {
+	public void count(String pieceName, boolean isWhite) {
     	panel.count(pieceName, isWhite);
     }
     
     @Override
-    public void setActivePlayer(boolean white) {
+	public void setActivePlayer(boolean white) {
     	panel.setActivePlayer(white);
     }
 
-	@Override
+    @Override
 	public void updateAIPercentage(float percent) {
-		panel.updateAIPercentage(percent);
-	}
+	panel.updateAIPercentage(percent);
+    }
 
 
     // GAME BEHAVIOUR
 
     @Override
-    public boolean isAtomic() { return atomic; }
+	public boolean isAtomic() { return atomic; }
 
     @Override
-    public int getWhiteAILevel() { return whiteAILevel; }
+	public int getWhiteAILevel() { return whiteAILevel; }
 
     @Override
-    public int getBlackAILevel() { return blackAILevel; }
+	public int getBlackAILevel() { return blackAILevel; }
 
     @Override
-    public String getSetup() { return setup; }
+	public String getSetup() { return setup; }
 
     @Override
-    public void setSetup(String s) { setup = s; }
+	public void setSetup(String s) { setup = s; }
 
     @Override
-    public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
+	public void setWhiteAILevel(int wAI) { whiteAILevel = wAI; }
 
     @Override
-    public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
+	public void setBlackAILevel(int bAI) { blackAILevel = bAI; }
 
     @Override
-    public void setAtomic(boolean a) { atomic = a; }
+	public void setAtomic(boolean a) { atomic = a; }
 
     @Override
-    public ArrayList<Move> getMoves() {
+	public ArrayList<Move> getMoves() {
 	return null;
     }
 
@@ -292,22 +292,22 @@ public class Game extends JFrame implements PanelLinkBehaviour, GameBehaviour {
     	
     	DataExtractor.checkDataVersion();
 	
-		try {
-		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch(Exception e) {}
+	try {
+	    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+	} catch(Exception e) {}
 		
-		if(argv.length == 1) {
-		    String w = argv[0];
-		    if(w.indexOf('.') == -1) new Game(w).launch();
-		    else {
-				File f = new File(w);
-				if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
-				new Game().loadGame(f);
-		    }
-		}
-		else {
-			new Game();
-		}
+	if(argv.length == 1) {
+	    String w = argv[0];
+	    if(w.indexOf('.') == -1) new Game(w).launch();
+	    else {
+		File f = new File(w);
+		if (!f.exists()) f = new File(System.getProperty("user.home")+File.separator+w);
+		new Game().loadGame(f);
+	    }
+	}
+	else {
+	    new Game();
+	}
     }
 }
 
