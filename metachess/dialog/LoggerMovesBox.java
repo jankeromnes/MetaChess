@@ -1,11 +1,11 @@
 package metachess.dialog;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import java.util.ArrayList;
 
 import metachess.game.Move;
 

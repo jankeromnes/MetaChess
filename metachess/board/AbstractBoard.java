@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import metachess.game.Coords;
 import metachess.game.Move;
 import metachess.game.Piece;
 import metachess.loader.SetupLoader;

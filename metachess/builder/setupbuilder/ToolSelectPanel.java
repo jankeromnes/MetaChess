@@ -17,8 +17,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import metachess.library.Colour;
-import metachess.library.Pieces;
 import metachess.library.PieceList;
+import metachess.library.Pieces;
 
 /** Class of the tool selection panel
  * @author Agbeladem (7DD)
