@@ -13,7 +13,7 @@ import metachess.model.GameBehaviour;
 
 /** Class of a saved metachess game model
  * @author Jan and Agbeladem (7DD)
- * @version 0.8.6
+ * @version 0.9.0
  */
 @SuppressWarnings("serial")
 public class SavedGame implements Serializable, GameBehaviour {
@@ -50,7 +50,7 @@ public class SavedGame implements Serializable, GameBehaviour {
 
 	try {
 	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)));
-	    pw.println("# Metachess v.0.8.6/MCG=v.2");
+	    pw.println("# Metachess v.0.8.6/MCG=v.3");
 	    pw.println("# Automatically generated");
 	    pw.println("atomic = "+(atomic?"TRUE":"FALSE"));
 	    pw.println("setup = "+setup);
