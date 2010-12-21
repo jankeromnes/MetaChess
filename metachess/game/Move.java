@@ -188,8 +188,8 @@ public class Move {
 	/** Set the time the player took to make this move
 	 * @param time the time to set
 	 */
-	public void setTime(long time) {
-		this.time = time;
+	public void setTime(long timearg) {
+		time = timearg;
 	}
 
 	/** Return the time the player took to make this move
@@ -282,14 +282,16 @@ public class Move {
      * @return the format as a string
      */
     public String getMCGFormat() {
-	StringBuilder s = new StringBuilder();
-	s.append(getOldCoords());
-	s.append(getNewCoords());
-	if(promotion) {
-	    s.append('_');
-	    s.append(promotionPiece.getName());
-	}
-	return s.toString();
+		StringBuilder s = new StringBuilder();
+		s.append(getOldCoords());
+		s.append(getNewCoords());
+		if(promotion) {
+		    s.append('_');
+		    s.append(promotionPiece.getName());
+		}
+		s.append(' ');
+		s.append(time);
+		return s.toString();
     }
 
     @Override

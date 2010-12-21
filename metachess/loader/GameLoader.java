@@ -57,9 +57,18 @@ public class GameLoader extends VariableLoader {
 					else if(!Coords.isValid(c, d))
 					    throw new FileContentException("Bad Coords format : "+c+d, file);
 					else {
-					    Move m = new Move(new Coords(a, b), new Coords(c, d), 0, board); // TODO read time from file (arbitrary zero)
+					    Move m = new Move(new Coords(a, b), new Coords(c, d), 0, board);
 					    if(promotion) if(move.charAt(4) != '_') throw new FileContentException ("Bad BCG format : "+move, file);
 						else m.setPromotionPiece(move.substring(5, move.length()));
+					    
+					    next = st.nextToken();
+					    if(next == StreamTokenizer.TT_NUMBER) {
+					    	m.setTime((long)st.nval);
+					    }
+					    else {
+					    	st.pushBack();
+					    }
+					    
 					    sg.addMove(m);
 					}
 			    } else throw new FileContentException("Bad Move Format : "+move, file);
@@ -90,7 +99,7 @@ public class GameLoader extends VariableLoader {
      * @return the game model
      */
     public static SavedGame getSavedGame() {
-	return instance.sg;
+    	return instance.sg;
     }
 
     /** Load a saved game
@@ -98,8 +107,8 @@ public class GameLoader extends VariableLoader {
      * @param board the board in which this will be
      */
     public static void load(File f, PlayableBoard board) throws LoadException {
-	instance.board = board;
-	instance.loadResource(f.getPath());
+		instance.board = board;
+		instance.loadResource(f.getPath());
     }
 
 }

@@ -33,11 +33,12 @@ public class PlayerStatus extends JPanel implements Synchron {
 		PieceImageLoader.load();
 		Clock.susbscribe(this);
 
-		white = isWhite;
-		clear();
-		icon = new JLabel(PieceImages.getScaledImage("pawn", white, 30));
+		icon = new JLabel(PieceImages.getScaledImage("pawn", isWhite, 30));
 		time = new JLabel("00:00");
 		percent = new JProgressBar(0);
+		
+		white = isWhite;
+		clear();
 		
 		
 		top = new JPanel();
@@ -55,8 +56,9 @@ public class PlayerStatus extends JPanel implements Synchron {
 	public void clear() {
 		setBackground((white ? Colour.WHITE_BG : Colour.BLACK_BG).getColor());
 		playing = false;
-		total = 0;
 		start = System.currentTimeMillis();
+		total = 0;
+		time.setText("00:00");
 	}
 	
 	public void setActivePlayer(boolean isWhite) {
