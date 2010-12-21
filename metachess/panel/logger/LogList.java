@@ -37,7 +37,6 @@ public class LogList extends AbstractListModel {
      */
     public void addMove(Move m) {
 	lastIndex++;
-
 	while(moves.size() > lastIndex)
 	    moves.remove(lastIndex);
 	moves.add(m);

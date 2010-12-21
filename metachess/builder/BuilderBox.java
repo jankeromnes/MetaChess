@@ -1,5 +1,6 @@
 package metachess.builder;
 
+import java.awt.Dimension;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -23,6 +24,7 @@ public class BuilderBox extends JDialog {
     public BuilderBox() {
 	super();
 	setTitle("Metachess - Builder");
+	setPreferredSize(new Dimension(740, 480));
 
 	PieceImageLoader.load();
 	setup = new SetupBuilderBox();

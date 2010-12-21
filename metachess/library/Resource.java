@@ -12,7 +12,7 @@ public enum Resource {
     RESOURCES(""),
 	ICON_IMAGES("images/", ".+", "png", "icon", null),
 	PIECE_IMAGES("images/pieces","^W.+", "png", "pieceImage", new PieceImageList()),
-	PIECES("pieces", "^.+", "mcp", "piece", new PiecesList()),
+	PIECES("pieces", "^.+", "mcp", "piece", new PieceList()),
 	SETUPS("setups", "^.+", "mcs","setup", new SetupList());
 
     private static String folder = null;

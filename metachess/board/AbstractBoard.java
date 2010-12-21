@@ -247,10 +247,10 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
    
     /** Get the abstract square with the given coordinates
-     * @param c the coordinates
-     * @return the square
+     * @param c the position of the square
+     * @return the square at the wanted coordinates
      */
-    public AbstractSquare getSquare(Coords c) {
+    public AbstractSquare getSquare(PointBehaviour c) {
 	return getSquare(c.getColumn(), c.getRow());
     }
 
@@ -291,7 +291,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
      * Note that this is overriden in ChessBoard to add the removed piece
      * in the countlist. If one wishes to avoid that, one should rather
      * call theSquare.removePiece()
-     * @param s the square
+     * @param s the position of the square
      */
     public void removePiece(PointBehaviour s) {
 	removePiece(s.getColumn(), s.getRow());

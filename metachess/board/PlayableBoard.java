@@ -177,10 +177,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		((PlayableSquare)as).clearChoiceList();
 		Piece p = as.getPiece();
 		if(p.isWhite() == whitePlaying) {
-		    //boolean moved = p.hasMoved();
 		    for(AbstractSquare s : p.getChoiceList(as.getColumn(), as.getRow(), this)) {
 			PlayableBoard pb = new PlayableBoard(this);
-			pb.squares[s.getColumn()][s.getRow()].setGreen(true);
+			pb.squareActive = true;
+			pb.activeSquare = pb.getSquare(as);
+			pb.getSquare(s).setGreen(true);
 			pb.togglePlaying();
 			pb.playSquare(s);
 			pb.whitePlaying = !whitePlaying;
@@ -192,13 +193,11 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 				break;
 			    }
 			}
-			//pb.resetIterator();
 			if(!illegal) {
 			    ((PlayableSquare)as).addChoice(s.getCoords());
 			    hasMoves = true;
 			}
 		    }
-		    // p.setMoved(moved);
 		}
 	    }
 	resetIterator();

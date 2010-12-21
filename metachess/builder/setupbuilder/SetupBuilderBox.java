@@ -7,11 +7,12 @@ import javax.swing.JPanel;
 import metachess.board.EditableBoard;
 import metachess.board.GraphicalBoard;
 import metachess.game.Piece;
+import metachess.library.PieceListModel;
 import metachess.loader.SetupLoader;
 
 /** Class of the Setup tab in the Builderbox
  * @author Agbeladem (7DD)
- * @version 0.8.5
+ * @version 0.9.0
  */
 public class SetupBuilderBox extends JPanel {
 
@@ -35,16 +36,20 @@ public class SetupBuilderBox extends JPanel {
 	board = new EditableBoard(this);
 	board.init(cols, rows);
 	gb = new GraphicalBoard(board);
-	gb.setDim(30);
+	gb.setDim(32);
 	gb.init();
 	tsp = new ToolSelectPanel(this);
 	sap = new SetupSavePanel(this);
 	ssp = new SetupSettingsPanel(this);
 
+	JPanel center = new JPanel();
+	center.setLayout(new BorderLayout());
+	center.add(gb, BorderLayout.CENTER);
+	center.add(tsp, BorderLayout.SOUTH);
+
 	add(sap, BorderLayout.NORTH);
-	add(gb, BorderLayout.CENTER);
+	add(center, BorderLayout.CENTER);
 	add(ssp, BorderLayout.EAST);
-	add(tsp, BorderLayout.SOUTH);
 
     }
 
@@ -64,6 +69,7 @@ public class SetupBuilderBox extends JPanel {
 	rows = gb.getRows();
 
 	ssp.setBoardDimensions(cols, rows);
+	getPromotionListModel().load(board.getPromotionList());
 
 	gb.update();
     }
@@ -136,6 +142,13 @@ public class SetupBuilderBox extends JPanel {
      */
     public GraphicalBoard getGraphicalBoard() {
 	return gb;
+    }
+
+    /** Get the piece list model used for the promotion
+     * @return the model used for setting all the pieces into which a pawn can be promoted
+     */
+    public PieceListModel getPromotionListModel() {
+	return ssp.getPromotionListModel();
     }
 
 }
