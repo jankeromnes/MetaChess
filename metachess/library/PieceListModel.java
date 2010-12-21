@@ -2,6 +2,7 @@ package metachess.library;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import javax.swing.AbstractListModel;
 
 /** Class of the model for the Piece List

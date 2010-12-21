@@ -1,9 +1,10 @@
 package metachess.builder.setupbuilder;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
@@ -17,7 +18,8 @@ import metachess.library.PieceListModel;
  */
 public class PromotionListBox extends JDialog {
 
-    private final PieceListModel model;
+	private static final long serialVersionUID = 1L;
+	private final PieceListModel model;
     private final PieceList list;
     private final JButton validate;
 

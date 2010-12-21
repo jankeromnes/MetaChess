@@ -1,6 +1,7 @@
 package metachess.builder;
 
 import java.awt.Dimension;
+
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
