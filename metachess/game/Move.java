@@ -35,8 +35,6 @@ public class Move {
     private boolean horizontalAmbiguity;
     private boolean verticalAmbiguity;
 
-
-
     private enum Type { PAWN, ATTACK };
 
     private boolean pawnType;
@@ -58,24 +56,24 @@ public class Move {
 		int newxarg, int newyarg, long timearg,
 		PlayableBoard abstractBoard) {
 
-		castling = false;
-		promotion = false;
-		board = abstractBoard;
-		capture = false;
-		kingInRange = false;
-		resolved = false;
-		verticalAmbiguity = false;
-		horizontalAmbiguity = false;
+	castling = false;
+	promotion = false;
+	board = abstractBoard;
+	capture = false;
+	kingInRange = false;
+	resolved = false;
+	verticalAmbiguity = false;
+	horizontalAmbiguity = false;
 	
-		oldx = oldxarg;
-		oldy = oldyarg;
-		newx = newxarg;
-		newy = newyarg;
+	oldx = oldxarg;
+	oldy = oldyarg;
+	newx = newxarg;
+	newy = newyarg;
 		
-		setTime(timearg);
+	setTime(timearg);
 	
-		pawnType = false;
-		attackType = false;
+	pawnType = false;
+	attackType = false;
 
     }
 
@@ -282,21 +280,21 @@ public class Move {
      * @return the format as a string
      */
     public String getMCGFormat() {
-		StringBuilder s = new StringBuilder();
-		s.append(getOldCoords());
-		s.append(getNewCoords());
-		if(promotion) {
-		    s.append('_');
-		    s.append(promotionPiece.getName());
-		}
-		s.append(' ');
-		s.append(time);
-		return s.toString();
+	StringBuilder s = new StringBuilder();
+	s.append(getOldCoords());
+	s.append(getNewCoords());
+	if(promotion) {
+	    s.append('_');
+	    s.append(promotionPiece.getName());
+	}
+	s.append(' ');
+	s.append(time);
+	return s.toString();
     }
 
     @Override
-    public String toString() {
-	assert resolved;
+	public String toString() {
+	assert resolved : "The move must be resolved before being printed";
 	StringBuilder s = new StringBuilder();
 	if(castling) {
 	    boolean kingside = newx - oldx > 0;
@@ -322,4 +320,5 @@ public class Move {
     }
 
 }
+
 

@@ -28,6 +28,7 @@ public class ChessBoard extends PlayableBoard {
 
     private AbstractSquare promotionSquare;
     private boolean promotionWhite;
+    private String promotionName; // Only used when replaying
 
     private boolean keep;
 
@@ -48,12 +49,12 @@ public class ChessBoard extends PlayableBoard {
     /** Launch the game, to be sent after init */
     public void launch() {
     	game.setActivePlayer(whitePlaying);
-		int AILevel = getAILevel();
-		if(AILevel > 0) {
-		    toggleLocked();
-		    AIThread ait = new AIThread(this, AILevel);
-		    toggleEnabled();
-		    ait.start();
+	int AILevel = getAILevel();
+	if(AILevel > 0) {
+	    toggleLocked();
+	    AIThread ait = new AIThread(this, AILevel);
+	    toggleEnabled();
+	    ait.start();
     	}
     }
     
@@ -81,7 +82,7 @@ public class ChessBoard extends PlayableBoard {
      * @param j the piece's square's row (Y Coord)
      */
     @Override
-	public void removePiece(int i, int j) {
+    public void removePiece(int i, int j) {
 
 	//assert isSquareValid(i,j);
 	if(hasPiece(i, j)) {
@@ -104,6 +105,8 @@ public class ChessBoard extends PlayableBoard {
      * @param m the move to play
      */
     public void replayMove(Move m) {
+	if(m.isPromotion())
+	    promotionName = m.getPromotionPiece().getName();
     	playSquare(m.getOldCoords(), false);
     	playSquare(m.getNewCoords(), false);
     }
@@ -116,9 +119,12 @@ public class ChessBoard extends PlayableBoard {
     	toggleEnabled();
     	toggleLocked();
     	playSquare(m.getOldCoords(), true);
+
+	// Visual effect
     	toggleLocked();
     	try { Thread.sleep(200); } catch (Exception e) { e.printStackTrace(); }
     	toggleLocked();
+
     	playSquare(m.getNewCoords(), true);
     }
     
@@ -144,7 +150,9 @@ public class ChessBoard extends PlayableBoard {
 	promotionWhite = white;
 	toggleLocked();
 	
-	if(getAILevel() > 0) {
+	if(!keep)
+	    validatePromotion(promotionName);
+	else if(getAILevel() > 0) {
 	
 	    // The best of the available pieces
 	    float price = 0f;

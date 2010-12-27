@@ -71,7 +71,8 @@ public class LogPanel extends JPanel {
 	listcomp.setCellRenderer(new LogRenderer());
 	listcomp.setSelectionBackground(Colour.DARK_BLUE.getColor());
 	JScrollPane comp = new JScrollPane(listcomp);
-	comp.setMinimumSize(new Dimension(252,200));
+	comp.setPreferredSize(new Dimension(255,200));
+	//	comp.setMinimumSize(new Dimension(255,200));
 	view = comp.getViewport();
 
 	listcomp.addMouseListener(new MouseListener() {
@@ -183,8 +184,9 @@ public class LogPanel extends JPanel {
 	    listcomp.ensureIndexIsVisible(index);
 	    int indexX = index*((int)LogRenderer.getSize().getHeight());
 	    int viewX = (int)(view.getViewPosition().getY());
-	    if(indexX < viewX || indexX > viewX + view.getSize().getHeight())
+	    if(indexX <= viewX || indexX >= viewX + view.getSize().getHeight())
 	       view.setViewPosition(new Point(0, indexX));
+
 	} else listcomp.clearSelection();
     	lab.setText("Move n° "+(list.getLastIndex()+1)+'/'+list.getSize());
     	game.updateMenu(list.isBackable(),list.isForwardable());
@@ -205,7 +207,6 @@ public class LogPanel extends JPanel {
     public ArrayList<Move> getMoves() {
 	return list.getMoves();
     }
-
 
 }
 
