@@ -16,7 +16,7 @@ import metachess.library.Colour;
  */
 public class LogRenderer implements ListCellRenderer {
 
-    private static final Dimension size = new Dimension(250, 16);
+    private static final Dimension size = new Dimension(230, 16);
     protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
     @Override
@@ -40,6 +40,5 @@ public class LogRenderer implements ListCellRenderer {
     }
 
 }
-
 
 
