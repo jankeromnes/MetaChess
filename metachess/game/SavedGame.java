@@ -52,6 +52,7 @@ public class SavedGame implements Serializable, GameBehaviour {
 	    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)));
 	    pw.println("# Metachess v.0.8.6/MCG=v.3");
 	    pw.println("# Automatically generated");
+	    pw.println("");
 	    pw.println("atomic = "+(atomic?"TRUE":"FALSE"));
 	    pw.println("setup = "+setup);
 	    pw.println("whitelevel = "+whiteAILevel);

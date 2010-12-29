@@ -1,0 +1,9 @@
+# metachess letters dictionary
+#	v.0.9.1
+
+knight:		"N"
+metaking:	"K"
+grasshopper:	"H"
+archbishop:	"AB"
+
+

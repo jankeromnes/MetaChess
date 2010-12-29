@@ -18,7 +18,7 @@ public enum ToolIcons {
    }
 
    private String getFolderPath() {
-       return Resource.ICON_IMAGES.getPath(false)+"icons/";
+       return Resource.ICON_IMAGES.getPath();
    }
 
    public String getPath() {

@@ -10,20 +10,20 @@ import java.io.FilenameFilter;
 public enum Resource {
 
     RESOURCES(""),
-	ICON_IMAGES("images/", ".+", "png", "icon", null),
-	PIECE_IMAGES("images/pieces","^W.+", "png", "pieceImage", new PieceImageList()),
+	ICON_IMAGES("images/icons", ".+", "png", "icon", null),
+	PIECE_IMAGES("images/pieces", "^W.+", "png", "pieceImage", new PieceImageList()),
 	PIECES("pieces", "^.+", "mcp", "piece", new PieceList()),
 	SETUPS("setups", "^.+", "mcs","setup", new SetupList());
 
     private static String folder = null;
     
     private static String getDataFolder() {
-		if(folder == null) {
-		    String folder = System.getenv("appdata");
-		    if(folder != null) folder += File.separator + "MetaChess" + File.separator; 
-		    else folder = System.getProperty("user.home") + File.separator + ".metachess" + File.separator;
-		    Resource.folder = folder;
-		}
+	if(folder == null) {
+	    String folder = System.getenv("appdata");
+	    if(folder != null) folder += File.separator + "MetaChess" + File.separator; 
+	    else folder = System.getProperty("user.home") + File.separator + ".metachess" + File.separator;
+	    Resource.folder = folder;
+	}
 	return folder;
     }
 

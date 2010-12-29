@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import metachess.board.PlayableBoard;
 import metachess.library.Pieces;
+import metachess.library.PieceLetters;
+import metachess.loader.PieceLetterLoader;
 import metachess.model.PointBehaviour;
 import metachess.square.AbstractSquare;
 
@@ -293,30 +295,33 @@ public class Move {
     }
 
     @Override
-	public String toString() {
-	assert resolved : "The move must be resolved before being printed";
-	StringBuilder s = new StringBuilder();
-	if(castling) {
-	    boolean kingside = newx - oldx > 0;
-	    int nb = kingside ? board.getCols() - 1 - oldx : oldx;
-	    nb -= 2;
-	    for(int i = 0 ; i < nb ; i++)
-		s.append("0-");
-	    s.append('0');
-	} else {
-	    if(!piece.isPawn()) s.append(piece.getLetter());
-	    if(capture) s.append('x');
-	    if(verticalAmbiguity) s.append(getOldCoords().getColumnChar());
-	    else if(horizontalAmbiguity) s.append(getOldCoords().getRowChar());
-	    s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
-	    if(promotion) {
-		s.append(':');
-		s.append(promotionPiece.getLetter());
-	    }
-	    if(kingInRange) s.append('+');
+    public String toString() {
+	if(resolved) {
+	    PieceLetterLoader.load();
+	    StringBuilder s = new StringBuilder();
+	    if(castling) {
+		boolean kingside = newx - oldx > 0;
+		int nb = (kingside ? board.getCols() - 1 - oldx : oldx)-2;
+		for(int i = 0 ; i < nb ; i++)
+		    s.append("0-");
+		s.append('0');
+	    } else {
+		if(!piece.isPawn()) s.append(PieceLetters.get(piece));
+		if(capture) s.append('x');
 
-	}
-	return s.toString();
+		if(verticalAmbiguity) s.append((char)('a'+oldx));
+		else if(horizontalAmbiguity) s.append(getOldCoords().getRowChar());
+		s.append(board.getSquare(newx,newy).getCoords().toString().toLowerCase());
+		if(promotion) {
+		    s.append(':');
+		    s.append(PieceLetters.get(promotionPiece));
+		}
+		if(kingInRange) s.append('+');
+
+	    }
+	    return s.toString();
+	} else
+	    return getMCGFormat();
     }
 
 }

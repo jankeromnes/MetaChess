@@ -52,10 +52,10 @@ public class PieceImageLoader implements Loader {
 	    String line = br.readLine();
 	    while(line != null) {
 		int length = line.length();
-		if(length!=0 && line.charAt(0) != '#') {
+		if(length !=0 && line.charAt(0) != '#') {
 		    int first = line.indexOf(":");
 		    int last = line.lastIndexOf(":");
-		    String piece = line.substring(0,first);
+		    String piece = line.substring(0, first);
 		    String whiteImage = line.substring(first+1, last);
 		    String blackImage = line.substring(last+1, length);
 		    String path = Resource.PIECE_IMAGES.getPath();
@@ -75,3 +75,5 @@ public class PieceImageLoader implements Loader {
     }
 
 }
+
+
