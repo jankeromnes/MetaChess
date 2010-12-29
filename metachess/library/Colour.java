@@ -12,6 +12,7 @@ public enum Colour {
 	BLUE(160, 190, 232, 255),
 	DARK_BLUE(100, 130, 232, 255),
 	GREY(220, 220, 220, 255), 
+	DARK_GREY(80, 80, 80, 255), 
 	SALMON(220,195,185, 255);
     private Color color;
 
