@@ -7,8 +7,8 @@ package metachess.square;
 public class EmptySquare extends AbstractSquare {
 
     /** Create an empty square
-     * @param x this square's column (X Coord)
-     * @param y this square's row (Y Coord)
+     * @param i this square's column (X Coord)
+     * @param j this square's row (Y Coord)
      */
     public EmptySquare(int i, int j) {
 	super(i, j);

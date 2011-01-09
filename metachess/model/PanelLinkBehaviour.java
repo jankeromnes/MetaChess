@@ -49,7 +49,7 @@ public interface PanelLinkBehaviour {
     public void setActivePlayer(boolean white);
     
     /** Tell the panels which is the current player
-     * @param white the color of the current player
+     * @param percent the percentage of advancement of the AI
      */
     public void updateAIPercentage(float percent);
 

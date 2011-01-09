@@ -191,8 +191,7 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     // SQUARES
 
     /** Play a given move
-     * @param m the move
-     * @param keep whether 
+     * @param m the move that is to play in this board
      */
     public void playMove(Move m) {
 	playSquare(m.getOldCoords());
@@ -236,8 +235,8 @@ public abstract class AbstractBoard implements Iterable<AbstractSquare> {
     }
 
     /** Get the abstract square with the given coordinates
-     * @param x the square's column (X Coord)
-     * @param y the square's row (Y Coord)
+     * @param i the square's column (X Coord)
+     * @param j the square's row (Y Coord)
      * @return the square
      */
     public AbstractSquare getSquare(int i, int j) {

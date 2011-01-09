@@ -102,9 +102,9 @@ public class GameLoader extends VariableLoader {
      * @param file the file in which the game is saved
      * @param board the board in which this will be
      */
-    public static void load(File f, PlayableBoard board) throws LoadException {
-		instance.board = board;
-		instance.loadResource(f.getPath());
+    public static void load(File file, PlayableBoard board) throws LoadException {
+	instance.board = board;
+	instance.loadResource(file.getPath());
     }
 
 }

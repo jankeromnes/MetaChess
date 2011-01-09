@@ -141,7 +141,7 @@ public class Menu extends JMenuBar {
     }
 
 
-    public void update (boolean backable, boolean forwardable) {
+    public void update(boolean backable, boolean forwardable) {
 	undoMove.setEnabled(backable);
 	redoMove.setEnabled(forwardable);
     }

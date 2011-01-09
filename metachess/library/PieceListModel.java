@@ -34,7 +34,7 @@ public class PieceListModel extends AbstractListModel {
     }
 
      /** Load a list of pieces in this model
-     * @param list the list of names of the pieces that will be used
+     * @param pieces the list of names of the pieces that will be used
      */
     public void load(ArrayList<String> pieces) {
 	this.pieces = pieces;

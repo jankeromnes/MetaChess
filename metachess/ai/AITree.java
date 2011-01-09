@@ -26,7 +26,7 @@ public class AITree extends PlayableBoard {
     private boolean trace;
     
     /** Create the root node of the AITree from a given ChessBoard with a given depth
-     * @param pb the ChessBoard
+     * @param cb the ChessBoard
      * @param treeDepth the depth of the tree
      */
     public AITree(ChessBoard cb, int treeDepth) {

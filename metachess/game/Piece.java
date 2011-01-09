@@ -127,7 +127,7 @@ public class Piece implements PieceBehaviour {
      }
     
     /** Get the list of all the move types
-     * @param the list of move types for this piece
+     * @return the list of move types for this piece
      */
      public ArrayList<MoveType> getMoveTypes() {
 	 return moves;
@@ -318,8 +318,8 @@ public class Piece implements PieceBehaviour {
      * @param board the abstract board of the piece
      * @return true if it has
      */
-    public boolean checkKingInRange(int i, int j, PlayableBoard ab) {
-	return browseBoard(i, j, ab, BrowseType.CHECK_KING);
+    public boolean checkKingInRange(int i, int j, PlayableBoard board) {
+	return browseBoard(i, j, board, BrowseType.CHECK_KING);
     }
 
     public int getChoiceCount(int i, int j, PlayableBoard board) {
@@ -336,14 +336,25 @@ public class Piece implements PieceBehaviour {
      * @param board the abstract board of the piece
      * @return true if it has
      */
-    public boolean checkSquareInRange(Coords oldc, Coords newc, PlayableBoard ab) {
+    public boolean checkSquareInRange(Coords oldc, Coords newc, PlayableBoard board) {
 	newCoords = newc;
-	return browseBoard(oldc.getColumn(), oldc.getRow(), ab, BrowseType.CHECK_RANGE);
+	return browseBoard(oldc.getColumn(), oldc.getRow(), board, BrowseType.CHECK_RANGE);
     }
 
-    //  GETTERS / SETTERS
 
+
+
+    // IMAGE
+
+    /** Get the graphical image which corresponds to this piece
+     * @return the unscaled image
+     */
     public ImageIcon getImage() { return image; }
+
+    /** Get a scaled version of the image corresponding to this piece
+     * @param dims the dimension of the image's square's side 
+     * @return the scaled version of the image that will be used in GraphicalSquare
+     */
     public ImageIcon getImage(int dims) {
 	Integer i = new Integer(dims);
 	if(icons.containsKey(i) )
@@ -354,6 +365,20 @@ public class Piece implements PieceBehaviour {
 	    return ii;
 	}
     }
+
+    /** Set the image that represents this piece
+     * @param i the absolute path of the image
+     */
+    public void setImage(String i)  {
+	image = new ImageIcon(i);
+	icons = new HashMap<Integer, ImageIcon>();
+	icons.put(new Integer(image.getIconWidth()), image);
+
+    }
+
+
+
+    //  GETTERS / SETTERS
 
     /** Get the letter of this piece
      * @return the first letter of this piece's name, in lower case
@@ -392,12 +417,6 @@ public class Piece implements PieceBehaviour {
     @Override
     public boolean isJoker() { return joker; }
 
-    public void setImage(String i)  {
-	image = new ImageIcon(i);
-	icons = new HashMap<Integer, ImageIcon>();
-	icons.put(new Integer(image.getIconWidth()), image);
-
-    }
 
     /** Set this piece's name
      * @param s the new name for this piece

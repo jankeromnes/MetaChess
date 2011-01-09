@@ -113,7 +113,7 @@ public class DirectionGrid extends JPanel {
     }
 
     /** Enable or disable this direction grid
-     * @param a true if it must be enabled, false otherwise
+     * @param able true if it must be enabled, false otherwise
      */
     public void setAbled(boolean able) {
 	this.able = able;
