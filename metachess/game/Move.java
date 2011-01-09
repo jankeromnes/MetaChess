@@ -185,19 +185,19 @@ public class Move {
     
     // TIMING
     
-	/** Set the time the player took to make this move
-	 * @param time the time to set
-	 */
-	public void setTime(long timearg) {
-		time = timearg;
-	}
+    /** Set the time the player took to make this move
+     * @param timearg the time to set
+     */
+    public void setTime(long timearg) {
+	time = timearg;
+    }
 
-	/** Return the time the player took to make this move
-	 * @return the time
-	 */
-	public long getTime() {
-		return time;
-	}
+    /** Return the time the player took to make this move
+     * @return the time
+     */
+    public long getTime() {
+	return time;
+    }
 	
 
     // GAME STATE

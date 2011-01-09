@@ -14,8 +14,8 @@ public class PlayableSquare extends AbstractSquare {
     private boolean empty;
     private ArrayList<Coords> choices;
     /** Create a playable square
-     * @param x this square's column (X Coord)
-     * @param y this square's row (Y Coord)
+     * @param i this square's column (X Coord)
+     * @param j this square's row (Y Coord)
      */
     public PlayableSquare(int i, int j) {
 	super(i, j);

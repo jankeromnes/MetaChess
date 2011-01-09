@@ -24,6 +24,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 
     protected boolean whitePlaying;
     protected boolean atomic;
+
     protected boolean gameOver;
     private boolean kingInRange;
     private boolean hasMoves;
@@ -99,8 +100,8 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
      * @param setup the setup's name
      * @param isAtomic whether the game shall be played with atomic rules or not
      */
-    public void init(String s, boolean isAtomic) {
-    	super.init(s);
+    public void init(String setup, boolean isAtomic) {
+    	super.init(setup);
 
 	lastMove = null;
 
@@ -201,7 +202,7 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 		}
 	    }
 	resetIterator();
-	gameOver |= !hasMoves && kingInRange;
+	gameOver |= !hasMoves;
     }
 
 
@@ -456,13 +457,6 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
     public boolean isForeseer() {
 	return foreseer;
     }
-    
-    /** Tell whether one player's king is in danger
-     * @return true if it is, ie if one piece of the opponent has the king in its range
-     */
-    public boolean isKingInRange() {
-	return kingInRange;
-    }
 
     /** Get the last move actually played in this board
      * @return the last move played by either the human player or the AI
@@ -471,11 +465,36 @@ public class PlayableBoard extends AbstractBoard implements Cloneable {
 	return lastMove;
     }
 
+
+    
+
+    // SITUATION
+    
+    /** Tell whether one player's king is in danger
+     * @return true if it is, ie if one piece of the opponent has the king in its range
+     */
+    public boolean isKingInRange() {
+	return kingInRange;
+    }
+
+    /** Tell wether the game is over in this board
+     * @return true if it is
+     */
+    public boolean isGameOver() {
+	return gameOver;
+    }
+
+    /** Tell whether this board has reached a stalemate situation
+     * @return true if it has
+     */
+    public boolean isStaleMate() {
+	return hasMoves && !kingInRange;
+    }
+
     @Override
-    public Object clone() {
+    public PlayableBoard clone() {
 	return new PlayableBoard(this);
     }
- 
 
 }
 

@@ -32,7 +32,7 @@ public final class Coords implements PointBehaviour {
 
     /** Create a set of coordinates from characters
      * @param a the column
-     * @param y the row
+     * @param b the row
      */
     public Coords(char a, char b) {
 	assert isValid(a, b): "Unvalid coordinates ("+a+','+b+')';

@@ -39,10 +39,10 @@ public class GraphicalSquare extends JButton {
     }
 
     /** Set the abstract square on which this graphical square is based
-     * @param the new abstract square
+     * @param square the new abstract square
      */
-    public void setAbstractSquare(AbstractSquare s) {
-	as = s;
+    public void setAbstractSquare(AbstractSquare square) {
+	as = square;
     }
 
     /** Update how this graphical square looks */
