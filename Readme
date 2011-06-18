@@ -10,7 +10,7 @@
   ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖
   ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♗ ♗ ♗ ♗ ♗ ♗ ♗ ♗ ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟
   
-  Copyright Pierre Arlaud & Jan Keromnes 2011. All rights reserved.
+  Copyright (C) Pierre Arlaud & Jan Keromnes 2011. All rights reserved.
   
   % make
   build each file.java into its file.class counterpart
