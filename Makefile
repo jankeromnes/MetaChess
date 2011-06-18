@@ -1,4 +1,4 @@
-# makefile: build, run and compile MetaChess (see README).
+# Makefile: build, run and compile MetaChess (see README).
 # Copyright (c) 2011 Pierre Arlaud & Jan Keromnes. All rights reserved.
 
 RES = resources
