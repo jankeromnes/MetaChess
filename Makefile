@@ -2,9 +2,9 @@
 # Copyright (C) 2011 Pierre Arlaud & Jan Keromnes. All rights reserved.
 
 RES = resources
-JAR = metachess
+JAR = MetaChess
 SOURCE = metachess
-MANIFEST = manifest.mf
+MANIFEST = Manifest.mf
 
 build:
 	javac `find $(SOURCE) -name '*\.java'`
