@@ -18,11 +18,11 @@ jar:
 clean:
 	rm `find $(SOURCE) -name '*\.class'`
 	
-# hidden bonuses:
-
+# time for a break
 coffee :
 	@echo "\n           )      (\n           (  )   )\n         _..,-(--,.._\n      .-;'-.,____,.-';\n     (( |            |\n      \`-;            ;\n         \\          /	\n      .-''\`-.____.-'''-.\n     (     '------'     )\n      \`--..________..--'\n";
-	
+
+# http://xkcd.com/149/
 sandwich :
 	@if [ `id -u` = "0" ] ; then echo "OKAY." ; else echo "What? Make it yourself." ; fi
 	
