@@ -8,8 +8,18 @@
   |_| |_| |_|\___|\__\__,_|\___|_| |_|\___||___/___/
          
   ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖
-  ♟ ♟ ♟ ♟_♟ ♟ ♟ ♟ ♗ ♗ ♗_♗ ♗ ♗ ♗ ♗ ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟
+  ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♗ ♗ ♗ ♗ ♗ ♗ ♗ ♗ ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟
   
   Copyright Pierre Arlaud & Jan Keromnes 2011. All rights reserved.
   
+  % make
+  build each file.java into its file.class counterpart
   
+  % make run
+  launch MetaChess
+  
+  % make jar
+  compile MetaChess into a single Jar executable
+  
+  % make clean
+  delete .class files
