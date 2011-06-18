@@ -1,0 +1,9 @@
+# Metachess=v.0.8.0/MCS=v.4
+# Generated from builder
+
+width	= 10
+height	= 10
+
+	{BEGIN}
+
+Wrook	Wknight	Warchbishop	Wbishop	Wking	Wqueen	Wbishop	Warchbishop	Wknight	Wrook	Wpawn	R9	60	Bpawn	R9	Brook	Bknight	Barchbishop	Bbishop	Bking	Bqueen	Bbishop	Barchbishop	Bknight	Brook	

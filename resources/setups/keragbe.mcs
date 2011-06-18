@@ -1,0 +1,14 @@
+# Metachess=v.0.8.0/MCS=v.4
+# Generated from builder
+
+width	= 8
+height	= 8
+promotion = amazon, joker, dragon, grasshopper
+
+	{AREA}
+
+area pawnline sym A2 H2
+
+	{BEGIN}
+
+Wjoker	Wdragon	Wgrasshopper	Wamazon	Wmetaking	Wgrasshopper	Wdragon	Wjoker	Wmetapawn	R7	32	Bmetapawn	R7	Bjoker	Bdragon	Bgrasshopper	Bamazon	Bmetaking	Bgrasshopper	Bdragon	Bjoker	

@@ -1,0 +1,40 @@
+# metachess image dictionary
+#	v.0.8.9
+
+## classic
+king:Wking.png:Bking.png
+rook:Wrook.png:Brook.png
+bishop:Wbishop.png:Bbishop.png
+knight:Wknight.png:Bknight.png
+pawn:Wpawn.png:Bpawn.png
+queen:Wqueen.png:Bqueen.png
+
+## keragbe
+metaking:Wmetaking.png:Bmetaking.png
+joker:Wjoker.png:Bjoker.png
+grasshopper:Wgrasshopper.png:Bgrasshopper.png
+dragon:Wdragon.png:Bdragon.png
+metapawn:Wmetapawn.png:Bmetapawn.png
+amazon:Wamazon.png:Bamazon.png
+
+#samples
+metamorph:Wmetamorph.png:Bmetamorph.png
+
+###
+
+# Generated from builder
+archbishop:Warchbishop.png:Barchbishop.png
+
+
+#	Shatranj support
+
+# v.0.8.0 adds the following
+alfil:Walfil.png:Balfil.png
+dabbaba:Wdabbaba.png:Bdabbaba.png
+alibaba:Walibaba.png:Balibaba.png
+zero:Wzero.png:Bzero.png
+
+# v.0.8.9
+baidaq:Wpawn.png:Bpawn.png
+ruhk:Wrook.png:Brook.png
+fers:Wfers.png:Bfers.png

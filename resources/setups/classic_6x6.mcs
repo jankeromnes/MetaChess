@@ -1,0 +1,14 @@
+# Metachess=v.0.8.0/MCS=v.4
+# Generated from builder
+
+width	= 6
+height	= 6
+promotion = queen, archbishop, rook
+
+	{AREA}
+
+area pawnline sym A2 H2
+
+	{BEGIN}
+
+Wrook	Warchbishop	Wking	Wqueen	Warchbishop	Wrook	Wpawn	R5	12	Bpawn	R5	Brook	Barchbishop	Bking	Bqueen	Barchbishop	Brook	

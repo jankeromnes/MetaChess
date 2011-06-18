@@ -1,0 +1,20 @@
+# Metachess=v.0.6/MCS=v.4
+
+width	= 8
+height	= 8
+promotion = queen, bishop, knight, rook
+
+	{AREA}
+
+area pawnline sym A2 H2
+
+	{BEGIN}
+
+WROOK	WKNIGHT	WBISHOP WQUEEN	WKING	WBISHOP	WKNIGHT	WROOK
+WPAWN	R7
+32
+BPAWN	R7
+BROOK	BKNIGHT	BBISHOP	BQUEEN	BKING	BBISHOP	BKNIGHT	BROOK
+
+
+

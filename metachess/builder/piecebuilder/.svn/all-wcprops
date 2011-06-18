@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/metachess/!svn/ver/110/metachess/builder/piecebuilder
+END
+MovesBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/metachess/!svn/ver/102/metachess/builder/piecebuilder/MovesBox.java
+END
+PieceSavePanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/metachess/!svn/ver/101/metachess/builder/piecebuilder/PieceSavePanel.java
+END
+PieceBuilderBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/metachess/!svn/ver/101/metachess/builder/piecebuilder/PieceBuilderBox.java
+END
+DirectionGrid.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/metachess/!svn/ver/110/metachess/builder/piecebuilder/DirectionGrid.java
+END
+MovesListModel.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/metachess/!svn/ver/101/metachess/builder/piecebuilder/MovesListModel.java
+END
+IconSelectPanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/metachess/!svn/ver/105/metachess/builder/piecebuilder/IconSelectPanel.java
+END
+MovesPanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/metachess/!svn/ver/101/metachess/builder/piecebuilder/MovesPanel.java
+END
+MovesSettingsPanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/metachess/!svn/ver/101/metachess/builder/piecebuilder/MovesSettingsPanel.java
+END
+DirectionChoicePanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/metachess/!svn/ver/101/metachess/builder/piecebuilder/DirectionChoicePanel.java
+END
