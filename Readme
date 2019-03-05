@@ -23,3 +23,6 @@
   
   % make clean
   delete .class files
+
+  build and run MetaChess in a free online workspace:
+  https://gitpod.io/#https://github.com/jankeromnes/MetaChess
